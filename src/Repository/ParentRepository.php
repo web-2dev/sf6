@@ -18,7 +18,7 @@ abstract class ParentRepository extends ServiceEntityRepository
     public function nb() : int {
         $requestResult = $this->createQueryBuilder("t")
                               ->select("COUNT(t.id) as nb")
-                              ->getQuery()->getResult();
+                              ->getQuery()->getOneOrNullResult();
         return $requestResult ? $requestResult["nb"] : 0;
     }
 

@@ -4,7 +4,15 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    debug.file_link_format: 'vscode://file/%%f:%%l'
+    # 💬  COURS : ajouter un paramètre équivalent d'une constante dans le projet
+    dossier_images: '%kernel.project_dir%/public/img/'
+    dossier_couvertures: '%kernel.project_dir%/public/img/couvertures/'
+    chemin_images: "/img/"
+    ##########################################################################################################
+    # 💬 COURS : pour ouvrir les fichiers apparaissant dans les pages d'erreur Symfony (mode debug) avec vsCode #
+    ##########################################################################################################
+    # debug.file_link_format: 'vscode://file/%%f:%%l'
+
 services:
     # default configuration for services in *this* file
     _defaults:

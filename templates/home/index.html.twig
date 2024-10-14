@@ -1,20 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}e-bliothèque{% endblock %}
+
+{% block titre %}Bienvenue à l'e-'bliothèque{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h2>{{ nb_total }} livres en rayons</h2>
+    <div class="d-flex flex-wrap">
+    {% for l in liste_livres %}
+        {{ include("livre/vignette.html.twig", { livre: l }) }}
+    {% endfor %}
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello ! ✅</h1>
+    {# 
+      ! en utilisant la variable loop et l'opérateur modulo
+    #}
+    {# <div class="card-deck mt-1">
+    {% for livre in liste_livres %}
+        {% if loop.index % 3 == 1  %} <div class="d-flex mb-3"> {% endif %}
+        {{ include ("livre/vignette.html.twig") }}
+        {% if loop.index % 3 == 0  %} </div> {% endif %}
+    {% endfor %}
+    </div> #}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/web-2/Documents/DEV/Formation/Cours/SYMFONY/codes_sources/cours_sf6/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>C:/Users/web-2/Documents/DEV/Formation/Cours/SYMFONY/codes_sources/cours_sf6/templates/home/index.html.twig</code></li>
-    </ul>
-</div>
+
+    {# ! fonction : knp_pagination_render
+        • 1er   paramètre : données
+        • 2ième paramètre : thème twig (pour ne pas utiliser le thème par défaut)
+        • 3ième paramètre : query param
+        • 4ième paramètre : variables de la vue
+            align   : left*, center, right
+            size    : small, medium*, large
+            rounded : true, false*
+       ! cf. vendor\knplabs\knp-paginator-bundle\docs\templates.md
+     #}
+    {{ knp_pagination_render(liste_livres, null, {}, {align: "center", size: "large", rounded: true}) }}
+
 {% endblock %}
+
+{% block nul %}
+    Contenu du block 'nul'
+{% endblock %}
+
+
+    {# <div class="row row-cols-1 row-cols-md-4 g-4"> #}

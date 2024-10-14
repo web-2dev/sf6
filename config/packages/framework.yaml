@@ -17,6 +17,12 @@ framework:
     php_errors:
         log: true
 
+    ##########################################################################################################
+    # 💬 COURS : pour ouvrir les fichiers apparaissant dans les pages d'erreur Symfony (mode debug) avec vsCode #
+    ##########################################################################################################
+    ide: 'vscode://file/%%f:%%l'
+
+
 when@test:
     framework:
         test: true

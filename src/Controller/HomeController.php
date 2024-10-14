@@ -12,7 +12,7 @@ use App\Controller\Dev\ParentController;
 
 class HomeController extends ParentController
 {
-    #[Route('/home', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
     public function index(LivreRepository $lr, Request $request): Response
     {
         /**
@@ -31,9 +31,11 @@ class HomeController extends ParentController
         $page = $request->query->get("page", 1);
         $q = $request->query->get("q", 10);
         $livres = $lr->findAllPaginate(page: $page, count: $q);
+        $nbTotal = $lr->nb();
         
         return $this->render('home/index.html.twig', [
             'liste' => $livres,
+            "nb_total" => $nbTotal
         ]);
     }
 }
