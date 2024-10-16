@@ -29,6 +29,7 @@ class MailerController extends AbstractController
       $mailer->send($email);
 
       $this->addFlash("success", "E-mail envoyé");
-      return $this->redirectToRoute("app_home");
+      return $this->render("mail.html.twig", [ "email" => $email]);
+      // return $this->redirectToRoute("app_home");
     }
 }
