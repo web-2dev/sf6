@@ -4,6 +4,7 @@ namespace App\Entity;
 
 class ParentEntity
 {
+    
     /**
      * Remplir (hydrater) un objet entité à partir d'un array associatif
      */

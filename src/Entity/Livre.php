@@ -50,6 +50,32 @@ class Livre extends ParentEntity
         $this->emprunts = new ArrayCollection();
     }
 
+    // ╔═══════════════════════════════════════════════════════════════════════╗
+    // ║                                 AJOUTS                                ║
+    // ╚═══════════════════════════════════════════════════════════════════════╝
+
+    public function getTitreAuteur()
+    {
+        return ucfirst( $this->getTitre() ) . " - " . ucfirst( $this->getAuteur()->getIdentite() );
+    }
+    /**
+     * Retourne la liste des genres liés au livre sous forme de string
+     */
+    public function getGenre(): string
+    {
+        $resultat = "";
+        foreach($this->genres as $genre){
+            if( $resultat != ""){
+                $resultat .= ", ";  //💬 si $resultat n'est pas une string vide, je concatène une virgule à $resultat
+            }
+            $resultat .= $genre->getLibelle();
+        }
+        return $resultat;
+    }    
+    // ╔═══════════════════════════════════════════════════════════════════════╗
+    // ║                           GETTERS && SETTERS                          ║
+    // ╚═══════════════════════════════════════════════════════════════════════╝
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -168,4 +194,5 @@ class Livre extends ParentEntity
 
         return $this;
     }
+
 }

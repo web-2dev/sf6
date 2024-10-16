@@ -1,6 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
 
+    default_path: '%kernel.project_dir%/views'
+
+
     # la propriété form_themes permet de choisir le modèle de construction des formulaires html
     form_themes: ["bootstrap_4_layout.html.twig"]
 

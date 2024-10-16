@@ -11,7 +11,7 @@ parameters:
     ##########################################################################################################
     # 💬 COURS : pour ouvrir les fichiers apparaissant dans les pages d'erreur Symfony (mode debug) avec vsCode #
     ##########################################################################################################
-    # debug.file_link_format: 'vscode://file/%%f:%%l'
+    debug.file_link_format: 'vscode://file/%%f:%%l'
 
 services:
     # default configuration for services in *this* file

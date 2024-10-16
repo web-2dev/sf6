@@ -33,8 +33,8 @@ class HomeController extends ParentController
         $livres = $lr->findAllPaginate(page: $page, count: $q);
         $nbTotal = $lr->nb();
         
-        return $this->render('home/index.html.twig', [
-            'liste' => $livres,
+        return $this->render('home/home.html.twig', [
+            'liste_livres' => $livres,
             "nb_total" => $nbTotal
         ]);
     }

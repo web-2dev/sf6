@@ -16,6 +16,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
 class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use \App\Trait\Personne;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -58,7 +60,11 @@ class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticate
     {
         $this->emprunts = new ArrayCollection();
     }
-
+    
+    // ╔═══════════════════════════════════════════════════════════════════════╗
+    // ║                           GETTERS && SETTERS                          ║
+    // ╚═══════════════════════════════════════════════════════════════════════╝
+    
     public function getId(): ?int
     {
         return $this->id;

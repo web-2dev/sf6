@@ -8,7 +8,7 @@
     <h2>{{ nb_total }} livres en rayons</h2>
     <div class="d-flex flex-wrap">
     {% for l in liste_livres %}
-        {{ include("livre/vignette.html.twig", { livre: l }) }}
+        {{ include("livre/card.html.twig", { livre: l }) }}
     {% endfor %}
     </div>
 
@@ -24,17 +24,6 @@
     </div> #}
 
 
-    {# ! fonction : knp_pagination_render
-        • 1er   paramètre : données
-        • 2ième paramètre : thème twig (pour ne pas utiliser le thème par défaut)
-        • 3ième paramètre : query param
-        • 4ième paramètre : variables de la vue
-            align   : left*, center, right
-            size    : small, medium*, large
-            rounded : true, false*
-       ! cf. vendor\knplabs\knp-paginator-bundle\docs\templates.md
-     #}
-    {{ knp_pagination_render(liste_livres, null, {}, {align: "center", size: "large", rounded: true}) }}
 
 {% endblock %}
 

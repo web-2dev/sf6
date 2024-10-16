@@ -33,6 +33,10 @@ class Genre extends ParentEntity
         $this->livres = new ArrayCollection();
     }
 
+    // ╔═══════════════════════════════════════════════════════════════════════╗
+    // ║                           GETTERS && SETTERS                          ║
+    // ╚═══════════════════════════════════════════════════════════════════════╝
+    
     public function getId(): ?int
     {
         return $this->id;
