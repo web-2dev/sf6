@@ -7,7 +7,7 @@ parameters:
     # 💬  COURS : ajouter un paramètre équivalent d'une constante dans le projet
     dossier_images: '%kernel.project_dir%/public/img/'
     dossier_couvertures: '%kernel.project_dir%/public/img/couvertures/'
-    chemin_images: "/img/"
+    chemin_images: "/images/"
     ##########################################################################################################
     # 💬 COURS : pour ouvrir les fichiers apparaissant dans les pages d'erreur Symfony (mode debug) avec vsCode #
     ##########################################################################################################
