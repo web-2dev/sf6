@@ -1,0 +1,100 @@
+/* On peut redéfinir les variables de Bootstrap, en les plaçant avant l'importation */
+$gris_clair: #d3d3d3;
+$gris: #8d8c8c;
+$danger: #6b2f2f;
+$primary: #183772;
+$dark: #182030;
+$warning: #a06e04;
+$success: #527e52;
+$white: #eee;
+
+
+@import "../../vendor/twbs/bootstrap/scss/bootstrap.scss";
+
+// Pour étendre les classes w- de Bootstrap avec tous les %ages possibles
+@for $i from 0 to 100 {
+    .w-#{$i}{
+      width: $i * 1%;
+    }
+}
+
+html {
+    background-color: $primary;
+    height: 100vh;
+    background-image: url("../images/bibpublique_stokholm.png");
+    background-size: cover;
+}
+
+body {
+    // annuler le padding de .container
+    // padding-inline: 0 !important;
+
+    height: 100%;
+    background-color: transparent;
+    // background-repeat: repeat;
+    // /**/ height: 100vh;
+}
+
+body > .container {
+    background-color: rgba(211, 211, 211, 0.666);
+    padding-inline: 0;
+}
+
+#wrap {
+    min-height: 100%;
+}
+
+#main {
+    // overflow      : auto;
+    padding-bottom: 150px;
+    /* this needs to be bigger than footer height*/
+    // background-color: $gris_clair;
+    padding-inline: 10px;
+}
+
+footer {
+    position   : relative;
+    // margin-top : -150px; /* negative value of footer height */
+    height     : 150px;
+    clear      : both;
+    padding-top: 20px;
+
+    background-color: $dark;
+    color: $white;
+}
+
+.vignette {
+    height: 50px;
+    width: auto;
+}
+.miniature {
+    width: 100px;
+    height: auto;
+}
+
+.ico {
+    display: inline-block;
+    height: 1em;
+}
+
+// i.ico svg { height: 100%; }
+
+h1{
+    font-weight: 700;
+}
+
+// barre nav de pagination
+.pagination {
+    margin-top: 50px;
+  }
+
+// vignettes livre
+.livre  img { height: 160px; }
+
+/* Styles par défaut pour les icônes */
+svg {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: middle;
+}

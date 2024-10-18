@@ -15,7 +15,7 @@ class RechercheController extends AbstractController
             'controller_name' => 'RechercheController',
         ]);
     }
-    #[Route('/admin/recherche', name: 'app_recherche_admin')]
+    #[Route('/admin/recherche', name: 'app_admin_recherche')]
     public function admin(): Response
     {
         return $this->render('recherche/admin.html.twig', [

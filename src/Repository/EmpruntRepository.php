@@ -9,35 +9,52 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Emprunt>
  */
-class EmpruntRepository extends ServiceEntityRepository
+class EmpruntRepository extends ParentRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Emprunt::class);
     }
 
-    //    /**
-    //     * @return Emprunt[] Returns an array of Emprunt objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('e.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Retourne la liste des emprunts concernant les livres de l'auteur passé en paramètre
+     */
+    public function findEmpruntsParAuteur($auteur){
+        return $this->createQueryBuilder('e')
+            ->join("e.livre", "l")
+            ->where('l.auteur = :val')
+            ->setParameter('val', $auteur)
+            ->orderBy('e.dateEmprunt', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-    //    public function findOneBySomeField($value): ?Emprunt
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /** 
+     * ? à modifier (afficher les livres) 
+     * */
+    public function findLivresEmpruntesPar($pseudo)
+    {
+        return $this->createQueryBuilder('e')
+            ->join("e.abonne", "a")
+            ->where('a.pseudo = :val')
+            ->setParameter('val', $pseudo)
+            ->orderBy('e.dateEmprunt', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByNonRendus()
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.dateRetour IS NULL')
+            ->orderBy('e.dateEmprunt', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+
 }

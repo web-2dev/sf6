@@ -17,6 +17,11 @@ class LivreRepository extends ParentRepository
         parent::__construct($registry, Livre::class);
     }
 
+    //?     ╔═══════════════════════════════════════════════════════════════════════╗       
+    //?     ║                        REQUÊTES PERSONNALISÉES                        ║       
+    //?     ╚═══════════════════════════════════════════════════════════════════════╝       
+
+
     /**
      * 💬 Livres empruntés (requête avec jointure)                                                                
      * @return Livre[] Retourne les livres qui n'ont pas été rendus      
@@ -226,6 +231,64 @@ class LivreRepository extends ParentRepository
             ->getResult()
         ;
     }
+
+
+
+    /**
+     * @return Livre[] Retourne les livres qui n'ont pas été rendus
+        SELECT l.*
+        FROM livre l JOIN emprunt e ON l.id = e.livre_id
+        WHERE e.dateRetour IS NULL
+     * 
+     */
+    public function findLivresEmpruntes(): array
+    // public function livresIndisponibles(): array
+    {
+        return $this->createQueryBuilder('l')
+            ->join(Emprunt::class, "e", "WITH", "l.id = e.livre")
+            //! ->join("App\Entity\Emprunt", "e", "WITH", "e.livre=l.id")
+            ->where('e.dateRetour IS NULL')
+            // ->select("l")                            // ! inutile
+            ->orderBy("l.titre")
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+
+
+
+    /**
+     * Nombre de livres empruntés actuellement
+     * @return integer
+     * 
+       SELECT COUNT(*)
+       FROM livre l
+        JOIN emprunt e ON l.id = e.livre_id
+       WHERE e.dateRetour IS NULL
+     */
+    public function nbLivresEmpruntes() : int
+    {
+        $requete = $this->createQueryBuilder("l")
+                        ->select("COUNT(l.id) as nb")
+                        ->join(Emprunt::class, "e", "WITH", "e.livre = l.id")
+                        ->andWhere('e.dateRetour IS NULL')
+                        ->getQuery()
+                        ->getOneOrNullResult();
+        return $requete ? (int)$requete["nb"] : 0;
+    }
+
+    /**
+     * Nombre de livres disponibles
+     * @return integer
+     */
+    public function nbLivresDisponibles() : int
+    {
+        return $this->nb() - $this->nbLivresEmpruntes();
+    }
+
+
 
 
 

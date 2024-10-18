@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" id="menu">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="menu">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path("app_home") }}">
-			<img src="{{ asset(chemin_images ~ "logo.png" )}}" alt="e-bliothèque logo" class="vignette">
+			<img src="{{ asset("images/logo.png") }}" alt="e-bliothèque logo" class="vignette">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -13,73 +13,99 @@
 				{# ? on peut aussi utiliser le rôle IS_AUTHENTICATED_FULLY qui signifie qu'il y a  un utilisateur connecté #}
                 <li class="nav-item">
                     <a class="nav-link  {{ app.request.attributes.get("_route") == "app_espace" ? "active" : "" }}" href="{{ path(is_granted('ROLE_ADMIN') ? "app_admin_gestion" : "app_espace") }}">
-						<i class="fa fa-user"></i> {{ app.user.username }} {# Espace_lecteur ou Gestion #}
+						<i class="fa fa-user"></i> {{ app.user.userIdentifier }} {# Espace_lecteur ou Gestion #}
 					</a>
                 </li>
 				<li class="nav-item">
 					<a class="nav-link" href="{{ path("app_logout") }}">
-						<i class="fa fa-sign-out-alt"></i> {# Déconnexion  #}
+						<i class="fa fa-door-closed"></i> {# Déconnexion  #}
 					</a>
 				</li>
 			{% else %}
 				<li class="nav-item">
 					<a class="nav-link {{ app.request.attributes.get("_route") == "app_login" ? "active" : "" }}" href="{{ path("app_login") }}">
-						<i class="fa fa-sign-in-alt"></i> {# Connexion #}
+						<i class="fa fa-door-open"></i> {# Connexion #}
 					</a>
 				</li>
 
 				<li class="nav-item">
 					<a class="nav-link {{ app.request.attributes.get("_route") == "app_register" ? "active" : "" }}" href="{{ path("app_register") }}">
-            			<i class="fa fa-user-plus"></i> {# Inscription #}
+            			<i class="fa fa-sign-in"></i> {# Inscription #}
 					</a>
 				</li>
 			{% endif %}
-			<li class="nav-item ">
-				<a class="nav-link" href="">
-					<i class="fa fa-grip-lines-vertical"></i>
-				</a>
-			</li>
 
-			<li class="nav-item">
-				<a class="nav-link {{ app.request.attributes.get("_route") == "app_visiteur_genre" ? "active" : "" }}" href="{{ path("app_visiteur_genre") }}">
-					Genres 
-				</a>
-			</li>
-			
-			<li class="nav-item">
-				<a class="nav-link {{ app.request.attributes.get("_route") == "app_visiteur_auteur" ? "active" : "" }}" href="{{ path("app_visiteur_auteur") }}">
-					Auteurs 
-				</a>
-			</li>
+				<li class="nav-item ">
+					<a class="nav-link" href="">
+						<i class="fa fa-grip-lines-vertical"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_genre" ? " active" : " " }}" href="{{ path("app_visiteur_genre") }}">
+						Genres 
+										
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_auteur" ? " active" : " " }}" href="{{ path("app_visiteur_auteur") }}">
+						Auteurs 
+										
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_livre" ? " active" : " " }}" href="{{ path("app_visiteur_livre") }}">
+						Livres 
+										
+					</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Dropdown
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li>
+							<a class="dropdown-item" href="#">
+								Action
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">
+								Another action
+							</a>
+						</li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">
+								Something else here
+							</a>
+						</li>
+					</ul>
+				</li>
 
-			<li class="nav-item">
-				<a class="nav-link {{ app.request.attributes.get("_route") == "app_visiteur_livre" ? "active" : "" }}" href="{{ path("app_visiteur_livre") }}">
-					Livres 
-				</a>
-			</li>
-		{% if is_granted("ROLE_ADMIN") %}
-			<li class="nav-item ">
-				<a class="nav-link" href="">
-					<i class="fa fa-grip-lines-vertical"></i>
-				</a>
-			</li>
-			<li class="nav-item {{ app.request.attributes.get("_route") == "app_admin_gestion" ? "active" : "" }}">
-				<a class="nav-link" href="{{ path("app_admin_gestion") }}">
-					Gestion 
-				</a>
-			</li>
-		{% endif %}
+	  
+				{% if is_granted("ROLE_ADMIN") %}
+					<li class="nav-item ">
+						<a class="nav-link" href="">
+							<i class="fa fa-grip-lines-vertical"></i>
+						</a>
+					</li>
+					<li class="nav-item {{ app.request.attributes.get("_route") == "app_admin_gestion" ? "active" : "" }}">
+						<a class="nav-link" href="{{ path("app_admin_gestion") }}">
+							Gestion 
+						</a>
+					</li>
+				{% endif %}
+			</ul>
 
-
-                <form class="d-flex" role="search" action={{ path(is_granted('ROLE_ADMIN') ? "app_admin_recherche" : "app_recherche") }} >
-                    <input class="form-control me-2" type="search" placeholder="Recherche..." aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">
-							<i class="fa fa-search"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </nav>
+			<form class="d-flex" role="search" action={{ path(is_granted('ROLE_ADMIN') ? "app_admin_recherche" : "app_recherche") }} >
+				<input class="form-control me-2" type="search" placeholder="Recherche..." aria-label="Search">
+				<button class="btn btn-outline-success" type="submit"><i class="ico">{{ ux_icon('wpf:search') }}</i> </button>
+			</form>
+		</div>
+	</div>
+</nav>
         {# 
         	? La variable 'app' permet d'avoir des informations sur l'application.
         	?  C'est un objet. 

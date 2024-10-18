@@ -9,4 +9,9 @@ trait Personne
         return trim("$this->prenom $this->nom");
     }
 
+    public function getNomComplet()
+    {
+        return trim("$this->prenom $this->nom");
+    }
+
 }
