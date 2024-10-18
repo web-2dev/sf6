@@ -1,5 +1,5 @@
 <li class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
-    <a class="nav-link {{ chemin starts with "app_admin_" ~ entite ? " active" : " " }}" href="#menu-{{ entite }}s" data-toggle="collapse">
+    <a class="nav-link {{ chemin starts with "app_admin_" ~ entite ? " active" : " " }}" href="#menu-{{ entite }}s" data-bs-toggle="collapse">
         {{ libelle|default(entite ~ "s")|capitalize }}
     </a>
     <ul id="menu-{{ entite }}s" class="collapse {{ chemin starts with "app_admin_" ~ entite ? " show" : " " }}">

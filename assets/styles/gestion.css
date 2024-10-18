@@ -1,23 +1,16 @@
-// html{
-//     height: 100%;
-//     background-color: lightsteelblue;
-// }
-
 aside{
     position: fixed;
-    width: $largeur_aside;
+    width: 200px;
     top: 0;
     left: 0;
     bottom: 0;
     z-index: 1;
-    padding-left: 10px;
+    /* padding-left: 10px; */
 }
 
 .right-aside{
-    margin-left: $largeur_aside;
+    margin-left: 200px;
 }
-
-///////////////////
 
 .table, form.frm { background-color: #eee9 !important; font-weight: bold; }
 

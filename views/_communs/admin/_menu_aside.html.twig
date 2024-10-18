@@ -1,20 +1,30 @@
 <nav class="nav navbar-expand flex-md-column navbar-dark bg-dark flex-row align-items-start">
-	<div class="collapse navbar-collapse">
+	<div class="w-100">
 		<ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
 			<li class="nav-item ">
 				<a class="nav-link" href="{{ path('app_admin_gestion')}}">
 					GESTION
 				</a>
 			</li>
+
+			<div class="accordion accordion-flush_" id="menuAccordeon">
+				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "abonne", libelle: "Abonnés" }) }}
+				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "genre"	}) }}
+				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "livre"	}) }}
+				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "auteur"}) }}
+				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "emprunt"}) }}
+			</div>
+
+
 			{# <li class="nav-item {{ app.request.pathinfo == path("app_gestion") ? " active" : " " }}">
 				<a class="nav-link" href="{{ path("app_gestion") }}">GESTION</a>
 			   </li> #}
 			   
-			{{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "abonne", libelle: "Abonnés" }) }}
+			{# {{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "abonne", libelle: "Abonnés" }) }}
 			{{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "genre"	}) }}
 			{{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "livre"	}) }}
 			{{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "auteur"}) }}
-			{{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "emprunt"}) }}
+			{{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "emprunt"}) }} #}
 
 			<li class="nav-item">
 				<a class="nav-link"></a>

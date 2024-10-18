@@ -1,0 +1,21 @@
+<div class="accordion-item bg-dark">
+    <h2 class="accordion-header">
+        <button class="accordion-button {{ chemin starts with "app_admin_" ~ entite ? " " : "collapsed" }}" type="button" data-bs-toggle="collapse" data-bs-target="#menu-{{ entite }}s" aria-expanded="true" aria-controls="#menu-{{ entite }}s">
+            {{ libelle|default(entite ~ "s")|capitalize }}
+        </button>
+    </h2>
+    <div id="menu-{{ entite }}s" class="accordion-collapse collapse {{ chemin starts with "app_admin_" ~ entite ? " show" : " " }}" data-bs-parent="#menuAccordeon">
+        <div class="accordion-body">
+            <a class="nav-link {{ chemin == "app_admin_" ~ entite ~ "_index" ? " active" : " " }}" href="{{ path("app_admin_" ~ entite ~ "_index") }}">
+                <i class="fa fa-list-alt"></i>
+                Liste
+            </a>
+
+            <a class="nav-link {{ chemin == "app_admin_" ~ entite ~ "_new" ? " active" : " " }}" href="{{ path("app_admin_" ~ entite ~ "_new") }}">
+                <i class="fa fa-plus-square"></i>
+                Ajouter
+            </a>
+        </div>
+    </div>
+</div>
+

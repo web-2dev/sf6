@@ -8,7 +8,8 @@ import "./app.js";
 /* 
 💬 COURS                                                                
     Cette instruction va permettre la création du fichier gestion.css */
-import './styles/gestion.scss';
+// import './styles/gestion.scss';
+import './styles/gestion.css';
 
 
 /** 
