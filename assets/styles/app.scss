@@ -7,9 +7,11 @@ $dark: #182030;
 $warning: #a06e04;
 $success: #527e52;
 $white: #eee;
+$largeur_aside: 200px;
 
 
 @import "../../vendor/twbs/bootstrap/scss/bootstrap.scss";
+@import "gestion.scss";
 
 // Pour étendre les classes w- de Bootstrap avec tous les %ages possibles
 @for $i from 0 to 100 {

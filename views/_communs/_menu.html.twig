@@ -12,32 +12,32 @@
 				{# ? si app.user n'est pas null, c'est qu'un utilisateur est connecté. app.user contient un objet User (classe Abonne dans le projet actuel) #}
 				{# ? on peut aussi utiliser le rôle IS_AUTHENTICATED_FULLY qui signifie qu'il y a  un utilisateur connecté #}
                 <li class="nav-item">
-                    <a class="nav-link  {{ app.request.attributes.get("_route") == "app_espace" ? "active" : "" }}" href="{{ path(is_granted('ROLE_ADMIN') ? "app_admin_gestion" : "app_espace") }}">
-						<i class="fa fa-user"></i> {{ app.user.userIdentifier }} {# Espace_lecteur ou Gestion #}
+                    <a class="nav-link {{ app.request.attributes.get("_route") == "app_espace" ? "active" : "" }}" href="{{ path(is_granted('ROLE_ADMIN') ? "app_admin_gestion" : "app_espace") }}">
+						<i class="fas fa-user"></i> {{ app.user.userIdentifier }} {# Espace_lecteur ou Gestion #}
 					</a>
                 </li>
 				<li class="nav-item">
 					<a class="nav-link" href="{{ path("app_logout") }}">
-						<i class="fa fa-door-closed"></i> {# Déconnexion  #}
+						<i class="fas fa-door-closed"></i> {# Déconnexion  #}
 					</a>
 				</li>
 			{% else %}
 				<li class="nav-item">
 					<a class="nav-link {{ app.request.attributes.get("_route") == "app_login" ? "active" : "" }}" href="{{ path("app_login") }}">
-						<i class="fa fa-door-open"></i> {# Connexion #}
+						<i class="fas fa-door-open"></i> {# Connexion #}
 					</a>
 				</li>
 
 				<li class="nav-item">
 					<a class="nav-link {{ app.request.attributes.get("_route") == "app_register" ? "active" : "" }}" href="{{ path("app_register") }}">
-            			<i class="fa fa-sign-in"></i> {# Inscription #}
+            			<i class="fas fa-sign-in"></i> {# Inscription #}
 					</a>
 				</li>
 			{% endif %}
 
 				<li class="nav-item ">
 					<a class="nav-link" href="">
-						<i class="fa fa-grip-lines-vertical"></i>
+						<i class="fa fa-grip-lines-vertical" style="font-size: 2.5em"></i>
 					</a>
 				</li>
 				<li class="nav-item">
@@ -88,7 +88,7 @@
 				{% if is_granted("ROLE_ADMIN") %}
 					<li class="nav-item ">
 						<a class="nav-link" href="">
-							<i class="fa fa-grip-lines-vertical"></i>
+							<i class="fas fa-grip-lines-vertical"></i>
 						</a>
 					</li>
 					<li class="nav-item {{ app.request.attributes.get("_route") == "app_admin_gestion" ? "active" : "" }}">

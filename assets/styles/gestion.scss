@@ -1,17 +1,18 @@
+
+
 // html{
 //     height: 100%;
 //     background-color: lightsteelblue;
 // }
 
-$largeur_aside: 250px;
-
 aside{
     position: fixed;
-    width: largeur_aside;
+    width: $largeur_aside;
     top: 0;
     left: 0;
     bottom: 0;
     z-index: 1;
+    padding-left: 10px;
 }
 
 .right-aside{
