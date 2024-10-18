@@ -1,0 +1,51 @@
+{# fichier admin/base.html.twig #}
+
+{% set chemin = app.request.attributes.get("_route") %}
+
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion{% endblock %}
+
+
+{% block javascripts %}
+	{{ importmap('gestion') }}
+{% endblock %}
+
+{% block main %}
+	<div class="right-aside">
+		{{ include ("_communs/_menu.html.twig") }}
+	</div>
+	
+	<aside class="bg-dark">
+		{{ include ("_communs/admin/_menu_aside.html.twig", {chemin: chemin}) }}
+	</aside>
+
+	<main class="right-aside">
+		<div class="mx-5 pt-2">
+			{% include "_communs/_messages.html.twig" %}
+
+			<h1 class="mt-3 mb-3 text-center d-flex justify-content-between">
+				{% block titre %}Gestion de la bibliothèque{% endblock %}
+			</h1>
+
+			{% block body %}
+				{% block formulaire %}{% endblock %}
+
+				<div>
+					<h2>Liste des livres : {{ liste_livres|length }}</h2>
+					<div class="card-columns">
+						{# EXO : afficher la liste des livres #}
+						{% for livre in liste_livres %}
+							{% include "livre/vignette.html.twig" with { "livre": livre } %}
+
+						{% else %}
+							<div class="alert alert-warning">Aucun livre, ni auteur, ne correspond à votre recherche</div>
+						{% endfor %}
+					</div>
+				</div>
+			{% endblock %}
+		</div>
+	</main>
+
+	{# {% include "_communs/_footer.html.twig" with { "footer_admin": true } %} #}
+{% endblock %}
