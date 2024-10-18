@@ -16,6 +16,10 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'gestion' => [
+        'path' => './assets/gestion.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
@@ -33,6 +37,16 @@ return [
     ],
     'bootstrap/dist/css/bootstrap.min.css' => [
         'version' => '5.3.3',
+        'type' => 'css',
+    ],
+    'tarteaucitronjs' => [
+        'version' => '1.19.0',
+    ],
+    'jquery' => [
+        'version' => '3.7.1',
+    ],
+    '@fortawesome/fontawesome-free/css/all.css' => [
+        'version' => '6.6.0',
         'type' => 'css',
     ],
 ];
