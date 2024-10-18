@@ -8,6 +8,11 @@ aside{
     /* padding-left: 10px; */
 }
 
+/* menu déroulant accordéon */
+.accordion-button:not(.collapsed) {
+    background-color: var(--bs-purple);
+    color: var(--bs-white);
+}
 .right-aside{
     margin-left: 200px;
 }
