@@ -28,6 +28,9 @@ class Genre extends ParentEntity
     #[ORM\ManyToMany(targetEntity: Livre::class, mappedBy: 'genres')]
     private Collection $livres;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $presentation = null;
+
     public function __construct()
     {
         $this->livres = new ArrayCollection();
@@ -89,6 +92,18 @@ class Genre extends ParentEntity
         if ($this->livres->removeElement($livre)) {
             $livre->removeGenre($this);
         }
+
+        return $this;
+    }
+
+    public function getPresentation(): ?string
+    {
+        return $this->presentation;
+    }
+
+    public function setPresentation(?string $presentation): static
+    {
+        $this->presentation = $presentation;
 
         return $this;
     }

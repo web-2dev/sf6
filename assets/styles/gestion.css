@@ -53,3 +53,8 @@ i.fa { font-size: 1.5em; }
 table i.fa { margin-right: 3%; }
 
 form.frm { padding: 1% }
+
+.accordion-button {
+    color: var(--bs-white);
+    background-color: transparent;
+}
