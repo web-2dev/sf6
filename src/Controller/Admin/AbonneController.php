@@ -18,7 +18,7 @@ final class AbonneController extends AbstractController
     public function index(AbonneRepository $abonneRepository): Response
     {
         return $this->render('admin/abonne/index.html.twig', [
-            'abonnes' => $abonneRepository->findAll(),
+            'abonnes' => $abonneRepository->findLecteurs(),
         ]);
     }
 

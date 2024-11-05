@@ -29,10 +29,9 @@ class HomeController extends ParentController
           * 💬     3e argument : le nombre de produits affichés par page
         */
         $page = $request->query->get("page", 1);
-        $q = $request->query->get("q", 10);
+        $q = $request->query->get("q", 9);
         $livres = $lr->findAllPaginate(page: $page, count: $q);
         $nbTotal = $lr->nb();
-        
         return $this->render('home/home.html.twig', [
             'liste_livres' => $livres,
             "nb_total" => $nbTotal

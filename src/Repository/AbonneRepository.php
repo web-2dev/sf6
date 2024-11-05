@@ -38,6 +38,16 @@ class AbonneRepository extends ParentRepository implements PasswordUpgraderInter
     //?     ║                        REQUÊTES PERSONNALISÉES                        ║       
     //?     ╚═══════════════════════════════════════════════════════════════════════╝       
 
+
+    /**
+     * Abonnés lecteur uniquement
+     */
+    public function findLecteurs() {
+        return $this->createQueryBuilder("a")
+                    ->where("a.roles LIKE '%ROLE_LECTEUR%'")
+                    ->getQuery()->getResult();
+    }
+
     
     /**
      * Abonnés qui ont des livres non rendus

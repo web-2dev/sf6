@@ -1,0 +1,40 @@
+<div class="col-4 mb-3">
+    <div class="card livre ">
+        <h4 class="card-header bg-primary text-light d-flex justify-content-between">
+            {{ livre.titre }}
+            {{ livre|dispo ? "✔" : "❌" }}
+        </h4>
+
+        <div class="row  couverture">
+            <div class="col-4 d-flex align-items-center">
+                <img class="card-img p-1 miniature" src="{{ chemin_couvertures ~ livre.couverture }}" alt="pas de couverture">
+                {# {{ livre.couverture|img("couvertures", "card-img p-1 miniature", "pas de couverture")|raw }} #}
+            </div>
+
+            <div class="col-8">
+                <div class="card-body">
+                    <p class="card-text">De : <strong>{{ livre.auteur ? livre.auteur.nom : "" }}</strong></p>
+                    <p class="card-text">Genre{{ (livre.genres|length > 1) ? "s" : "" }} : <strong>{{ livre.genre }}</strong></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-footer">
+            <a href="{{ path("app_visiteur_livre_fiche", {id: livre.id}) }}" class="card-link"> 
+                <i class="fa fa-book"></i> Voir plus 
+            </a>
+            {% if is_granted("ROLE_LECTEUR") and livre.dispo %}        
+                <a href="{{ path("app_espace_reserver", {"id": livre.id}) }}" class="card-link">
+                    <i class="fa fa-cart-arrow-down"></i> Réserver
+                </a>
+            {% endif %}
+            {# {% if is_granted("ROLE_LECTEUR") and livre not in liste_livres_indisponibles %}
+                <a href="{{ path("app_lecteur_emprunter", {"id": livre.id}) }}" class="card-link btn btn-primary">
+                    Emprunter
+                </a>
+            {% endif %} #}
+            </div>
+    </div>
+</div>
+
+

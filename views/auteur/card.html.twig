@@ -1,0 +1,22 @@
+<div class="col p-0">
+    <div class="card ">
+        <img class="card-img-top miniature" src="" alt="pas de photo">
+
+        <div class="card-body">
+            <h5 class="card-title ">{{ auteur.identite }}</h5>
+            <p class="card-text">
+                Livres : <strong>{{ auteur.livres|length }}</strong>
+            </p>
+            {# <p class="card-text">Mots-clés : <strong>{{ genre.motsCles }}</strong></p> #}
+        </div>
+        
+        <div class="card-footer">
+            <small class="text-muted">
+                <a href="{{ path("app_visiteur_auteur_fiche", {id: auteur.id}) }}" class="card-link"> 
+                    <i class="fa fa-book"></i> Voir plus 
+                </a>
+            </small>
+        </div>
+    </div>
+</div>
+

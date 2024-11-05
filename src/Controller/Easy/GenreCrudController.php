@@ -8,21 +8,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class GenreCrudController extends _CrudParentController
+class GenreCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
         return Genre::class;
     }
 
-    /*
+    
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        return parent::configureFields($pageName);
     }
-    */
+   
 }

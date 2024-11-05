@@ -71,7 +71,13 @@ class Livre extends ParentEntity
             $resultat .= $genre->getLibelle();
         }
         return $resultat;
-    }    
+    }   
+    
+    public function __toString()
+    {
+        return $this->getTitreAuteur();
+    }
+    
     // ╔═══════════════════════════════════════════════════════════════════════╗
     // ║                           GETTERS && SETTERS                          ║
     // ╚═══════════════════════════════════════════════════════════════════════╝

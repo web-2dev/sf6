@@ -63,7 +63,7 @@ class LivreFixtures extends Fixture
                 ->setTitre( $book["titre"] )
                 ->setAuteur( $this->getReference("auteur_" . $book["auteur"]) )
                 ->setCouverture( $book["couverture"] )
-                ->setUrl( $slugger->slug($book["titre"]) );
+                ->setUrl( strtolower($slugger->slug($book["titre"])) );
             $manager->persist( $livre );
 
             // Une référence pour cibler un livre en particulier

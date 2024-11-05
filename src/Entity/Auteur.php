@@ -40,10 +40,27 @@ class Auteur extends ParentEntity
     #[ORM\OneToMany(targetEntity: Livre::class, mappedBy: 'auteur', orphanRemoval: true)]
     private Collection $livres;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $portrait = null;
+
     public function __construct()
     {
         $this->livres = new ArrayCollection();
     }
+
+    // ╔═══════════════════════════════════════════════════════════════════════╗
+    // ║                                 AJOUTS                                ║
+    // ╚═══════════════════════════════════════════════════════════════════════╝
+
+    public function __toString() {
+        return $this->getIdentite();
+    }
+    // ╔═══════════════════════════════════════════════════════════════════════╗
+    // ║                           GETTERS && SETTERS                          ║
+    // ╚═══════════════════════════════════════════════════════════════════════╝
+
+
+
 
     public function getId(): ?int
     {
@@ -136,6 +153,18 @@ class Auteur extends ParentEntity
                 $livre->setAuteur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPortrait(): ?string
+    {
+        return $this->portrait;
+    }
+
+    public function setPortrait(?string $portrait): static
+    {
+        $this->portrait = $portrait;
 
         return $this;
     }
