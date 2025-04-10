@@ -8,8 +8,8 @@
 
 
 {% block javascripts %}
-	{{ parent() }}
-	
+	{# {{ parent() }} #}
+	{# {{ importmap('app') }} #}
 	{{ importmap('gestion') }}
 {% endblock %}
 
@@ -38,7 +38,7 @@
 					<div class="card-columns">
 						{# EXO : afficher la liste des livres #}
 						{% for livre in liste_livres %}
-							{% include "livre/vignette.html.twig" with { "livre": livre } %}
+							{% include "livre/card.html.twig" with { "livre": livre } %}
 
 						{% else %}
 							<div class="alert alert-warning">Aucun livre, ni auteur, ne correspond à votre recherche</div>

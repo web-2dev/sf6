@@ -2,31 +2,42 @@
 
 namespace App\Controller\Easy;
 
-use App\Entity\Genre;
-use App\Entity\Livre;
-use App\Entity\Abonne;
-use App\Entity\Auteur;
-use App\Entity\Emprunt;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-use Symfony\UX\Chartjs\Model\Chart;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Option\SearchMode;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+    use App\Entity\Genre;
+    use App\Entity\Livre;
+    use App\Entity\Abonne;
+    use App\Entity\Auteur;
+    use App\Entity\Emprunt;
+    use App\Repository\AbonneRepository;
+    use App\Repository\AuteurRepository;
+    use App\Repository\LivreRepository;
+    use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+    use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+    use Symfony\UX\Chartjs\Model\Chart;
+    use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\Routing\Attribute\Route;
+    use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+    use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+    use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+    use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+    use EasyCorp\Bundle\EasyAdminBundle\Config\Option\SearchMode;
+    use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+    use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
+    
 class DashboardController extends AbstractDashboardController
 {
     private ChartBuilderInterface $chartBuilder;
+    private AbonneRepository $abonneRepository;
+    private LivreRepository $livreRepository;
+    private AuteurRepository $auteurRepository;
 
-    public function __construct(ChartBuilderInterface $chartBuilderInterface)
+    public function __construct(ChartBuilderInterface $chartBuilderInterface, AbonneRepository $abRepo, LivreRepository $lRepo, AuteurRepository $aRepo)
     {
         $this->chartBuilder = $chartBuilderInterface;
+        
+        $this->abonneRepository = $abRepo ;
+        $this->livreRepository = $lRepo ;
+        $this->auteurRepository = $aRepo;
     }
 
     
@@ -34,11 +45,30 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response {
         $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
 
-        return $this->render("easy/my-dashboard.html.twig", [ "chart" => $chart ]); 
+        $chart->setData([
+            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'datasets' => [
+                [
+                    'label' => 'My First dataset',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => [0, 10, 5, 2, 20, 30, 45],
+                ],
+            ],
+        ]);
+        $chart->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestedMin' => 0,
+                    'suggestedMax' => 100,
+                ],
+            ],
+        ]);        
+
+
+        return $this->render("easy/my-dashboard.html.twig",compact( "chart" , "chart2")); 
     }
-
-
-    
+ 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -181,5 +211,58 @@ class DashboardController extends AbstractDashboardController
         // return $this->render('some/path/my-dashboard.html.twig');
     }
 
+    #[Route("/easy-admin", name:"app_easy_admin")]
+    public function tableau2bord(LivreRepository $livreR,
+                                 AbonneRepository $abonneR,
+                                 AuteurRepository $auteurR 
+    ): Response {
+        
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
+
+        $chart->setData([
+            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'datasets' => [
+                [
+                    'label' => 'My First dataset',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => [0, 10, 5, 2, 20, 30, 45],
+                ],
+            ],
+        ]);
+        $chart->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestedMin' => 0,
+                    'suggestedMax' => 100,
+                ],
+            ],
+        ]);        
+
+        $chart2 = $this->chartBuilder->createChart(Chart::TYPE_BAR);
+        $chart2->setData([
+            "labels"    =>  [ "Abonnés", "Livres", "Auteurs", ],
+            "datasets"  =>  [
+                [
+                    "label"             =>  "Statistiques",
+                    "backgroundColor"   =>  "#ececec",
+                    "borderColor"       =>  "blue",
+                    "data"              =>  [ $abonneR->nb(), $livreR->nb(), $auteurR->nb()]
+                ]
+            ]
+        ]);
+        $chart2->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestedMin' => 0,
+                    'suggestedMax' => 50,
+                ],
+            ],
+        ]);        
+
+
+
+        return $this->render("easy/my-dashboard.html.twig",compact( "chart" , "chart2")); 
+    }
 
 }

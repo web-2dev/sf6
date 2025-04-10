@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Auteur;
+use App\Entity\Livre;
 use App\Repository\GenreRepository;
 use App\Repository\LivreRepository;
 use App\Repository\AuteurRepository;
@@ -27,7 +28,7 @@ class VisiteurController extends AbstractController
     }
 
     // AUTEURS
-    #[Route("/auteurs", name:"app_visiteur_auteur")]
+    #[Route("/auteurs", name:"app_visiteur_auteurs")]
     public function auteurs(AuteurRepository $auteurRepository) {
         
         return $this->render("visiteur/auteurs.html.twig", [ "auteurs" => $auteurRepository->findAll() ]); 
@@ -38,10 +39,18 @@ class VisiteurController extends AbstractController
         
         return $this->render("auteur/fiche.html.twig", compact("auteur")); 
     }
+
+    // LIVRES
     #[Route("/livres", name:"app_visiteur_livre")]
     public function livres(LivreRepository $livreRepository) {
         
         return $this->render("visiteur/livres.html.twig", [ "livres" => $livreRepository->findAll() ]); 
+    }
+
+    #[Route("/livre-{id}/fiche", name:"app_visiteur_livre_fiche")]
+    public function livreFiche(Livre $livre): Response {
+        
+        return $this->render("livre/fiche.html.twig", compact("livre")); 
     }
 
 }

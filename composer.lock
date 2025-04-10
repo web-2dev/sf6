@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5060a4a3c7db790bb2b36167868c8df1",
+    "content-hash": "61f0640ed4fe79f6600265b497975a7c",
     "packages": [
         {
             "name": "composer/semver",
@@ -7210,16 +7210,16 @@
         },
         {
             "name": "symfony/ux-chartjs",
-            "version": "v2.20.0",
+            "version": "v2.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-chartjs.git",
-                "reference": "3a669e28d6665515da4d3117d245650d325212da"
+                "reference": "70ff570d96812487c523afd5756df671ec5c5cee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-chartjs/zipball/3a669e28d6665515da4d3117d245650d325212da",
-                "reference": "3a669e28d6665515da4d3117d245650d325212da",
+                "url": "https://api.github.com/repos/symfony/ux-chartjs/zipball/70ff570d96812487c523afd5756df671ec5c5cee",
+                "reference": "70ff570d96812487c523afd5756df671ec5c5cee",
                 "shasum": ""
             },
             "require": {
@@ -7270,7 +7270,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-chartjs/tree/v2.20.0"
+                "source": "https://github.com/symfony/ux-chartjs/tree/v2.21.0"
             },
             "funding": [
                 {
@@ -7286,7 +7286,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-24T09:27:42+00:00"
+            "time": "2024-10-15T10:36:49+00:00"
         },
         {
             "name": "symfony/ux-icons",

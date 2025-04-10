@@ -1,13 +1,21 @@
 {% extends "@EasyAdmin/layout.html.twig" %}
 
+
+
 {% block main %}
+{{ importmap("app") }}
 <h2>Test</h2>
 <style>.my-chart{ border: 2px solid; }</style>
-{% set url = ea_url()
+{# {% set url = ea_url()
                 .setController('App\\Controller\\Easy\\LivreCrudController')
-                .setAction('new') %}
-<a href="{{ url }}" class="btn">Nouveau livre</a>
+                .setAction('new') %} #}
+{# <a href="{{ url }}" class="btn">Nouveau livre</a> #}
 
+<div class="">
+{{ render_chart(chart2, {'class': 'my-chart'}) }}
 {{ render_chart(chart, {'class': 'my-chart'}) }}
+    </div>
+<hr>
+<canvas id="myTest"></canvas>
 {% endblock %}
 

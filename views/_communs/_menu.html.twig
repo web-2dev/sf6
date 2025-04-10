@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_auteur" ? " active" : " " }}" href="{{ path("app_visiteur_auteur") }}">
+                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_auteurs" ? " active" : " " }}" href="{{ path("app_visiteur_auteurs") }}">
                         Auteurs 
                                         
                     </a>
@@ -80,7 +80,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="dropdown-item_ nav-link" href="{{ path("app_easyadmin") }}">
+                                <a class="dropdown-item_ nav-link" href="{{ path("app_easy_admin") }}">
                                     Easy Admin
                                 </a>
                             </li>
@@ -103,7 +103,7 @@
             </ul>
 
             <form class="d-flex" role="search" action={{ path(is_granted('ROLE_ADMIN') ? "app_admin_recherche" : "app_recherche") }} >
-                <input class="form-control me-2" type="search" placeholder="Recherche..." aria-label="Search">
+                <input class="form-control me-2" type="search" name="search" placeholder="Recherche..." aria-label="Search">
                 <button class="btn btn-outline-success" type="submit"><i class="ico">{{ ux_icon('wpf:search') }}</i> </button>
             </form>
         </div>

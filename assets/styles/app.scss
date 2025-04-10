@@ -10,7 +10,7 @@ $white: #eee;
 $largeur_aside: 200px;
 
 
-@import "../../vendor/twbs/bootstrap/scss/bootstrap.scss";
+// @import "../../vendor/twbs/bootstrap/scss/bootstrap.scss";
 // @import "gestion.scss";
 
 // Pour étendre les classes w- de Bootstrap avec tous les %ages possibles
@@ -91,7 +91,7 @@ h1{
   }
 
 // vignettes livre
-.livre  img { height: 160px; }
+.card-livre img { height: 160px; }
 
 /* Styles par défaut pour les icônes */
 svg {
@@ -99,4 +99,9 @@ svg {
     height: 1em;
     display: inline-block;
     vertical-align: middle;
+}
+
+.my-chart {
+    background-color: wheat;
+    width: 100px;
 }

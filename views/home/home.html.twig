@@ -18,7 +18,7 @@
     {# <div class="card-deck mt-1">
     {% for livre in liste_livres %}
         {% if loop.index % 3 == 1  %} <div class="d-flex mb-3"> {% endif %}
-        {{ include ("livre/vignette.html.twig") }}
+        {{ include ("livre/card.html.twig") }}
         {% if loop.index % 3 == 0  %} </div> {% endif %}
     {% endfor %}
     </div> #}

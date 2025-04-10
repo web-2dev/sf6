@@ -81,7 +81,12 @@ abstract class ParentRepository extends ServiceEntityRepository
         }
     }
 
-
+    public function search(string $field, string $search) {
+        return $this->createQueryBuilder("a")
+                    ->where("a.$field LIKE :search")
+                    ->setParameter("search", "%$search%")
+                    ->getQuery()->getResult();
+    }
 
 
 

@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Résultats de la recherche
+{% endblock %}
+
+{% block body %}
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tab-abonnes" data-bs-toggle="tab" data-bs-target="#content-abonnes" type="button" role="tab" aria-controls="content-abonnes" aria-selected="true">
+                Abonnés
+                            
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-livres" data-bs-toggle="tab" data-bs-target="#content-livres" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                Livres
+                            
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-genres" data-bs-toggle="tab" data-bs-target="#content-auteurs" type="button" role="tab" aria-controls="content-auteurs" aria-selected="false">
+                Auteurs
+                            
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-genres" data-bs-toggle="tab" data-bs-target="#content-genres" type="button" role="tab" aria-controls="content-genres" aria-selected="false">
+                Genres
+                            
+            </button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="content-abonnes" role="tabpanel" aria-labelledby="home-tab">
+            <ul class="list-group">
+                {% for abonne in abonnes %}
+                    <li class="list-group-item"> <a href="{{ path('app_admin_abonne_show', {id: abonne.id}) }}">{{ abonne.pseudo }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="tab-pane fade" id="content-livres" role="tabpanel" aria-labelledby="profile-tab">
+            <ul class="list-group">
+                {% for livre in livres %}
+                    <li class="list-group-item"> <a href="{{ path('app_admin_livre_show', {id: livre.id}) }}">{{ livre.titre }}</a></li>
+                {% endfor %}
+            </ul>
+                    
+        </div>
+        <div class="tab-pane fade" id="content-auteurs" role="tabpanel" aria-labelledby="contact-tab">
+            <ul class="list-group">
+                {% for auteur in auteurs %}
+                    <li class="list-group-item"> <a href="{{ path('app_admin_auteur_show', {id: auteur.id}) }}">{{ auteur.identite }}</a></li>
+                {% endfor %}
+            </ul>
+                    
+        </div>
+        <div class="tab-pane fade" id="content-genres" role="tabpanel" aria-labelledby="contact-tab">
+            <ul class="list-group">
+                {% for genre in genres %}
+                    <li class="list-group-item"> <a href="{{ path('app_admin_genre_show', {id: genre.id}) }}">{{ genre.libelle }}</a></li>
+                {% endfor %}
+            </ul>
+                    
+        </div>
+    </div>
+{% endblock %}

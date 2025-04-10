@@ -53,7 +53,7 @@
     </div>
     
 
-    <a href="{{ path("app_accueil") }}" class="btn btn-primary mt-5"><i class="fa fa-home"> Retour</i> Accueil</a>
+    <a href="{{ path("app_home") }}" class="btn btn-primary mt-5"><i class="fa fa-home"> Retour</i> Accueil</a>
     {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path("app_admin_auteur_edit", {id: auteur.id}) }}" class="btn btn-primary mt-5"><i class="fa fa-edit"> Actualisation</i></a>
         
