@@ -14,30 +14,31 @@ use Symfony\Component\HttpFoundation\Request;
 class RechercheController extends AbstractController
 {
     #[Route('/recherche', name: 'app_recherche')]
-    public function index(AbonneRepository $repoAbonne
-                        , LivreRepository $repoLivre
-                        , GenreRepository $repoGenre
-                        , AuteurRepository $repoAuteur
-                        , Request $request
-                    ): Response
-    {
+    public function index(
+        AbonneRepository $repoAbonne,
+        LivreRepository $repoLivre,
+        GenreRepository $repoGenre,
+        AuteurRepository $repoAuteur,
+        Request $request
+    ): Response {
         $word = $request->get("search", "");
         return $this->render('recherche/index.html.twig', [
             'abonnes' => $repoAbonne->search("pseudo", $word),
-            'auteurs' => $repoAuteur->search("pseudo", $word),
-            'livres' => $repoLivre->search("pseudo", $word),
-            'genres' => $repoGenre->search("pseudo", $word),
+            'auteurs' => $repoAuteur->search("nom", $word),
+            'livres' => $repoLivre->search("titre", $word),
+            'genres' => $repoGenre->search("libelle", $word),
+            "search_word"   =>  $word
         ]);
     }
-    
+
     #[Route('/admin/recherche', name: 'app_admin_recherche')]
-    public function admin(AbonneRepository $repoAbonne
-                        , LivreRepository $repoLivre
-                        , GenreRepository $repoGenre
-                        , AuteurRepository $repoAuteur
-                        , Request $request
-                    ): Response
-    {
+    public function admin(
+        AbonneRepository $repoAbonne,
+        LivreRepository $repoLivre,
+        GenreRepository $repoGenre,
+        AuteurRepository $repoAuteur,
+        Request $request
+    ): Response {
         $word = $request->get("search", "");
         return $this->render('recherche/admin.html.twig', [
             'abonnes' => $repoAbonne->search("pseudo", $word),
@@ -45,6 +46,5 @@ class RechercheController extends AbstractController
             'livres' => $repoLivre->search("titre", $word),
             'genres' => $repoGenre->search("libelle", $word),
         ]);
-
     }
 }
