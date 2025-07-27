@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 
 class LivreCrudController extends _CrudParentController
 {
@@ -28,41 +29,55 @@ class LivreCrudController extends _CrudParentController
 
     public function configureFields(string $pageName): iterable
     {
-        $fields = parent::configureFields($pageName);
+        // $fields = parent::configureFields($pageName);
+        // $fields = array_filter($fields, function ($field) {
+        //     return $field->getAsDto()->getProperty() !== 'couverture';
+        // });
+
+        //! Champs absents du formulaire
         $fields[] = TextField::new("auteur.identite", "Auteur")->hideOnForm();
-        // $fields[] = ChoiceFormField::("auteur", "Quel est l'auteur ?")->hideOnDetail();
+
+
+        $fields[] = FormField::addColumn(6);
+        $fields[] = TextField::new("titre", "Titre du livre");
+        $fields[] = ImageField::new("couverture", "Couverture")
+            ->setBasePath("/img/couvertures/")
+            ->setUploadDir("/public/img/couvertures/")
+            ->setFileConstraints([
+                new Image(
+                    maxSize: "2M",
+                    mimeTypes: ["image/jpeg", "image/png"],
+                    maxSizeMessage: "Taille maximum du fichier : 2 Mo",
+                    mimeTypesMessage: "Formats autorisés : jpeg, png"
+                )
+            ]);
+        $fields[] = AssociationField::new("genres", "Genres")
+            ->setCrudController(GenreCrudController::class)
+            ->setCustomOptions([
+                "multiple" => true,
+                "expanded" => false,
+            ])
+            ->onlyOnForms();
+
+
+        $fields[] = FormField::addColumn(6);
         $fields[] = AssociationField::new("auteur", "Auteur")
                         ->onlyOnForms()
                         ->setCrudController(AuteurCrudController::class)
-                        ->setColumns(6)  // class="col-6"
-                        ->setCustomOptions(["choice_label" => "titre"]);
-
-        $fields[] = AssociationField::new("genres", "Genres")
-                        ->setCrudController(GenreCrudController::class)
-                        ->setCustomOptions([
-                            "multiple" => true,
-                            "expanded" => false,
-                        ])
-                        ->onlyOnForms();
-
-        $fields = array_filter($fields, function ($field) {
-            return $field->getAsDto()->getProperty() !== 'couverture';
-        });
-
-        $fields[] = TextField::new("genre", "Genres")->hideOnForm();
-        $fields[] = ImageField::new("couverture", "Couverture")
-                        ->setBasePath ("/img/couvertures/")
-                        ->setUploadDir("/public/img/couvertures/")
-                        ->setFileConstraints([
-                            new Image(maxSize: "2M", mimeTypes: ["image/jpeg", "image/png"],
-                                      maxSizeMessage: "Taille maximum du fichier : 2 Mo", 
-                                      mimeTypesMessage: "Formats autorisés : jpeg, png")
-                        ])
-
+                        ->setCustomOptions(["choice_label" => "titre"])
+                        ->setFormTypeOption('placeholder', 'Choisir un auteur...')
         ;
+        $fields[] = TextEditorField::new("synopsis", "4ième de couverture");
+
+        $fields[] = FormField::addColumn(12);
+        $fields[] = TextField::new("url", "Chemin URL")->onlyOnForms()
+                        ->setRequired(false)
+                        ->setHelp("Défini automatiquement si vide");
+
+        // ! Champs absents du formulaire
+        $fields[] = TextField::new("genre", "Genres")->hideOnForm();
 
         return $fields;
-
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -71,17 +86,17 @@ class LivreCrudController extends _CrudParentController
 
         $crud
             ->setSearchFields(['titre', 'synopsis', "genres.libelle"])   // 💬 On peut rechercher dans les tables associées
-            ->setDefaultSort([ 'auteur.nom' => 'ASC', 'titre' => 'ASC'])
-            ->setPaginatorPageSize(10)
+            ->setDefaultSort(['auteur.nom' => 'ASC', 'titre' => 'ASC'])
+            ->setPaginatorPageSize(50)
             ->setPaginatorRangeSize(1)
         ;
 
 
         return $crud;
     }
- 
+
     public function configureFilters(Filters $filters): Filters
     {
         return $filters->add("titre")->add("auteur");
-    }   
+    }
 }

@@ -2,28 +2,28 @@
 
 namespace App\Controller\Easy;
 
-    use App\Entity\Genre;
-    use App\Entity\Livre;
-    use App\Entity\Abonne;
-    use App\Entity\Auteur;
-    use App\Entity\Emprunt;
-    use App\Repository\AbonneRepository;
-    use App\Repository\AuteurRepository;
-    use App\Repository\LivreRepository;
-    use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-    use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-    use Symfony\UX\Chartjs\Model\Chart;
-    use Symfony\Component\HttpFoundation\Response;
-    use Symfony\Component\Routing\Attribute\Route;
-    use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-    use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-    use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-    use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-    use EasyCorp\Bundle\EasyAdminBundle\Config\Option\SearchMode;
-    use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-    use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Entity\Genre;
+use App\Entity\Livre;
+use App\Entity\Abonne;
+use App\Entity\Auteur;
+use App\Entity\Emprunt;
+use App\Repository\AbonneRepository;
+use App\Repository\AuteurRepository;
+use App\Repository\LivreRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use Symfony\UX\Chartjs\Model\Chart;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Option\SearchMode;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
-    
+
 class DashboardController extends AbstractDashboardController
 {
     private ChartBuilderInterface $chartBuilder;
@@ -34,15 +34,16 @@ class DashboardController extends AbstractDashboardController
     public function __construct(ChartBuilderInterface $chartBuilderInterface, AbonneRepository $abRepo, LivreRepository $lRepo, AuteurRepository $aRepo)
     {
         $this->chartBuilder = $chartBuilderInterface;
-        
-        $this->abonneRepository = $abRepo ;
-        $this->livreRepository = $lRepo ;
+
+        $this->abonneRepository = $abRepo;
+        $this->livreRepository = $lRepo;
         $this->auteurRepository = $aRepo;
     }
 
-    
-    #[Route("/easy", name:"app_easyadmin")]
-    public function index(): Response {
+
+    #[Route("/easy", name: "app_easyadmin")]
+    public function index(): Response
+    {
         $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
 
         $chart->setData([
@@ -63,12 +64,12 @@ class DashboardController extends AbstractDashboardController
                     'suggestedMax' => 100,
                 ],
             ],
-        ]);        
+        ]);
 
 
-        return $this->render("easy/my-dashboard.html.twig",compact( "chart" , "chart2")); 
+        return $this->render("easy/my-dashboard.html.twig", compact("chart", "chart2"));
     }
- 
+
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -79,63 +80,72 @@ class DashboardController extends AbstractDashboardController
             // browser width, instead of the default design which sets a max width
             ->renderContentMaximized()
 
-            ;
+        ;
     }
 
     public function configureMenuItems(): iterable
     {
         // yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
-            return [
-                // 💬 lien vers le tableau de bord                                                                      
-                MenuItem::linkToDashboard('Dashboard', 'fa fa-chalkboard'),
-                MenuItem::linkToRoute("Accueil site", "fa fa-home", "app_home"),
-                // MenuItem::linkToUrl("Accueil site", "fa fa-home", $this->generateUrl("app_home")),
-    
-                // 💬 élément de menu sans lien                                                                         
-                MenuItem::section('Usagers'),
+        return [
+            // 💬 lien vers le tableau de bord                                                                      
+            MenuItem::linkToDashboard('Dashboard', 'fa fa-chalkboard'),
+            MenuItem::linkToRoute("Accueil site", "fa fa-home", "app_home"),
+            // MenuItem::linkToUrl("Accueil site", "fa fa-home", $this->generateUrl("app_home")),
 
-                // 💬 liens vers les CRUD                                                                               
-                // MenuItem::linkToCrud('Livres', 'fa fa-book-skull', Livre::class),
-                MenuItem::subMenu('Livres', 'fa fa-book')->setSubItems([
-                    MenuItem::linkToCrud('Liste', 'fa fa-list', Livre::class),
-                    MenuItem::linkToCrud('Ajouter', 'fa fa-file-text', Livre::class)->setAction("new"),
-                ]),
-        
-                MenuItem::linkToCrud('Genres', 'fa fa-tags', Genre::class),
-                MenuItem::linkToCrud('Auteurs', 'fa-solid fa-user-pen', Auteur::class),
-    
-                MenuItem::section('Bibliothéchaires'),
-                MenuItem::linkToCrud('Emprunts', 'fa fa-address-book', Emprunt::class)
-                    ->setPermission("ROLE_BIBLIO"),
+            // 💬 élément de menu sans lien                                                                         
+            MenuItem::section('Usagers'),
 
-                MenuItem::section('Administrateur'),
+            // 💬 liens vers les CRUD                                                                               
+            // MenuItem::linkToCrud('Livres', 'fa fa-book-skull', Livre::class),
+            MenuItem::subMenu('Livres', 'fa fa-book')->setSubItems([
+                MenuItem::linkToCrud('Liste', 'fa fa-list', Livre::class),
+                MenuItem::linkToCrud('Ajouter', 'fa fa-file-text', Livre::class)->setAction("new"),
+            ]),
+            MenuItem::subMenu('Auteurs', 'fa-solid fa-user-pen')->setSubItems([
+                MenuItem::linkToCrud('Liste', 'fa fa-list', Auteur::class),
+                MenuItem::linkToCrud('Ajouter', 'fa fa-file-text', Auteur::class)->setAction("new"),
+            ]),
 
-                MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', Abonne::class)
-                    // 💬 ajouter un badge sur un menu                                                                 
-                    ->setBadge(3, "danger")
-                    ->setPermission("ROLE_ADMIN"),
-                MenuItem::section(""),
-                MenuItem::linkToCrud('Abonnés', 'fa fa-user', Abonne::class)
-                    ->setQueryParameter("roles", "['ROLE_LECTEUR', 'ROLE_USER']")
-                    ->setDefaultSort(["pseudo" => "ASC"]),
-                MenuItem::linkToCrud('Lecteurs', 'fa fa-user', Abonne::class)->setAction("lecteurs"),
-                
-                MenuItem::section(""),
+            MenuItem::subMenu('Genres', 'fa-solid fa-tags')->setSubItems([
+                MenuItem::linkToCrud('Liste', 'fa fa-list', Genre::class),
+                MenuItem::linkToCrud('Ajouter', 'fa fa-file-text', Genre::class)->setAction("new"),
+            ]),
 
-                MenuItem::linkToCrud('Ajouter un utilisateur', 'fa fa-user-plus', Abonne::class)->setAction("new"),
-                MenuItem::linkToCrud('Administrateur : Amin Strateur', 'fa fa-user-plus', Abonne::class)
-                    ->setAction('detail')
-                    ->setEntityId(138),
-                
-                MenuItem::section(""),
-                MenuItem::linkToRoute('Gestion', 'fa fa-cogs', 'app_admin_gestion'),
-                    
-                MenuItem::section("<hr>"),
-                MenuItem::linkToExitImpersonation('Stop impersonation', 'fa fa-exit'),
-                MenuItem::linkToLogout('Déconnexion', 'fa fa-exit'),
+            // MenuItem::linkToCrud('Genres', 'fa fa-tags', Genre::class),
+            // MenuItem::linkToCrud('Auteurs', 'fa-solid fa-user-pen', Auteur::class),
 
-            ];
+            MenuItem::section('Bibliothéchaires'),
+            MenuItem::linkToCrud('Emprunts', 'fa fa-address-book', Emprunt::class)
+                ->setPermission("ROLE_BIBLIO"),
+
+            MenuItem::section('Administrateur'),
+
+            MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', Abonne::class)
+                // 💬 ajouter un badge sur un menu                                                                 
+                ->setBadge(3, "danger")
+                ->setPermission("ROLE_ADMIN"),
+            MenuItem::section(""),
+            MenuItem::linkToCrud('Abonnés', 'fa fa-user', Abonne::class)
+                ->setQueryParameter("roles", "['ROLE_LECTEUR', 'ROLE_USER']")
+                ->setDefaultSort(["pseudo" => "ASC"]),
+            MenuItem::linkToCrud('Lecteurs', 'fa fa-user', Abonne::class)->setAction("lecteurs"),
+
+            MenuItem::section(""),
+
+            MenuItem::linkToCrud('Ajouter un utilisateur', 'fa fa-user-plus', Abonne::class)->setAction("new"),
+            MenuItem::linkToCrud('Administrateur : Amin Strateur', 'fa fa-user-plus', Abonne::class)
+                ->setAction('detail')
+                ->setEntityId(138),
+
+            MenuItem::section(""),
+            MenuItem::linkToRoute('Gestion', 'fa fa-cogs', 'app_admin_gestion'),
+
+            MenuItem::section("<hr>"),
+            MenuItem::linkToExitImpersonation('Stop impersonation', 'fa fa-people-arrows'),
+            MenuItem::linkToLogout('Déconnexion', 'fa fa-person-through-window'),
+
+        ];
     }
 
 
@@ -167,7 +177,8 @@ class DashboardController extends AbstractDashboardController
     }
 
 
-    public function configureActions(): Actions {
+    public function configureActions(): Actions
+    {
         $actions = parent::configureActions();
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
@@ -185,7 +196,7 @@ class DashboardController extends AbstractDashboardController
 
         // Option 2. Make your dashboard redirect to different pages depending on the user
         // if ('jane' === $this->getUser()->getUserIdentifier()) {
-            return $this->redirect('...');
+        return $this->redirect('...');
         // }
     }
 
@@ -211,12 +222,13 @@ class DashboardController extends AbstractDashboardController
         // return $this->render('some/path/my-dashboard.html.twig');
     }
 
-    #[Route("/easy-admin", name:"app_easy_admin")]
-    public function tableau2bord(LivreRepository $livreR,
-                                 AbonneRepository $abonneR,
-                                 AuteurRepository $auteurR 
+    #[Route("/easy-admin", name: "app_easy_admin")]
+    public function tableau2bord(
+        LivreRepository $livreR,
+        AbonneRepository $abonneR,
+        AuteurRepository $auteurR
     ): Response {
-        
+
         $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
 
         $chart->setData([
@@ -237,17 +249,17 @@ class DashboardController extends AbstractDashboardController
                     'suggestedMax' => 100,
                 ],
             ],
-        ]);        
+        ]);
 
         $chart2 = $this->chartBuilder->createChart(Chart::TYPE_BAR);
         $chart2->setData([
-            "labels"    =>  [ "Abonnés", "Livres", "Auteurs", ],
+            "labels"    =>  ["Abonnés", "Livres", "Auteurs",],
             "datasets"  =>  [
                 [
                     "label"             =>  "Statistiques",
                     "backgroundColor"   =>  "#ececec",
                     "borderColor"       =>  "blue",
-                    "data"              =>  [ $abonneR->nb(), $livreR->nb(), $auteurR->nb()]
+                    "data"              =>  [$abonneR->nb(), $livreR->nb(), $auteurR->nb()]
                 ]
             ]
         ]);
@@ -258,11 +270,10 @@ class DashboardController extends AbstractDashboardController
                     'suggestedMax' => 50,
                 ],
             ],
-        ]);        
+        ]);
 
 
 
-        return $this->render("easy/my-dashboard.html.twig",compact( "chart" , "chart2")); 
+        return $this->render("easy/my-dashboard.html.twig", compact("chart", "chart2"));
     }
-
 }
