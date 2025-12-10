@@ -5,7 +5,7 @@ twig:
 
 
     # la propriété form_themes permet de choisir le modèle de construction des formulaires html
-    form_themes: ["bootstrap_4_layout.html.twig", "@EasyAdmin/crud/form_theme.html.twig"]
+    form_themes: ["bootstrap_4_layout.html.twig"]
 
     # la propriété 'globals' permet de créer des variables globales (⚠ la valeur ne peut être variable)
     globals:
