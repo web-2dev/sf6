@@ -66,7 +66,7 @@ class DashboardController extends AbstractDashboardController
             ],
         ]);
 
-
+        $chart2 = $chart;
         return $this->render("easy/my-dashboard.html.twig", compact("chart", "chart2"));
     }
 

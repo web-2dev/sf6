@@ -5,6 +5,8 @@ namespace App\Controller\Easy;
 use App\Entity\Livre;
 use App\Controller\Easy\GenreCrudController;
 use App\Controller\Easy\AuteurCrudController;
+use App\Form\AuteurCrudType;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -37,7 +39,6 @@ class LivreCrudController extends _CrudParentController
         //! Champs absents du formulaire
         $fields[] = TextField::new("auteur.identite", "Auteur")->hideOnForm();
 
-
         $fields[] = FormField::addColumn(6);
         $fields[] = TextField::new("titre", "Titre du livre");
         $fields[] = ImageField::new("couverture", "Couverture")
@@ -51,23 +52,21 @@ class LivreCrudController extends _CrudParentController
                     mimeTypesMessage: "Formats autorisés : jpeg, png"
                 )
             ]);
+        $fields[] = TextEditorField::new("synopsis", "4ième de couverture");
+
         $fields[] = AssociationField::new("genres", "Genres")
             ->setCrudController(GenreCrudController::class)
             ->setCustomOptions([
                 "multiple" => true,
-                "expanded" => false,
+                "expanded" => true,
             ])
+            ->setFormTypeOption("expanded", true)
             ->onlyOnForms();
 
-
         $fields[] = FormField::addColumn(6);
-        $fields[] = AssociationField::new("auteur", "Auteur")
-                        ->onlyOnForms()
-                        ->setCrudController(AuteurCrudController::class)
-                        ->setCustomOptions(["choice_label" => "titre"])
-                        ->setFormTypeOption('placeholder', 'Choisir un auteur...')
-        ;
-        $fields[] = TextEditorField::new("synopsis", "4ième de couverture");
+
+        $fields[] = FormField::addPanel("")
+            ->setFormType(AuteurCrudType::class)->setHelp("Sélectionner ... pour afficher le formulaire de création");
 
         $fields[] = FormField::addColumn(12);
         $fields[] = TextField::new("url", "Chemin URL")->onlyOnForms()
@@ -89,14 +88,41 @@ class LivreCrudController extends _CrudParentController
             ->setDefaultSort(['auteur.nom' => 'ASC', 'titre' => 'ASC'])
             ->setPaginatorPageSize(50)
             ->setPaginatorRangeSize(1)
+            // Configuration pour utiliser le template personnalisé
+            ->setFormThemes([
+                '@EasyAdmin/crud/form_theme.html.twig',
+                'easy/livre/_auteur_choice_widget.html.twig'
+            ])
         ;
-
 
         return $crud;
     }
 
-    public function configureFilters(Filters $filters): Filters
+    // public function configureFilters(Filters $filters): Filters
+    // {
+    //     return $filters->add("titre")->add("auteur");
+    // }
+
+    // 💬 PERSIT ENTITY                                                                         
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        return $filters->add("titre")->add("auteur");
+        if( $entityInstance instanceof Livre && $entityInstance->getAuteur() ) {
+            if( !$entityInstance->getAuteur()->getId() ) {
+                $entityManager->persist( $entityInstance->getAuteur() );
+            }
+        }
+        parent::persistEntity($entityManager, $entityInstance);
     }
+    // 💬 UPDATE ENTITY                                                                         
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if( $entityInstance instanceof Livre && $auteur = $entityInstance->getAuteur() ) {
+            if( !$auteur->getId() ) {
+                $entityManager->persist( $auteur() );
+            }
+        }
+        parent::persistEntity($entityManager, $entityInstance);
+    }
+
+
 }

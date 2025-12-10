@@ -1,0 +1,52 @@
+{# 💬 Template personnalisé pour améliorer l'UX (optionnel) #}
+{# 💬 templates/admin/livre/_auteur_choice_widget.html.twig #}
+
+{% block _livre_auteur_widget %}
+    <div class="auteur-choice-container">
+        {{ form_row(form.auteurChoice) }}
+        
+         <div id="nouvel-auteur-container" style="margin-top: 15px; display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Créer un nouvel auteur</h5>
+                </div>
+                <div class="card-body">
+                    {{ form_widget(form.nouvelAuteur) }}
+                </div>
+            </div>
+        </div>
+
+        <div id="auteur-existant-container" style="margin-top: 15px;">
+            {{ form_row(form.auteurExistant) }}
+        </div>
+        
+    </div>
+
+    <script>
+        alert("auteur_widget");
+        document.addEventListener('DOMContentLoaded', function() {
+            const choixRadios = document.querySelectorAll('input[name$="[choixAuteur]"]');
+            const auteurExistantContainer = document.getElementById('auteur-existant-container');
+            const nouvelAuteurContainer = document.getElementById('nouvel-auteur-container');
+
+            function toggleContainers() {
+                const selectedValue = document.querySelector('input[name$="[choixAuteur]"]:checked')?.value;
+                
+                if (selectedValue === 'old') {
+                    auteurExistantContainer.style.display = 'block';
+                    nouvelAuteurContainer.style.display = 'none';
+                } else if (selectedValue === 'new') {
+                    auteurExistantContainer.style.display = 'none';
+                    nouvelAuteurContainer.style.display = 'block';
+                }
+            }
+
+            choixRadios.forEach(radio => {
+                radio.addEventListener('change', toggleContainers);
+            });
+
+            // Initial state
+            toggleContainers();
+        });
+    </script>
+{% endblock %}

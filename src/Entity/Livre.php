@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
 class Livre extends ParentEntity
@@ -28,8 +29,9 @@ class Livre extends ParentEntity
     #[ORM\Column(length: 255)]
     private ?string $url = null;
 
-    #[ORM\ManyToOne(inversedBy: 'livres')]
+    #[ORM\ManyToOne(inversedBy: 'livres', cascade:["persist"])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: "Un livre est écrit par un auteur")]
     private ?Auteur $auteur = null;
 
     /**
