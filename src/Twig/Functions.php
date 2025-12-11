@@ -114,6 +114,13 @@ class Functions extends AbstractExtension {
     }
 
     /**
+     * 
+     */
+    public function dejaEmprunte(Livre $livre, Abonne $abonne) {
+        return $this->livreRepo->aDejaEmprunte($abonne, $livre);
+    }
+
+    /**
      * 💬 COURS 
      * Les filtres que l'on veut ajouter doivent être renvoyés dans un array par la fonction getFilters
      * Chaque valeur de cet array est un objet de la classe TwigFilter
@@ -133,6 +140,7 @@ class Functions extends AbstractExtension {
             new TwigFilter("img", [$this, "baliseImg"]),
             new TwigFilter("extrait", [$this, "résumé"]),
             new TwigFilter("dispo", [$this, "livreDisponible"]),
+            new TwigFilter("isEmprunte", [$this, "dejaEmprunte"])
         ];
     }
 
@@ -148,7 +156,8 @@ class Functions extends AbstractExtension {
     {
         return [
             new TwigTest("number", [$this, "estNumerique"]),
-            new TwigTest("dispo", [$this, "livreDisponible"])
+            new TwigTest("dispo", [$this, "livreDisponible"]),
+            new TwigTest("dejaEmprunte", [$this, "dejaEmprunte"])
         ];
     }
 

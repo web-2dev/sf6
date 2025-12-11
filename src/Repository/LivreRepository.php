@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Abonne;
 use App\Entity\Emprunt;
 use App\Entity\Livre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -96,6 +97,43 @@ class LivreRepository extends ParentRepository
         ;
         if($max) $requete->setMaxResults($max);
         return  $requete->getQuery()->getResult();
+    }
+
+    /**
+     * 💬 Le livre a-t-il déjà été emprunté par l'abonné
+        SELECT livre.id IN 
+            (SELECT DISTINCT l.id 
+            FROM livre l 
+                JOIN emprunt e ON l.id = e.livre_id 
+                JOIN abonne a ON a.id = e.abonne_id
+            WHERE a.id = 143)
+        FROM livre
+        WHERE livre.id = 260;
+     * 
+    */
+
+
+    public function aDejaEmprunte(Abonne $abonne, Livre $livre) {
+        {
+            $dql = "
+                SELECT COUNT(e.id)
+                FROM App\Entity\Emprunt e
+                JOIN e.livre l
+                JOIN e.abonne a
+                WHERE l.id = :livreId
+                AND a.id = :abonneId
+            ";
+        
+            $count = $this->getEntityManager()
+                ->createQuery($dql)
+                ->setParameter('livreId', $livre->getId())
+                ->setParameter('abonneId', $abonne->getId())
+                ->getSingleScalarResult();
+        
+                return (int)$count > 0;
+        }
+        
+
     }
 
     /**
