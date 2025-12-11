@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Critique index{% endblock %}
+
+{% block body %}
+    <h1>Critique index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Note</th>
+                <th>Commentaire</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for critique in critiques %}
+            <tr>
+                <td>{{ critique.id }}</td>
+                <td>{{ critique.note }}</td>
+                <td>{{ critique.commentaire }}</td>
+                <td>
+                    <a href="{{ path('app_admin_critique_show', {'id': critique.id}) }}">show</a>
+                    <a href="{{ path('app_admin_critique_edit', {'id': critique.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_critique_new') }}">Create new</a>
+{% endblock %}

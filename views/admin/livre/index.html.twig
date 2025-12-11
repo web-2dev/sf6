@@ -10,9 +10,9 @@
             <tr>
                 <th>Id</th>
                 <th>Titre</th>
-                <th>Synopsis</th>
                 <th>Couverture</th>
                 <th>Url</th>
+                <th>Avis</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,9 +21,9 @@
             <tr>
                 <td>{{ livre.id }}</td>
                 <td>{{ livre.titre }}</td>
-                <td>{{ livre.synopsis }}</td>
                 <td>{{ livre.couverture }}</td>
                 <td>{{ livre.url }}</td>
+                <th>{{ livre.critiques|length }}</th>
                 <td>
                     <a href="{{ path('app_admin_livre_show', {'id': livre.id}) }}">show</a>
                     <a href="{{ path('app_admin_livre_edit', {'id': livre.id}) }}">edit</a>

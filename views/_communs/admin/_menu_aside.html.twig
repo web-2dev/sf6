@@ -8,7 +8,30 @@
 			</li>
 
 			<div class="accordion accordion-flush_" id="menuAccordeon">
-				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "abonne", libelle: "Abonnés" }) }}
+				<div class="accordion-item bg-dark">
+					<h2 class="accordion-header">
+						<button class="accordion-button {{ chemin starts with "app_admin_abonne" ? " " : "collapsed" }}" type="button" data-bs-toggle="collapse" data-bs-target="#menu-abonnes" aria-expanded="true" aria-controls="#menu-abonnes">
+							{{ "abonnés"|capitalize }}
+						</button>
+					</h2>
+					<div id="menu-abonnes" class="accordion-collapse collapse {{ chemin starts with "app_admin_abonne" ? " show" : " " }}" data-bs-parent="#menuAccordeon">
+						<div class="accordion-body">
+							<a class="nav-link {{ chemin == "app_admin_abonne_index" ? " active" : " " }}" href="{{ path("app_admin_abonne_index") }}">
+								<i class="fa fa-list-alt"></i>
+								Tous les abonnés
+							</a>
+							<a class="nav-link {{ chemin == "app_admin_abonne_lecteurs" ? " active" : " " }}" href="{{ path("app_admin_abonne_lecteurs") }}">
+								<i class="fa fa-book-open-reader"></i>
+								Tous les lecteurs
+							</a>
+
+							<a class="nav-link {{ chemin == "app_admin_abonne_new" ? " active" : " " }}" href="{{ path("app_admin_abonne_new") }}">
+								<i class="fa fa-plus-square"></i>
+								Ajouter
+							</a>
+						</div>
+					</div>
+				</div>				
 				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "genre"	}) }}
 				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "livre"	}) }}
 				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "auteur"}) }}

@@ -56,9 +56,16 @@ class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticate
     #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'abonne', orphanRemoval: true)]
     private Collection $emprunts;
 
+    /**
+     * @var Collection<int, Critique>
+     */
+    #[ORM\OneToMany(targetEntity: Critique::class, mappedBy: 'abonne', orphanRemoval: true)]
+    private Collection $critiques;
+
     public function __construct()
     {
         $this->emprunts = new ArrayCollection();
+        $this->critiques = new ArrayCollection();
     }
     
     // ╔═══════════════════════════════════════════════════════════════════════╗
@@ -220,6 +227,36 @@ class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticate
             // set the owning side to null (unless already changed)
             if ($emprunt->getAbonne() === $this) {
                 $emprunt->setAbonne(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Critique>
+     */
+    public function getCritiques(): Collection
+    {
+        return $this->critiques;
+    }
+
+    public function addCritique(Critique $critique): static
+    {
+        if (!$this->critiques->contains($critique)) {
+            $this->critiques->add($critique);
+            $critique->setAbonne($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCritique(Critique $critique): static
+    {
+        if ($this->critiques->removeElement($critique)) {
+            // set the owning side to null (unless already changed)
+            if ($critique->getAbonne() === $this) {
+                $critique->setAbonne(null);
             }
         }
 

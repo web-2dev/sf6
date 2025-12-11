@@ -18,6 +18,14 @@ final class AbonneController extends AbstractController
     public function index(AbonneRepository $abonneRepository): Response
     {
         return $this->render('admin/abonne/index.html.twig', [
+            'abonnes' => $abonneRepository->findAll(),
+        ]);
+    }
+
+    #[Route(path: "/lecteurs", name: 'app_admin_abonne_lecteurs', methods: ['GET'])]
+    public function readers(AbonneRepository $abonneRepository): Response
+    {
+        return $this->render('admin/abonne/index.html.twig', [
             'abonnes' => $abonneRepository->findLecteurs(),
         ]);
     }

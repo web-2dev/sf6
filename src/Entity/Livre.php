@@ -46,10 +46,17 @@ class Livre extends ParentEntity
     #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'livre', orphanRemoval: true)]
     private Collection $emprunts;
 
+    /**
+     * @var Collection<int, Critique>
+     */
+    #[ORM\OneToMany(targetEntity: Critique::class, mappedBy: 'livre', orphanRemoval: true)]
+    private Collection $critiques;
+
     public function __construct()
     {
         $this->genres = new ArrayCollection();
         $this->emprunts = new ArrayCollection();
+        $this->critiques = new ArrayCollection();
     }
 
     // ╔═══════════════════════════════════════════════════════════════════════╗
@@ -197,6 +204,36 @@ class Livre extends ParentEntity
             // set the owning side to null (unless already changed)
             if ($emprunt->getLivre() === $this) {
                 $emprunt->setLivre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Critique>
+     */
+    public function getCritiques(): Collection
+    {
+        return $this->critiques;
+    }
+
+    public function addCritique(Critique $critique): static
+    {
+        if (!$this->critiques->contains($critique)) {
+            $this->critiques->add($critique);
+            $critique->setLivre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCritique(Critique $critique): static
+    {
+        if ($this->critiques->removeElement($critique)) {
+            // set the owning side to null (unless already changed)
+            if ($critique->getLivre() === $this) {
+                $critique->setLivre(null);
             }
         }
 

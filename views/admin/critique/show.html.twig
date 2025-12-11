@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Critique{% endblock %}
+
+{% block body %}
+    <h1>Critique</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ critique.id }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ critique.note }}</td>
+            </tr>
+            <tr>
+                <th>Commentaire</th>
+                <td>{{ critique.commentaire }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_critique_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_critique_edit', {'id': critique.id}) }}">edit</a>
+
+    {{ include('admin/critique/_delete_form.html.twig') }}
+{% endblock %}

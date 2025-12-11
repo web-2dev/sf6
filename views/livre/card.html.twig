@@ -23,11 +23,18 @@
             <a href="{# {{ path("app_visiteur_livre_fiche", {id: livre.id}) }} #}" class="card-link"> 
                 <i class="fa fa-book"></i> Voir plus 
             </a>
+            {% if is_granted("ROLE_LECTEUR") %}        
+                <a href="{{ path("app_lecteur_critique", {"id": livre.id}) }}" class="card-link">
+                    <i class="fa fa-star"></i> Noter
+                </a>
+            {% endif %}            
+            {# 
             {% if is_granted("ROLE_LECTEUR") and livre.dispo %}        
                 <a href="{{ path("app_espace_reserver", {"id": livre.id}) }}" class="card-link">
                     <i class="fa fa-cart-arrow-down"></i> Réserver
                 </a>
             {% endif %}
+             #}
             {# {% if is_granted("ROLE_LECTEUR") and livre not in liste_livres_indisponibles %}
                 <a href="{{ path("app_lecteur_emprunter", {"id": livre.id}) }}" class="card-link btn btn-primary">
                     Emprunter
