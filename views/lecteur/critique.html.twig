@@ -1,5 +1,111 @@
 {% extends "base.html.twig" %}
 
+{% block title %}Noter un livre{% endblock %}
+{% block titre %}Noter et commenter {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .notation {}
+        .notation:hover { color: red ;}
+        .notation > input { display: none; }
+        .notation input:checked+label { color: green; }
+    </style>
+{% endblock %}
+
+
 {% block body %}
-    <h2>Noter et commenter le film {{ livre.titreAuteur }}</h2>
+    <h2 class="text-center mb-5">le film {{ livre.titreAuteur }}</h2>
+
+    <form action="" method="post">
+        <fieldset>
+            <h2 class="d-flex" >
+                <div class="me-5" style="">Note : </div>
+                <div class="notation"> {# 0 #}
+                    <input type="radio" name="note" id="note0" value="0" class="form-check-input">
+                    <label for="note0" class="form-check-label">
+                        <i class="me-2 fa fa-book-bible"    title="0 = livre mort et enterré"></i>
+                    </label>
+                     
+                </div>
+                <div class="notation"> {# 1 #}
+                    <input type="radio" name="note" id="note1" value="1" class="form-check-input">
+                    <label for="note1" class="form-check-label">
+                        <i class="me-2 fa fa-book-skull"    title="1 = bientôt mort"></i>
+                    </label>
+                  
+                </div>
+                <div class="notation"> {# 2 #}
+                    <input type="radio" name="note" id="note2" value="2" class="form-check-input">
+                    <label for="note2" class="form-check-label">
+                        <i class="me-2 fa fa-book-skull"    title="2 = bien pour mourir d'ennui"></i>
+                    </label>
+                  
+                </div>
+                <div class="notation"> {# 3 #}
+                    <input type="radio" name="note" id="note3" value="3" class="form-check-input">
+                    <label for="note3" class="form-check-label">
+                        <i class="me-2 fa fa-book-medical"  title="3 = livre malade"></i>
+                    </label>
+                              
+                </div>
+                <div class="notation"> {# 4 #}
+                    <input type="radio" name="note" id="note4" value="4" class="form-check-input">
+                    <label for="note4" class="form-check-label">
+                        <i class="me-2 fa fa-book-medical"  title="4 = livre malade curable"></i>
+                    </label>
+                </div>                         
+                <div class="notation"> {# 5 #}
+                    <input type="radio" name="note" id="note5" value="5" class="form-check-input">
+                    <label for="note5" class="form-check-label">
+                        <i class="me-2 fa fa-book"          title="5 = bon livre"></i>
+                    </label>
+                </div>                                  
+                <div class="notation"> {# 6 #}
+                    <input type="radio" name="note" id="note6" value="6" class="form-check-input">
+                    <label for="note6" class="form-check-label">
+                        <i class="me-2 fa fa-book"          title="6 = très bon livre"></i>
+                    </label>
+                </div>                               
+                <div class="notation"> {# 7 #}
+                    <input type="radio" name="note" id="note7" value="7" class="form-check-input">
+                    <label for="note7" class="form-check-label">
+                        <i class="me-2 fa fa-book"          title="7 = excellent livre"></i>
+                    </label>
+                </div>                                
+                <div class="notation"> {# 8 #}
+                    <input type="radio" name="note" id="note8" value="8" class="form-check-input">
+                    <label for="note8" class="form-check-label">
+                        <i class="me-2 fa fa-book-bookmark" title="8 = livre marquant"></i>
+                    </label>
+                </div>          
+                <div class="notation"> {# 9 #}
+                    <input type="radio" name="note" id="note9" value="9" class="form-check-input">
+                    <label for="note9" class="form-check-label">
+                        <i class="me-2 fa fa-book-bookmark" title="9 = livre à marquer"></i>
+                    </label>
+                </div>
+                <div class="notation"> {# 10 #}
+                     <input type="radio" name="note" id="note10" value="10" class="form-check-input">
+                    <label for="note10" class="form-check-label">
+                        <i class="me-2 fa fa-book-atlas"        title= "10 = niveau best-seller mondial"></i> 
+                    </label>
+                </div>
+            </h2>
+        </fieldset>
+        
+        <fieldset class="d-flex">
+            <h2 class="me-4"><label for="commentaire" >Commentaire : </label></h2>
+            <div class="col"><textarea name="commentaire" id="commentaire" rows="10" class="form-control"></textarea></div>
+        </fieldset>
+
+        <div class="mt-5">
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-save"></i> Enregistrer ma note
+            </button>
+
+            <button type="button" class="btn btn-danger" onclick="history.back()">
+                <i class="fa fa-reply"></i> Annuler
+            </button>
+        </div>
+    </form>
 {% endblock %}

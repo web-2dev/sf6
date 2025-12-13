@@ -39,7 +39,7 @@ class LivreRepository extends ParentRepository
                     ->getQuery()->getResult();
     }
 
-   /**
+    /**
      * 💬: Livres disponibles (requêtes imbriquées)
         SELECT l.*
         FROM livre l 

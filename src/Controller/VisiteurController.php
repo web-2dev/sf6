@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Auteur;
+use App\Entity\Genre;
 use App\Entity\Livre;
+use App\Entity\Auteur;
 use App\Repository\GenreRepository;
 use App\Repository\LivreRepository;
 use App\Repository\AuteurRepository;
@@ -19,12 +20,6 @@ class VisiteurController extends AbstractController
         return $this->render('visiteur/index.html.twig', [
             'controller_name' => 'VisiteurController',
         ]);
-    }
-
-    #[Route("/genres", name:"app_visiteur_genre")]
-    public function genres(GenreRepository $genreRepository) {
-        
-        return $this->render("visiteur/genres.html.twig", [ "genres" => $genreRepository->findAll() ]); 
     }
 
     // AUTEURS
@@ -52,5 +47,19 @@ class VisiteurController extends AbstractController
         
         return $this->render("livre/fiche.html.twig", compact("livre")); 
     }
+
+    // GENRES
+    #[Route("/genres", name:"app_visiteur_genre")]
+    public function genres(GenreRepository $genreRepository) {
+        
+        return $this->render("visiteur/genres.html.twig", [ "genres" => $genreRepository->findAll() ]); 
+    }
+
+    #[Route("/genre-{libelle}/fiche", name:"app_visiteur_genre_fiche")]
+    public function genreFiche(Genre $genre): Response {
+        
+        return $this->render("genre/fiche.html.twig", compact("genre")); 
+    }
+    
 
 }

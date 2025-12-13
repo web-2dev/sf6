@@ -8,6 +8,7 @@
     <div class="row">
         <div class="col-3">
             {{ livre.couverture|img("couvertures")|raw }}
+            {# {{ chemin_couvertures ~ livre.couverture }} #}
         </div>
         <div class="col-9">
             <ul class="list-group ">
@@ -17,8 +18,7 @@
                         <span class="col-9  d-flex justify-content-between align-items-center" >
                             {{ livre.titre }}
 
-                            <!-- <span class="badge badge-primary badge-pill">{% if livre.dispo is not null %} {{ livre.dispo ? "✔" : "❌" }} {% endif %}</span> -->
-                            <span class="badge badge-primary badge-pill"> <i class="fa fa-{{ livre.dispo ? "check" : "times" }}"></i> </span>
+                            <span class="badge bg-primary text-success"> {{ livre|dispo ? "✔" : "❌" }}</span>
                         </span>
 
                     </h2>
@@ -47,30 +47,36 @@
 
                 <li class="list-group-item">
                     <h5 class="row">
-                        <strong class="col-3 text-right">Résumé</strong>
-                        <span class="col-9">{{ livre.resume }}</span>
+                        <strong class="col-3 text-right">Synopsis</strong>
+                        <span class="col-9">{{ livre.synopsis }}</span>
                     </h5>
                 </li>
 
-
                 <li class="list-group-item">
-                    <h6 class="row">
-                        <strong class="col-3 text-right">Disponible</strong>
-                        <span class="col-9">
-                            <span class="badge badge-primary badge-pill">{% if livre.dispo is not null %} {{ livre.dispo ? "✔" : "❌" }} {% endif %}</span>
-                        </span>
-                    </h6>
-                </li>
-
-                <li class="list-group-item">
-                    <h6 class="row">
+                    <h5 class="row">
                         <strong class="col-3 text-right">Popularité</strong>
                         <span class="col-9"> 
-                            <span class="badge badge-primary badge-pill">Emprunté {{ livre.emprunts|length }} fois </span>
-                            
+                            <span class="badge bg-primary text-dark">Emprunté {{ livre.emprunts|length }} fois </span>
                         </span>
+                    </h5>
+                </li>
+
+                <li class="list-group-item">
+                    <h6 class="row">
+                        <strong class="col-3 text-right">Critiques</strong>
+                        <div class="col-9">
+                            {% for critique in livre.critiques %}
+                                <div class="d-flex">
+                                    <span class="col-3">{{ critique.abonne.pseudo }} </span>
+                                    <span class="col-2"> {{ critique.note }} <i class="fa fa-book"></i> / 10 </span>
+                                    <span class="col-7"> {{ critique.commentaire }} </span>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </h6>
                 </li>
+
+
             </ul> 
         </div>
     </div>
@@ -79,7 +85,7 @@
     <a href="{{ path("app_home") }}" class="btn btn-primary mt-5"><i class="fa fa-home"> Retour</i></a>
 
     {% if is_granted("ROLE_LECTEUR") %}
-        <a href="{{ "" }}" class="btn btn-success mt-5">Emprunter</a>
+        <a href="{{ "" }}" class="btn btn-success mt-5 disabled">Emprunter</a>
     {% endif %}
 
 

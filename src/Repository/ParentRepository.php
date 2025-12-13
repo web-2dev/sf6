@@ -11,8 +11,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 abstract class ParentRepository extends ServiceEntityRepository
 {
-    /**
-     * Renvoie le nombre d'enregistrement de la table
+    /** Renvoie le nombre d'enregistrement de la table
+     * 
      * @return int
      */
     public function nb() : int {
@@ -22,8 +22,8 @@ abstract class ParentRepository extends ServiceEntityRepository
         return $requestResult ? $requestResult["nb"] : 0;
     }
 
-    /**
-     * La méthode findAll de la classe Doctrine\ORM\EntityRepository appelle $this->findBy([])
+    /** La méthode findAll
+     *  de la classe Doctrine\ORM\EntityRepository appelle $this->findBy([])
      * et donc ne peut pas être triée. On la redéfinie (= surcharge) dans la classe dont tous 
      * les Repositories vont hériter : 
      *
@@ -56,8 +56,8 @@ abstract class ParentRepository extends ServiceEntityRepository
         return $requestResult->getQuery()->getResult();
     }
 
-    /**
-     * Le nom de la BDD actuellement utilisée
+    /** Le nom de la BDD actuellement utilisée
+     * 
      */
     public function dbName(){
         return $this->getEntityManager()->getConnection()->getDatabase();
@@ -87,7 +87,46 @@ abstract class ParentRepository extends ServiceEntityRepository
                     ->setParameter("search", "%$search%")
                     ->getQuery()->getResult();
     }
+    /* 
+    TODO
+        public function save(DedEntite $entity, bool $flush = false): void
+        {
+            $auj = new DateTime();
+            /** @var \App\Entity\User $entity * /
+            if( $entity->getId() ) {
+                $entity->setModification( $auj );
+            } else {
+                $entity->setCreation( $auj );
+            }
+            $this->getEntityManager()->persist($entity);
 
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }
 
+        public function remove(DedEntite $entity, bool $flush = false): void
+        {
+            $this->getEntityManager()->remove($entity);
+
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }
+
+        public function flush() {
+            $this->getEntityManager()->flush();
+        }
+
+        public function enregistre(DedEntite $entite)
+        {
+            $this->save($entite, true);
+        }
+
+        public function supprime(DedEntite $entite)
+        {
+            $this->remove($entite, true);
+        }
+    */
 
 }

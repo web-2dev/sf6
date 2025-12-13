@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Critique;
 use App\Entity\Livre;
+use App\Repository\CritiqueRepository;
 use App\Repository\LivreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -21,12 +24,23 @@ class LecteurController extends AbstractController
     }
 
     #[Route("/lecteur/emettre-une-critique-sur-le-livre-{id}", name:"app_lecteur_critique", methods:["GET", "POST"])]
-    public function critique(Livre $livre, LivreRepository $lr): Response {
-        if( $lr->aDejaEmprunte(abonne: $this->getUser(), livre: $livre) ) {
-            return $this->render("lecteur/critique.html.twig", [ "livre" => $livre ]); 
-
-        } else 
+    public function critique(Request $request, Livre $livre, LivreRepository $lr, CritiqueRepository $cr): Response {
+        if( !$lr->aDejaEmprunte(abonne: $this->getUser(), livre: $livre) ) {
             throw $this->createAccessDeniedException("Vous n'avez jamais emprunté ce livre");
+        }  
+
+        if( $request->isMethod("POST") ) {
+            $critique = new Critique;
+            $critique->setAbonne( $this->getUser() );
+            $critique->setLivre( $livre );
+            $critique->setNote( $request->request->get("note"));
+            $critique->setCommentaire( $request->request->get("commentaire"));
+            $cr->save( $critique );
+            $this->addFlash("success", "Votre critique du livre ⪻{$livre->getTitre()}⪼ est enregistrée");
+            return $this->redirectToRoute("app_home");
+        }
+
+        return $this->render("lecteur/critique.html.twig", [ "livre" => $livre ]); 
 
     }
 
