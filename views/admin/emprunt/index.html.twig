@@ -9,9 +9,11 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Abonné</th>
+                <th>Livre</th>
                 <th>DateEmprunt</th>
-                <th>DateRetour</th>
                 <th>DatePrevue</th>
+                <th>DateRetour</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -19,9 +21,11 @@
         {% for emprunt in emprunts %}
             <tr>
                 <td>{{ emprunt.id }}</td>
-                <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('Y-m-d') : '' }}</td>
-                <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date('Y-m-d') : '' }}</td>
-                <td>{{ emprunt.datePrevue ? emprunt.datePrevue|date('Y-m-d') : '' }}</td>
+                <td>{{ emprunt.abonne.pseudo }} </td>
+                <td>{{ emprunt.livre.titreauteur }} </td>
+                <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date : '' }}</td>
+                <td>{{ emprunt.datePrevue ? emprunt.datePrevue|date : '' }}</td>
+                <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date : '' }}</td>
                 <td>
                     <a href="{{ path('app_admin_emprunt_show', {'id': emprunt.id}) }}">show</a>
                     <a href="{{ path('app_admin_emprunt_edit', {'id': emprunt.id}) }}">edit</a>
