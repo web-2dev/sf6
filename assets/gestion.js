@@ -5,6 +5,7 @@
  * */
 import "./app.js";
 
+console.log('%c gestion.js', 'background: #222; color: #bada55');
 
 /* 
 💬 COURS                                                                
@@ -34,8 +35,6 @@ let dataSrcUploadedImage = (inputElement, imgElement) => {  // version narrow fu
 
 /* Comme jQuery a été intégré, on utilise l'évènement ready de jQuery pour ajouter le code JS */
 $(function(){
-    console.log('%c gestion.js ', 'background: #222; color: #bada55');
-
     // $('[data-toggle="popover"]').popover();
     // tables
     $("table").addClass("table");
