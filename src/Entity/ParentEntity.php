@@ -24,4 +24,10 @@ class ParentEntity
         return $className;
     }  
     
+    public function table() {
+        $className = get_called_class();                            // $className = "App\Entity\Livre"
+        $className = str_replace("App\Entity\\", "", $className);   // $className = "Livre"
+        $className = strtolower($className);                        // $className = "livre"
+        return $className;
+    }
 }

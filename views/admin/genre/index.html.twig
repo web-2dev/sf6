@@ -1,37 +1,22 @@
-{% extends 'admin/base.html.twig' %}
+{% extends '_communs/admin/crud/liste.html.twig' %}
 
-{% block title %}Genre index{% endblock %}
+{% set titreH1 = "genres" %}
+{% set colonnes = ["Libellé", "Mots-clés"] %}
+{% set table = "genre" %}
 
-{% block body %}
-    <h1>Genre index</h1>
+{% block tbody_list %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Libelle</th>
-                <th>MotsCles</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for genre in genres %}
-            <tr>
-                <td>{{ genre.id }}</td>
-                <td>{{ genre.libelle }}</td>
-                <td>{{ genre.motsCles }}</td>
-                <td>
-                    <a href="{{ path('app_admin_genre_show', {'id': genre.id}) }}">show</a>
-                    <a href="{{ path('app_admin_genre_edit', {'id': genre.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% for entite in genres %}
+        <tr>
+            <td>{{ entite.id }}</td>
+            <td>{{ entite.libelle }}</td>
+            <td>{{ entite.motsCles }}</td>
+            <td>{{ include("_communs/admin/crud/case_actions.html.twig") }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">Liste actuellement vide</td>
+        </tr>
+    {% endfor %}
 
-    <a href="{{ path('app_admin_genre_new') }}">Create new</a>
-{% endblock %}
+    {% endblock %}

@@ -1,37 +1,25 @@
-{% extends 'base.html.twig' %}
+{% extends '_communs/admin/crud/liste.html.twig' %}
 
-{% block title %}Critique index{% endblock %}
+{% set titreH1 = "critiques" %}
+{% set colonnes = ["Lecteur", "Livre", "Note", "Commentaire"] %}
+{% set table = "critique" %}
+                
 
-{% block body %}
-    <h1>Critique index</h1>
+{% block tbody_list %}
 
-    <table class="table">
-        <thead>
+        {% for entite in critiques %}
             <tr>
-                <th>Id</th>
-                <th>Note</th>
-                <th>Commentaire</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for critique in critiques %}
-            <tr>
-                <td>{{ critique.id }}</td>
-                <td>{{ critique.note }}</td>
-                <td>{{ critique.commentaire }}</td>
-                <td>
-                    <a href="{{ path('app_admin_critique_show', {'id': critique.id}) }}">show</a>
-                    <a href="{{ path('app_admin_critique_edit', {'id': critique.id}) }}">edit</a>
-                </td>
+                <td>{{ entite.id }}</td>
+                <td>{{ entite.abonne.pseudo }}</td>
+                <td>{{ entite.livre.titreAuteur }}</td>
+                <td>{{ entite.note }}</td>
+                <td>{{ entite.commentaire }}</td>
+                <td>{{ include("_communs/admin/crud/case_actions.html.twig") }}</td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Liste actuellement vide</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_admin_critique_new') }}">Create new</a>
-{% endblock %}
+    {% endblock %}

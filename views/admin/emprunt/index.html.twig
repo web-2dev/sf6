@@ -1,43 +1,24 @@
-{% extends 'admin/base.html.twig' %}
+{% extends '_communs/admin/crud/liste.html.twig' %}
 
-{% block title %}Emprunt index{% endblock %}
+{% set titreH1 = "emprunts" %}
+{% set colonnes = ["Abonné", "Livre", "Emprunt", "Retour", "Prévue"] %}
+{% set table = "emprunt" %}
 
-{% block body %}
-    <h1>Emprunt index</h1>
-
-    <table class="table">
-        <thead>
+{% block tbody_list %}
+        {% for entite in emprunts %}
             <tr>
-                <th>Id</th>
-                <th>Abonné</th>
-                <th>Livre</th>
-                <th>DateEmprunt</th>
-                <th>DatePrevue</th>
-                <th>DateRetour</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for emprunt in emprunts %}
-            <tr>
-                <td>{{ emprunt.id }}</td>
-                <td>{{ emprunt.abonne.pseudo }} </td>
-                <td>{{ emprunt.livre.titreauteur }} </td>
-                <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date : '' }}</td>
-                <td>{{ emprunt.datePrevue ? emprunt.datePrevue|date : '' }}</td>
-                <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date : '' }}</td>
-                <td>
-                    <a href="{{ path('app_admin_emprunt_show', {'id': emprunt.id}) }}">show</a>
-                    <a href="{{ path('app_admin_emprunt_edit', {'id': emprunt.id}) }}">edit</a>
-                </td>
+                <td>{{ entite.id }}</td>
+                <td>{{ entite.abonne.pseudo }} </td>
+                <td>{{ entite.livre.titreauteur }} </td>
+                <td>{{ entite.dateEmprunt|date }}</td>
+                <td>{{ entite.dateRetour ? entite.dateRetour|date : '' }}</td>
+                <td>{{ entite.datePrevue ? entite.datePrevue|date : '' }}</td>
+                <td>{{ include("_communs/admin/crud/case_actions.html.twig") }}</td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Liste actuellement vide</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_admin_emprunt_new') }}">Create new</a>
-{% endblock %}
+    {% endblock %}

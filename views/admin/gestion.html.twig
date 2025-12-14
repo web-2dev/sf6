@@ -1,12 +1,10 @@
 {% extends 'admin/base.html.twig' %}
 {% set plusAncien = livres.plusAncienEmprunt %}
 {% set retard = plusAncien ? date(plusAncien.dateEmprunt).diff(date("now")) : null %}
-{% block title %}
-    Gestion 
-{% endblock %}
-{% block titre %}
-    Gestion de la bibliothèque
-{% endblock %}
+
+{% block title %} Gestion {% endblock %}
+{% block titre %}Gestion de la bibliothèque{% endblock %}
+
 {% block body %}
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         {# card Abonnés #}

@@ -1,0 +1,26 @@
+{% extends "admin/base.html.twig" %}
+
+{% block titre %}Liste des {{ titreH1 }}
+    <a href="{{ path('app_admin_' ~ table ~'_new') }}" class=" btn-primary">
+        <i class="fa fa-square-plus"></i>
+    </a>
+{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <thead class="table-warning">
+            <tr>
+                <th><i class="fa fa-key"></i></th>
+                {% for colonne in colonnes %}
+                    <th>{{colonne}}</th>
+                {% endfor %}
+                <th><i class="fa fa-screwdriver-wrench"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% block tbody_list %}{% endblock %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
