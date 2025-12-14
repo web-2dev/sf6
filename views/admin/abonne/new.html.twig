@@ -1,11 +1,4 @@
-{% extends 'admin/base.html.twig' %}
+{% extends '_communs/admin/crud/formulaire.html.twig' %}
 
-{% block title %}New Abonne{% endblock %}
+{% block titre %}Créer un abonné{% endblock %}
 
-{% block body %}
-    <h1>Create new Abonne</h1>
-
-    {{ include('admin/abonne/_form.html.twig') }}
-
-    <a href="{{ path('app_admin_abonne_index') }}">back to list</a>
-{% endblock %}

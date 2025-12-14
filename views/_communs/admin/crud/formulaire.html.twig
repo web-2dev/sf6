@@ -1,0 +1,25 @@
+{# 
+• titreH1       :   'Formulaire' (par défaut)
+• form          :   passé par route CRUD
+• button_label  :   'Enregistrer' (par défaut)
+• entite        :   
+#}
+
+{% extends "admin/base.html.twig" %}
+
+{% set entite = form.vars.data %}
+
+{% block titre %}Formulaire{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        {% block formulaire %}
+            {{ form_widget(form) }}
+        {% endblock %}
+        <div class="mt-4">
+            <button class="btn btn-primary"><i class="fa fa-save"></i>  {{ button_label|default('Enregistrer') }}</button>
+            <a class="btn btn-danger" href="{{ path ('app_admin_' ~ entite.table ~ '_index') }}"><i class="fa fa-reply"></i> Annuler </button>
+        </div>
+    {{ form_end(form) }}
+
+{% endblock %}

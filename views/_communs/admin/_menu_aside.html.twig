@@ -36,23 +36,13 @@
 				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "livre"	}) }}
 				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "auteur"}) }}
 				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "emprunt"}) }}
+				{{ include ("_communs/admin/_element_accordeon.html.twig", {entite: "critique"}) }}
 			</div>
-
-
-			{# <li class="nav-item {{ app.request.pathinfo == path("app_gestion") ? " active" : " " }}">
-				<a class="nav-link" href="{{ path("app_gestion") }}">GESTION</a>
-			   </li> #}
-			   
-			{# {{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "abonne", libelle: "Abonnés" }) }}
-			{{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "genre"	}) }}
-			{{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "livre"	}) }}
-			{{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "auteur"}) }}
-			{{ include ("_communs/admin/_lien_deroulant.html.twig", {entite: "emprunt"}) }} #}
 
 			<li class="nav-item">
 				<a class="nav-link"></a>
 			</li>
-			<li class="nav-item">
+			<li class="nav-item ps-2">
 				<a class="nav-link" href="{{ path("app_logout") }}">
 					<i class="fa fa-sign-out-alt"></i>
 					Déconnexion
