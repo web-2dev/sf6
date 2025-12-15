@@ -1,11 +1,5 @@
-{% extends 'admin/base.html.twig' %}
+{% extends '_communs/admin/crud/formulaire.html.twig' %}
 
-{% block title %}New Livre{% endblock %}
+{% block titre %}Ajouter un Livre{% endblock %}
 
-{% block body %}
-    <h1>Create new Livre</h1>
 
-    {{ include('admin/livre/_form.html.twig') }}
-
-    <a href="{{ path('app_admin_livre_index') }}">back to list</a>
-{% endblock %}

@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Livre;
-use App\Form\Livre1Type;
+use App\Form\LivreType;
 use App\Repository\LivreRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ final class LivreController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $livre = new Livre();
-        $form = $this->createForm(Livre1Type::class, $livre);
+        $form = $this->createForm(LivreType::class, $livre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -53,7 +53,7 @@ final class LivreController extends AbstractController
     #[Route('/{id}/edit', name: 'app_admin_livre_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(Livre1Type::class, $livre);
+        $form = $this->createForm(LivreType::class, $livre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

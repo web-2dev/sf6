@@ -1,7 +1,7 @@
 {% extends '_communs/admin/crud/liste.html.twig' %}
 
 {% set titreH1 = "livres" %}
-{% set colonnes = ["Titre", "Couverture", "Url", "Avis"] %}
+{% set colonnes = ["Titre", "Couverture", "Genres", "Avis"] %}
 {% set table = "livre" %}
 
 {% block tbody_list %}
@@ -11,7 +11,7 @@
             <td>{{ entite.id }}</td>
             <td>{{ entite.titre }}</td>
             <td>{{ entite.couverture }}</td>
-            <td>{{ entite.url }}</td>
+            <td>{{ entite.genres|join(', ') }}</td>
             <th>{{ entite.critiques|length }}</th>
             <td>{{ include("_communs/admin/crud/case_actions.html.twig") }}</td>
         </tr>

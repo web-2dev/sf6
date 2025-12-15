@@ -14,13 +14,14 @@ class GenreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('libelle')
-            ->add('motsCles')
-            ->add('livres', EntityType::class, [
-                'class' => Livre::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
+            ->add('libelle', null, [ "label" => "Libellé" ])
+            ->add('motsCles', null, [ "label" => "Mots-clés", "help" => "Mots clés liés au genre (pour faciliter la recherche)."])
+            // ->add('livres', EntityType::class, [
+            //     'class'         => Livre::class,
+            //     'choice_label'  => 'titreauteur',
+            //     'multiple'      => true,
+            //     "required"      =>  false
+            // ])
         ;
     }
 

@@ -1,11 +1,5 @@
-{% extends 'base.html.twig' %}
+{% extends '_communs/admin/crud/formulaire.html.twig' %}
 
-{% block title %}New Critique{% endblock %}
+{% block titre %}Ajouter une critique{% endblock %}
 
-{% block body %}
-    <h1>Create new Critique</h1>
 
-    {{ include('admin/critique/_form.html.twig') }}
-
-    <a href="{{ path('app_admin_critique_index') }}">back to list</a>
-{% endblock %}

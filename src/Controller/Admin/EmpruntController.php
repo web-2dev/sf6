@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Emprunt;
-use App\Form\Emprunt1Type;
+use App\Form\EmpruntType;
 use App\Repository\EmpruntRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ final class EmpruntController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $emprunt = new Emprunt();
-        $form = $this->createForm(Emprunt1Type::class, $emprunt);
+        $form = $this->createForm(EmpruntType::class, $emprunt);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -53,7 +53,7 @@ final class EmpruntController extends AbstractController
     #[Route('/{id}/edit', name: 'app_admin_emprunt_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Emprunt $emprunt, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(Emprunt1Type::class, $emprunt);
+        $form = $this->createForm(EmpruntType::class, $emprunt);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

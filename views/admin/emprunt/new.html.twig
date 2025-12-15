@@ -1,11 +1,3 @@
-{% extends 'admin/base.html.twig' %}
+{% extends '_communs/admin/crud/formulaire.html.twig' %}
 
-{% block title %}New Emprunt{% endblock %}
-
-{% block body %}
-    <h1>Create new Emprunt</h1>
-
-    {{ include('admin/emprunt/_form.html.twig') }}
-
-    <a href="{{ path('app_admin_emprunt_index') }}">back to list</a>
-{% endblock %}
+{% block titre %}Ajouter un emprunt{% endblock %}

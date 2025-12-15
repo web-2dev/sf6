@@ -1,8 +1,9 @@
 {% extends '_communs/admin/crud/liste.html.twig' %}
 
-{% set titreH1 = auteurs %}
+{% set titreH1 = "auteurs" %}
 {% set colonnes = [ "Nom", "Biographie", "Naissance", "Décès" ] %}
 {% set table = "auteur" %}
+
 
 {% block tbody_list %}
         {% for entite in auteurs %}

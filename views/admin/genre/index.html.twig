@@ -1,7 +1,7 @@
 {% extends '_communs/admin/crud/liste.html.twig' %}
 
 {% set titreH1 = "genres" %}
-{% set colonnes = ["Libellé", "Mots-clés"] %}
+{% set colonnes = ["Libellé", "Mots-clés", "Livres"] %}
 {% set table = "genre" %}
 
 {% block tbody_list %}
@@ -11,6 +11,7 @@
             <td>{{ entite.id }}</td>
             <td>{{ entite.libelle }}</td>
             <td>{{ entite.motsCles }}</td>
+            <th>{{ entite.livres|length }}</th>
             <td>{{ include("_communs/admin/crud/case_actions.html.twig") }}</td>
         </tr>
     {% else %}
