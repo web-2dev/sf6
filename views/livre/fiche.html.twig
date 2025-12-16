@@ -7,7 +7,7 @@
 {% block body %}
     <div class="row">
         <div class="col-3">
-            {{ livre.couverture|img("couvertures")|raw }}
+            {{ livre.couverture|img("couvertures", "adapt")|raw }}
             {# {{ chemin_couvertures ~ livre.couverture }} #}
         </div>
         <div class="col-9">
@@ -65,7 +65,20 @@
                     <h6 class="row">
                         <strong class="col-3 text-right">Critiques</strong>
                         <div class="col-9">
+                            {% if livre is livreDejaEmprunte %}
+                                {% if livre is not livreDejaCommente %}
+                                    <a href="{{ path("app_lecteur_critique", {"id": livre.id}) }}" class="btn btn-warning">
+                                        <i class="fa fa-star"></i> Noter / Commenter
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                <a href="" class="btn btn-warning disabled" title="⚠ Il faut déjà avoir emprunté le livre">
+                                    <i class="fa fa-star"></i> Noter / Commenter
+                                </a>
+                            {% endif %}                         
+                                
                             {% for critique in livre.critiques %}
+                                <hr>
                                 <div class="d-flex">
                                     <span class="col-3">{{ critique.abonne.pseudo }} </span>
                                     <span class="col-2"> {{ critique.note }} <i class="fa fa-book"></i> / 10 </span>
@@ -84,8 +97,12 @@
 
     <a href="{{ path("app_home") }}" class="btn btn-primary mt-5"><i class="fa fa-home"> Retour</i></a>
 
+    {% if is_granted("ROLE_BIBLIO") %}
+        <a href="{{ "" }}" class="btn btn-success mt-5 disabled"><i class="fa fa-cart"></i> Enregistrer un emprunt</a>
+    {% endif %}
+
     {% if is_granted("ROLE_LECTEUR") %}
-        <a href="{{ "" }}" class="btn btn-success mt-5 disabled">Emprunter</a>
+        <a href="{{ "" }}" class="btn btn-success mt-5 disabled"><i class="fa fa-shopping-cart"></i> Réserver</a>
     {% endif %}
 
 

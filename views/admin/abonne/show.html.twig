@@ -1,14 +1,14 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block title %}Abonne{% endblock %}
+{% block titre %}Résumé Utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Abonne</h1>
 
-    <table class="table">
+    <table class="table table-bordered">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th class="col-1">Id</th>
                 <td>{{ abonne.id }}</td>
             </tr>
             <tr>
@@ -16,29 +16,56 @@
                 <td>{{ abonne.pseudo }}</td>
             </tr>
             <tr>
-                <th>Roles</th>
-                <td>{{ abonne.roles ? abonne.roles|json_encode : '' }}</td>
+                <th>Autorisations</th>
+                <td>{{ abonne|autorisations }}</td>
             </tr>
             <tr>
-                <th>Password</th>
-                <td>{{ abonne.password }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ abonne.prenom }}</td>
+                <th>Mot de passe</th>
+                <td>{{ abonne.password ? "*****" : "⚠" }}</td>
             </tr>
             <tr>
                 <th>Nom</th>
-                <td>{{ abonne.nom }}</td>
+                <td>{{ abonne.prenom }} {{ abonne.nom }}</td>
             </tr>
             <tr>
                 <th>Adresse</th>
-                <td>{{ abonne.adresse }}</td>
+                <td>{{ abonne.adresse ?: "-" }}</td>
             </tr>
             <tr>
                 <th>Naissance</th>
-                <td>{{ abonne.naissance ? abonne.naissance|date('Y-m-d') : '' }}</td>
+                <td>{{ abonne.naissance ? abonne.naissance|date ~ " (" ~ abonne.naissance|age ~ " ans)"  : '-' }}</td>
             </tr>
+
+            <tr>
+                <th>Emprunts</th>
+                <td>
+                    <table class="table">
+                        <thead class="table-info">
+                            <tr>
+                                <th>Livre</th>
+                                <th>Emprunt</th>
+                                <th>Retour</th>
+                                <th>Retards</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for emprunt in abonne.emprunts %}                            
+                                <tr>
+                                    <td>{{ emprunt.livre.titreauteur }} </td>
+                                    <td>{{ emprunt.dateEmprunt|date }}</td>
+                                    <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date : '' }}</td>
+                                    <td>{# TODO fonction retard #}  {{ emprunt.datePrevue ? emprunt.datePrevue|date : '' }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5">Aucun emprunt enregistré pour cet abonné</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>            
+                </td>
+            </tr>
+            
         </tbody>
     </table>
 

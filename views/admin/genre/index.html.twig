@@ -11,7 +11,7 @@
             <td>{{ entite.id }}</td>
             <td>{{ entite.libelle }}</td>
             <td>{{ entite.motsCles }}</td>
-            <th>{{ entite.livres|length }}</th>
+            <th class="text-center">{{ entite.livres|length }}</th>
             <td>{{ include("_communs/admin/crud/case_actions.html.twig") }}</td>
         </tr>
     {% else %}

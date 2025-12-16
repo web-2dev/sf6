@@ -1,7 +1,7 @@
 {% extends '_communs/admin/crud/liste.html.twig' %}
 
 {% set titreH1 = "usagers" %}
-{% set colonnes = ["Rôles", "Pseudo", "Nom", "Date de naissance", "Avis"] %}
+{% set colonnes = ["Rôles", "Pseudo", "Nom", "Âge", "Emprunts", "Avis" ] %}
 {% set table = "abonne" %}
 
 
@@ -9,11 +9,12 @@
     {% for abonne in abonnes %}
         <tr>
             <td>{{ abonne.id }}</td>
-            <td>{{ abonne|autorisations }}</td>
+            <td class="col-1" >{{ abonne|autorisations }}</td>
             <td>{{ abonne.pseudo }}</td>
             <td>{{ abonne.identite }}</td>
-            <td>{{ abonne.naissance ? abonne.naissance|date() : '' }}</td>
-            <td>{{ abonne.critiques|length }} </td>
+            <td class="col-1">{{ abonne.naissance ? abonne.naissance|age : '' }}</td>
+            <td class="text-center">{{ abonne.emprunts|length ?: "-" }} </td>
+            <td class="text-center">{{ abonne.critiques|length ?: "-" }} </td>
             <td>
                 {{ include("_communs/admin/crud/case_actions.html.twig", {entite: abonne}) }}
             </td>

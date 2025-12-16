@@ -111,8 +111,6 @@ class LivreRepository extends ParentRepository
         WHERE livre.id = 260;
      * 
     */
-
-
     public function aDejaEmprunte(Abonne $abonne, Livre $livre) {
         {
             $dql = "
@@ -132,9 +130,29 @@ class LivreRepository extends ParentRepository
         
                 return (int)$count > 0;
         }
-        
-
     }
+
+    public function aDejaCommente(Abonne $abonne, Livre $livre) {
+        {
+            $dql = "
+                SELECT COUNT(c.id)
+                FROM App\Entity\Critique c
+                JOIN c.livre l
+                JOIN c.abonne a
+                WHERE l.id = :livreId
+                AND a.id = :abonneId
+            ";
+        
+            $count = $this->getEntityManager()
+                ->createQuery($dql)
+                ->setParameter('livreId', $livre->getId())
+                ->setParameter('abonneId', $abonne->getId())
+                ->getSingleScalarResult();
+                return (int)$count;
+        }
+    }
+
+
 
     /**
       * 💬 COURS  

@@ -2,17 +2,15 @@
 
 namespace App\Twig;
 
-use App\Entity\Abonne;
-use Twig\TwigTest;
-use Twig\TwigFilter;
-use App\Entity\Livre;
+use Twig\TwigTest, Twig\TwigFilter, Twig\TwigFunction, Twig\ExpressionParser;
+use App\Entity\Abonne, App\Entity\Livre;
 use App\Repository\LivreRepository;
+use DateTime, DateTimeInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Twig\TwigFunction;
+use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Extension\AbstractExtension;
 use Twig\Node\Expression\Unary as OpérateurUnaire;
 use Twig\Node\Expression\Binary as OpérateurBinaire;
-use Twig\ExpressionParser;
 
 class Functions extends AbstractExtension {
     /**
@@ -23,12 +21,80 @@ class Functions extends AbstractExtension {
      */
     private $livreRepo;
     private $parametres;
+    private $securite;
 
-    public function __construct(LivreRepository $livreRepo, ParameterBagInterface $parameterBag) {
+    public function __construct(LivreRepository $livreRepo, ParameterBagInterface $parameterBag, Security $security) {
         $this->livreRepo = $livreRepo;
         $this->parametres = $parameterBag;
+        $this->securite = $security;
     }
 
+    //? ╔══════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    //? ║                                         FONCTIONS AJOUTÉES À TWIG                                        ║
+    //? ╚══════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    /**
+     * 💬 COURS                                                                                         
+     * Les filtres que l'on veut ajouter doivent être renvoyés dans un array par la fonction getFilters
+     * Chaque valeur de cet array est un objet de la classe TwigFilter
+     * Les arguments du constructeur de TwigFilter :
+     * •     1er : le nom du filtre à utiliser dans les fichiers Twig
+     * •     2eme : la fonction (callable) qui est déclaré dans cette classe 
+     *                  [ $this, nom_de_la_fonction_dans_la_classe ]
+
+     * Je référence le nouveau filtre grâce à la méthode getFilters()
+     * Si je veux ajouter une fonction, j'utilise la méthode getFunctions() et
+     * pour ajouter un test, getTests()
+     */
+    public function getFilters() {
+        return [ 
+            new TwigFilter("autorisations", [$this, "autorisations"]),
+            new TwigFilter("img", [$this, "baliseImg"]),
+            new TwigFilter("extrait", [$this, "résumé"]),
+            new TwigFilter("dispo", [$this, "livreDisponible"]),
+            new TwigFilter("isDejaEmprunte", [$this, "dejaEmprunte"]),
+            new TwigFilter("isLivreDejaEmprunte", [$this, "livreDejaEmprunte"]),
+            new TwigFilter("age", [$this, "age"]),
+        ]; }
+
+    public function getFunctions() {
+        return [
+            new TwigFunction('balise_image', [$this, 'baliseImg']),
+            new TwigFunction('exit', [$this, 'exit']),
+        ]; }
+
+    public function getTests() {
+        return [
+            new TwigTest("number", [$this, "estNumerique"]),
+            new TwigTest("dispo", [$this, "livreDisponible"]),
+            new TwigTest("dejaEmprunte", [$this, "dejaEmprunte"]),
+            new TwigTest("livreDejaEmprunte", [$this, "livreDejaEmprunte"]),
+            new TwigTest("livreDejaCommente", [$this, "livreDejaCommente"]),
+        ];}
+
+    // 💬 Ajouter des variables globales Twig   
+    public function getGlobals(){
+        return [ 
+            "globale"           => "c'est une variable globale",
+            "titrePrincipal"    => "Bienvenue à l'e-bliothèque" 
+        ]; }
+
+    public function getOperators()
+    {
+        return [
+            [
+                '!' => ['precedence' => 50, 'class' => OpérateurUnaire\NotUnary::class],
+            ],
+            [
+                '||' => ['precedence' => 10, 'class' => OpérateurBinaire\OrBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT],
+                '&&' => ['precedence' => 15, 'class' => OpérateurBinaire\AndBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT],
+            ],
+        ];
+    }    
+
+
+    //! ╔══════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    //! ║                                                 FONCTIONS                                                ║
+    //! ╚══════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     function livreDisponible(Livre $l): bool {
         return in_array($l, $this->livreRepo->livresDisponibles());
     }
@@ -121,68 +187,22 @@ class Functions extends AbstractExtension {
         return $this->livreRepo->aDejaEmprunte($abonne, $livre);
     }
 
-    /**
-     * 💬 COURS 
-     * Les filtres que l'on veut ajouter doivent être renvoyés dans un array par la fonction getFilters
-     * Chaque valeur de cet array est un objet de la classe TwigFilter
-     * Les arguments du constructeur de TwigFilter :
-     * •     1er : le nom du filtre à utiliser dans les fichiers Twig
-     * •     2eme : la fonction (callable) qui est déclaré dans cette classe 
-     *                  [ $this, nom_de_la_fonction_dans_la_classe ]
-
-     * Je référence le nouveau filtre grâce à la méthode getFilters()
-     * Si je veux ajouter une fonction, j'utilise la méthode getFunctions() et
-     * pour ajouter un test, getTests()
-     */
-    public function getFilters()
-    {
-        return [ 
-            new TwigFilter("autorisations", [$this, "autorisations"]),
-            new TwigFilter("img", [$this, "baliseImg"]),
-            new TwigFilter("extrait", [$this, "résumé"]),
-            new TwigFilter("dispo", [$this, "livreDisponible"]),
-            new TwigFilter("isEmprunte", [$this, "dejaEmprunte"])
-        ];
+    public function livreDejaEmprunte(Livre $livre): bool {
+        if( $user = $this->securite->getUser() )
+            return $this->livreRepo->aDejaEmprunte($user, $livre);
+        throw new \Exception("Aucun utilisateur connecté", 1);
+        
     }
 
-    public function getFunctions()
-    {
-        return [
-            new TwigFunction('balise_image', [$this, 'baliseImg']),
-            new TwigFunction('exit', [$this, 'exit']),
-        ];
+    public function livreDejaCommente(Livre $livre): bool {
+        if( $user = $this->securite->getUser() )
+            return $this->livreRepo->aDejaCommente($user, $livre);
+        throw new \Exception("Aucun utilisateur connecté", 1);
+        
     }
 
-    public function getTests()
-    {
-        return [
-            new TwigTest("number", [$this, "estNumerique"]),
-            new TwigTest("dispo", [$this, "livreDisponible"]),
-            new TwigTest("dejaEmprunte", [$this, "dejaEmprunte"])
-        ];
+    public function age(DateTimeInterface $naissance): int {
+        $auj = new DateTime();
+        return $auj->format("Y") - $naissance->format("Y");
     }
-
-    /**
-     * 💬 Ajouter des variables globales Twig   
-     */
-    public function getGlobals(){
-        return [ 
-            "globale"           => "c'est une variable globale",
-            "titrePrincipal"    => "Bienvenue à l'e-bliothèque" 
-        ];
-    }
-
-    public function getOperators()
-    {
-        return [
-            [
-                '!' => ['precedence' => 50, 'class' => OpérateurUnaire\NotUnary::class],
-            ],
-            [
-                '||' => ['precedence' => 10, 'class' => OpérateurBinaire\OrBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT],
-                '&&' => ['precedence' => 15, 'class' => OpérateurBinaire\AndBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT],
-            ],
-        ];
-    }    
-
 }

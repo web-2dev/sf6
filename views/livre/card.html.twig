@@ -23,11 +23,11 @@
             <a href="{{ path("app_visiteur_livre_fiche", {id: livre.id}) }}" class="card-link"> 
                 <i class="fa fa-book"></i> Voir plus 
             </a>
-            {% if is_granted("ROLE_LECTEUR") and livre is dejaEmprunte(app.user) %}        
+            {% if is_granted("ROLE_LECTEUR") and livre is livreDejaEmprunte and livre is not livreDejaCommente %}        
                 <a href="{{ path("app_lecteur_critique", {"id": livre.id}) }}" class="card-link">
                     <i class="fa fa-star"></i> Noter
                 </a>
-            {% endif %}            
+            {% endif %}
             {# 
             {% if is_granted("ROLE_LECTEUR") and livre.dispo %}        
                 <a href="{{ path("app_espace_reserver", {"id": livre.id}) }}" class="card-link">

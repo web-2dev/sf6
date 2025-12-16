@@ -7,7 +7,17 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * ⚠ la classe doit être abstraite pour empêcher l'instanciation par Symfony qui essaye de relier le repository à une entité 
- * 
+ * Méthodes : 
+ *  • nb        :  nombre d'enregistrement de la table
+ *  • dbName    : nom de la BDD actuellement utilisée
+ *  • findAll                               : peut trier le résultat
+ *  • findAllPaginate(page, nb, tri)        : permet gérer auto la pagination
+ *  • findByPaginate(filtre, page, nb, tri) : permet gérer auto la pagination
+ *  • save      : enregistrer une entité en BD
+ *  • remove    : supprimer une entité de la BDD 
+ *  • search    : recherche champ LIKE valeur 
+ *  • 
+ *  • 
  */
 abstract class ParentRepository extends ServiceEntityRepository
 {
