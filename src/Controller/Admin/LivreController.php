@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Dev\ParentController;
 use App\Entity\Livre;
 use App\Form\LivreType;
 use App\Repository\LivreRepository;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/livre')]
-final class LivreController extends AbstractController
+final class LivreController extends ParentController
 {
     #[Route(name: 'app_admin_livre_index', methods: ['GET'])]
     public function index(LivreRepository $livreRepository): Response
@@ -30,9 +31,30 @@ final class LivreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $titrePropre = $this->slugger->slug(strtolower($livre->getTitre()));
+            $livre->setUrl( $titrePropre );
+
+            if( $fichier = $form->get("couverture")->getData() ){ // pour récupérer les informations du fichier uploadé
+                /* pathinfo: fonction qui permet de récupérer des informations sur un fichier, par exemple le nom du fichier sans le chemin complet, sans l'extension  
+                    getClientOriginalName : récupère le nom du fichier uploadé (la méthode est exécuté à partir de l'objet instancié par getData() que l'on a exécuté sur l'objet  formulaire)*/
+                // $nomFichier = pathinfo($fichier->getClientOriginalName(), PATHINFO_FILENAME);
+                // // $extension = pathinfo($fichier->getClientOriginalName(), PATHINFO_EXTENSION);
+                // $nomFichier .= "_" . time();
+                // $nomFichier .= "." . $fichier->guessExtension();
+                // $nomFichier = str_replace(" ", "_", $nomFichier);
+                // $destination = $this->getParameter("dossier_images") . "livres";
+                // /* la méthode move va copier le fichier uploadé dans le dossier $destination avec le nom $nomFichier*/
+                // $fichier->move($destination, $nomFichier);
+                // $livre->setCouverture($nomFichier);
+
+                $nomFichier = "$titrePropre.{$fichier->guessExtension()}"; 
+                $destination = $this->getParameter("dossier_couvertures");
+                $fichier->move($destination, $nomFichier);
+                $livre->setCouverture($nomFichier);
+            }
             $entityManager->persist($livre);
             $entityManager->flush();
-
+            $this->addFlash("success", "Nouveau livre n°{$livre->getId()} enregistré");
             return $this->redirectToRoute('app_admin_livre_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -57,8 +79,20 @@ final class LivreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $livre->setUrl( $this->slugger->slug(strtolower($livre->getTitre())) );
 
+            if( $fichier = $form->get("couverture")->getData() ){ 
+
+                $nomFichier = "{$livre->getUrl()}.{$fichier->guessExtension()}"; 
+                $destination = $this->getParameter("dossier_couvertures");
+                if( file_exists($ancienFichier = $this->getParameter("dossier_couvertures") . $livre->getCouverture()) ){
+                    unlink($ancienFichier);
+                }
+                $fichier->move($destination, $nomFichier);
+                $livre->setCouverture($nomFichier);
+            }
+            $entityManager->flush();
+            $this->addFlash("success", "Livre n°{$livre->getId()} modifié");
             return $this->redirectToRoute('app_admin_livre_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -74,6 +108,9 @@ final class LivreController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$livre->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($livre);
             $entityManager->flush();
+            $this->addFlash("success", "Livre n°{$livre->getId()} supprimé");
+        } else {
+            $this->addFlash("warning", "Livre n°{$livre->getId()} : Échec de la suppression");
         }
 
         return $this->redirectToRoute('app_admin_livre_index', [], Response::HTTP_SEE_OTHER);

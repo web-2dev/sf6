@@ -1,4 +1,31 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{% set livre = form.vars.value %}
+
+<style>
+    fieldset:not(fieldset fieldset) { background-color: #bfb9b985; border: 1px solid;}
+</style>
+
+<div class="d-flex gap-2">
+    <fieldset class="col">
+        <legend></legend>
+        {{ form_row(form.titre) }}
+        {{ form_row(form.synopsis) }}
+        {{ form_row(form.auteur) }}
+    </fieldset>
+
+    <fieldset class="col">
+        <div class="row">
+            <img src="{{ chemin_couvertures ~ (livre.couverture ?: 'no_cover.jpg') }}" class="col-2">
+        
+            {{ form_row(form.couverture, {
+                    row_attr: {
+                        class: "col-10"
+                    }
+                } )}}
+        </div>
+        <hr>
+        {{ form_row(form.genres) }}
+    </fieldset>
+
+</div>
+
+

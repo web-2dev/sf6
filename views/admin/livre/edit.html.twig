@@ -1,3 +1,7 @@
 {% extends '_communs/admin/crud/formulaire.html.twig' %}
 
 {% block titre %}Actualiser un Livre{% endblock %}
+
+{% block formulaire %}
+    {{ include("admin/livre/_form.html.twig") }}
+{% endblock %}

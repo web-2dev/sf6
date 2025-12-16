@@ -55,7 +55,8 @@ class Functions extends AbstractExtension {
                     break;
                 
                 case 'ROLE_USER':
-                    $autorisations .= "Abonné";
+                    // $autorisations .= "Abonné";
+                    $autorisations = substr($autorisations, 0, strlen($autorisations) - 2);
                     break;
 
                 case 'ROLE_DEV':
