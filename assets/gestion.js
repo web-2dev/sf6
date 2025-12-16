@@ -15,8 +15,8 @@ import './styles/gestion.css';
 
 
 /** 
- * Fonction pour  l'affichage de l'image juste après le téléchargement depuis un input file 
- * Déclencher cette fonction dans l'écouteur d'évènement "change" des inputs
+ * 💬 Fonction pour  l'affichage de l'image juste après le téléchargement depuis un input file  
+ * 💬 Déclencher cette fonction dans l'écouteur d'évènement "change" des inputs                 
  * @param inputElement  :   Element jQuery (input type file)
  * @param imgElement    :   Element jQuery (img tag)
 */
@@ -42,9 +42,10 @@ $(function(){
     
     // forms
     $("[type='file']").on("change", function(){
+        console.log("input file change");
         var id = $(this).prop("id");            // je récu)ère l'identifiant de l'input
         var label = $("[for='" + id + "']");    // le label lié à l'input à l'attribut 'for' qui vaut l'id de l'input
-        label.append("<img class='mini ml-3'id='" + id + "img' >");  // j'ajoute une balise 'img'à ce label
+        label.append("<img class='miniature ml-3'id='" + id + "img' >");  // j'ajoute une balise 'img'à ce label
         dataSrcUploadedImage(this, $('#' + id + 'img'));
     });
 
