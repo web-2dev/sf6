@@ -2,3 +2,6 @@ easy_admin:
     design:
         form_theme:
             - '@EasyAdmin/crud/form_theme.html.twig'
+
+    assets:
+        js: []

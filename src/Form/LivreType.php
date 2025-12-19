@@ -21,6 +21,7 @@ class LivreType extends AbstractType
             ->add('synopsis')
             ->add('couverture', FileType::class, [
                 "mapped"        =>  false,
+                "required"      =>  false,
                 "constraints"   =>  [
                                         new Image(
                                                 mimeTypes: ["image/*"], mimeTypesMessage: "Ce type de fichier n'est pas accepté",

@@ -1,0 +1,7 @@
+<a class="btn btn-primary" href="{{ path('app_admin_' ~ entite.table ~ '_index', {'id': entite.id}) }}"><i class="fa fa-table-list"></i> Liste</a>
+<a class="btn btn-success" href="{{ path('app_admin_' ~ entite.table ~ '_edit', {'id': entite.id}) }}"><i class="fa fa-paintbrush"></i> Modifier</a>
+
+<form method="post" action="{{ path('app_admin_' ~ entite.table ~ '_delete', {'id': entite.id}) }}" onsubmit="return confirm('Confirmer la suppression ?');" style="display: inline; vertical-aling: bottom; padding: 0">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ entite.id) }}">
+    <button class="btn btn-danger"><i class="fa fa-trash-can"></i> Supprimer</button>
+</form>

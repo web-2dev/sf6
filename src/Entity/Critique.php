@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: CritiqueRepository::class)]
 #[ORM\UniqueConstraint(name: "unique_abonne_livre_critique", columns: ["abonne_id", "livre_id"])]
-#[UniqueEntity(fields: ["abonne", "livre"], message: "Un abonné ne peut critiquer un film qu'UNE seule fois")]
+#[UniqueEntity(fields: ["abonne", "livre"], message: "Un abonné ne peut critiquer un livre qu'UNE seule fois")]
 
 class Critique extends ParentEntity
 {

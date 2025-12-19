@@ -5,21 +5,27 @@
 {% set table = "livre" %}
 
 {% block tbody_list %}
-
+    <tbody>
     {% for entite in livres %}
         <tr>
             <td>{{ entite.id }}</td>
             <td class="text-center">{{ entite.couverture|img("couvertures", "vignette") }}</td>
             <td>{{ entite.titre }}</td>
-            <td>{{ entite.auteur }}</td>
-            <td>{{ entite.genres|join(', ') }}</td>
+            <td class="position-relative"><a href="{{ path('app_admin_auteur_show', {id: entite.auteur.id})}}" class="stretched-link">{{ entite.auteur }}</a></td>
+            {# <td>{{ entite.genres|join(', ') }}</td> #}
+            <td>
+                {% for genre in entite.genres %}
+                    <a href="{{ path ('app_admin_genre_show', {id: genre.id}) }}">{{ genre.libelle }}</a>{% if !loop.last %}, {% endif %}
+                {% endfor %}            
+            </td>
             <th>{{ entite.critiques|length }}</th>
-            <td>{{ include("_communs/admin/crud/case_actions.html.twig") }}</td>
+            <td class="text-center">{{ include("_communs/admin/crud/case_actions.html.twig") }}</td>
         </tr>
     {% else %}
         <tr>
             <td colspan="6">Liste actuellement vide</td>
         </tr>
+    </tbody>
     {% endfor %}
 
     {% endblock %}

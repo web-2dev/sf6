@@ -38,7 +38,7 @@ $(function(){
     // $('[data-toggle="popover"]').popover();
     // tables
     $("table").addClass("table");
-    $("table.table").addClass("table-bordered table-hover");
+    // $("table.table").addClass("table-bordered table-hover");
     
     // forms
     $("[type='file']").on("change", function(){

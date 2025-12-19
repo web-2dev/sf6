@@ -1,42 +1,46 @@
-{% extends 'admin/base.html.twig' %}
+{% extends '_communs/admin/crud/fiche.html.twig' %}
 
-{% block title %}Auteur{% endblock %}
+{% set entite = auteur %}
 
-{% block body %}
-    <h1>Auteur</h1>
-
-    <table class="table">
+{% block fiche_tbody %}
         <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ auteur.id }}</td>
             </tr>
             <tr>
-                <th>Nom</th>
-                <td>{{ auteur.nom }}</td>
+                <th>Prénom</th>
+                <td>{{ auteur.prenom }}</td>
             </tr>
             <tr>
-                <th>Prenom</th>
-                <td>{{ auteur.prenom }}</td>
+                <th>Nom</th>
+                <td>{{ auteur.nom }}</td>
             </tr>
             <tr>
                 <th>Biographie</th>
                 <td>{{ auteur.biographie }}</td>
             </tr>
             <tr>
-                <th>Naissance</th>
-                <td>{{ auteur.naissance ? auteur.naissance|date('Y-m-d') : '' }}</td>
+                <th>Naissance - Décès</th>
+                <td>{{ auteur.naissance ? auteur.naissance|date() : '' }} - {{ auteur.deces ? auteur.deces|date() : '' }}</td>
             </tr>
             <tr>
-                <th>Deces</th>
-                <td>{{ auteur.deces ? auteur.deces|date('Y-m-d') : '' }}</td>
+                <th>Âge</th>
+                <td>TODO</td>
+            </tr>
+            <tr>
+                <th>Livres</th>
+                <td>
+                    {% for livre in auteur.livres %}
+                    <p>Livre n°{{ livre.id }} dont le titre est 
+                        <a href="{{ path('app_admin_livre_show', {id: livre.id}) }}">{{ livre.titre }}</a>
+                        de <a href="{{ path ('app_admin_auteur_show', {id: livre.auteur.id}) }}">{{ livre.auteur.identite }}</a> avec {{ livre.emprunts|length }} prêts et {{ livre.critiques|length }} avis
+                    </p>
+                    {% else %}
+                        <p>Aucun livre de cet auteur n'a été enregistré en BDD</p>
+                    {% endfor %}
+
+                </td>
             </tr>
         </tbody>
-    </table>
-
-    <a href="{{ path('app_admin_auteur_index') }}">back to list</a>
-
-    <a href="{{ path('app_admin_auteur_edit', {'id': auteur.id}) }}">edit</a>
-
-    {{ include('admin/auteur/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,49 +1,59 @@
-{% extends 'admin/base.html.twig' %}
+{% extends '_communs/admin/crud/fiche.html.twig' %}
 
-{% block titre %}Livre n°{{ livre.id }}{% endblock %}
-{% block title %}Livre{% endblock %}
+{% set entite = livre %}
 
-{% block body %}
+{% block fiche_tbody %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th class="col-1">Id</th>
-                <td>{{ livre.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ livre.titre }}</td>
-            </tr>
-            <tr>
-                <th>Synopsis</th>
-                <td>{{ livre.synopsis }}</td>
-            </tr>
-            <tr>
-                <th>Couverture</th>
-                <td>{{ livre.couverture|img("couvertures", "miniature") }}</td>
-            </tr>
-            <tr>
-                <th>URL</th>
-                <td>{{ livre.url }}</td>
-            </tr>
-            <tr>
-                <th>Critiques</th>
-                <td>
-                    <div class="col-9">
-                        {% for critique in livre.critiques %}
-                            <div class="d-flex">
-                                <span class="col-3">{{ critique.abonne.pseudo }} </span>
-                                <span class="col-2"> {{ critique.note }} <i class="fa fa-book"></i> / 10 </span>
-                                <span class="col-7"> {{ critique.commentaire }} </span>
-                            </div>
-                            <hr>
-                        {% endfor %}
+<tbody>
+    <tr>
+        <th class="col-1">Id</th>
+        <td>{{ livre.id }}</td>
+    </tr>
+    <tr>
+        <th>Titre</th>
+        <td>{{ livre.titre }}</td>
+    </tr>
+    <tr>
+        <th>Auteur</th>
+        <td><a href="{{ path('app_admin_auteur_show', {id: livre.auteur.id}) }}">{{ livre.auteur }}</z></td>
+    </tr>
+    <tr>
+        <th>Genres</th>
+        <td>
+            {% for genre in livre.genres %}
+                <a href="{{ path ('app_admin_genre_show', {id: genre.id}) }}">{{ genre.libelle }}</a>{% if !loop.last %}, {% endif %}
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Synopsis</th>
+        <td>{{ livre.synopsis }}</td>
+    </tr>
+    <tr>
+        <th>Couverture</th>
+        <td>{{ livre.couverture|img("couvertures", "miniature") }}</td>
+    </tr>
+    <tr>
+        <th>URL</th>
+        <td>{{ livre.url }}</td>
+    </tr>
+    <tr>
+        <th>Critiques</th>
+        <td>
+            <div class="col-9">
+                {% for critique in livre.critiques %}
+                    <div class="d-flex">
+                        <span class="col-3">{{ critique.abonne.pseudo }} </span>
+                        <span class="col-2"> {{ critique.note }} <i class="fa fa-book"></i> / 10 </span>
+                        <span class="col-7"> {{ critique.commentaire }} </span>
                     </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <hr>
+                {% else %}
+                    <div class="alert-info">Aucune critique enregistrée pour ce livre</div>
+                {% endfor %}
+            </div>
+        </td>
+    </tr>
+</tbody>
 
-    {{ include("_communs/admin/crud/case_actions.html.twig", { entite: livre}) }}
 {% endblock %}

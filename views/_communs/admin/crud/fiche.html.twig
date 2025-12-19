@@ -1,0 +1,14 @@
+{# REQUIS : entite (Entity) #}
+{% extends 'admin/base.html.twig' %}
+
+{% block titre %}{{ entite.table|capitalize }} n°{{ entite.id }}{% endblock %}
+{% block title %}Fiche {{ entite.table|capitalize }}{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        {% block fiche_tbody %}{% endblock %}
+    </table>
+
+    {{ include("_communs/admin/crud/boutons_actions.html.twig") }}
+{% endblock %}

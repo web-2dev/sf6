@@ -8,6 +8,13 @@ aside{
     /* padding-left: 10px; */
 }
 
+#menu {
+    position: fixed;
+    width: calc(100% - 200px);
+    top: 0px;
+    z-index: 1000;
+}
+
 /* menu déroulant accordéon */
 .accordion-button:not(.collapsed) {
     background-color: var(--bs-purple);
@@ -17,6 +24,7 @@ aside{
     margin-left: 200px;
 }
 
+/* TABLE */
 .table, form.frm { background-color: #eee9 !important; font-weight: bold; }
 
 thead th {
@@ -36,21 +44,20 @@ th.sorted.asc::after{
 }
 
 th a { color: white; }
+table i.fa { margin-right: 3%; }
 
+/* Liens dans une table */
+/* td:has(a.stretched-link:hover) { background-color: gray; } */
+td.position-relative:hover { background-color: gray; }
+td > a.stretched-link { text-decoration: none; color: inherit; }
+
+
+/* */
 label, .col-form-label{
     font-weight: 700;
 }
 
-#menu {
-    position: fixed;
-    width: calc(100% - 200px);
-    top: 0px;
-    z-index: 1000;
-}
-
-
 i.fa { font-size: 1.5em; }
-table i.fa { margin-right: 3%; }
 
 form.frm { padding: 1% }
 

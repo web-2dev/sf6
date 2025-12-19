@@ -1,30 +1,53 @@
-{% extends 'admin/base.html.twig' %}
+{% extends '_communs/admin/crud/fiche.html.twig' %}
 
-{% block title %}Genre{% endblock %}
+{% set entite = genre %}
 
-{% block body %}
-    <h1>Genre</h1>
+{% block fiche_tbody %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ genre.id }}</td>
-            </tr>
-            <tr>
-                <th>Libelle</th>
-                <td>{{ genre.libelle }}</td>
-            </tr>
-            <tr>
-                <th>MotsCles</th>
-                <td>{{ genre.motsCles }}</td>
-            </tr>
-        </tbody>
-    </table>
+<tbody>
+    <tr>
+        <th>Id</th>
+        <td>{{ genre.id }}</td>
+    </tr>
+    <tr>
+        <th>Libellé</th>
+        <td>{{ genre.libelle }}</td>
+    </tr>
+    <tr>
+        <th>Mots-clés</th>
+        <td>{{ genre.motsCles }}</td>
+    </tr>
 
-    <a href="{{ path('app_admin_genre_index') }}">back to list</a>
+    <tr>
+        <th>Livres</th>
+        <td>
+            <table class="table table-bordered">
+                <thead class="table-info">
+                    <tr>
+                        <th class="col-1">ID</th>
+                        <th>Titre</th>
+                        <th>Auteur</th>
+                        <th class="col-1">Popularité</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for livre in genre.livres %}
+                    <tr>
+                        <td>{{ livre.id }}</td>
+                        <td class="position-relative">
+                            <a class="stretched-link" href="{{ path('app_admin_livre_show', {id: livre.id}) }}">{{ livre.couverture|img("couvertures", "vignette")|raw }} {{ livre.titre }}</a>
+                        </td>
+                        <td class="position-relative"><a class="stretched-link" href="{{ path ('app_admin_auteur_show', {id: livre.auteur.id}) }}">{{ livre.auteur.identite }}</a></td>
+                        <td>{{ livre.emprunts|length }} prêts <br> {{ livre.critiques|length }} avis</td>
+                    </tr>
+                {% else %}
+                    
+                {% endfor %}
+                </tbody>
+            </table>        
+        </td>
+    </tr>
+</tbody>
 
-    <a href="{{ path('app_admin_genre_edit', {'id': genre.id}) }}">edit</a>
-
-    {{ include('admin/genre/_delete_form.html.twig') }}
 {% endblock %}
+

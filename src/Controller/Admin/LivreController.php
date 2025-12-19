@@ -106,9 +106,10 @@ final class LivreController extends ParentController
     public function delete(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$livre->getId(), $request->getPayload()->getString('_token'))) {
+            $id = $livre->getId();
             $entityManager->remove($livre);
             $entityManager->flush();
-            $this->addFlash("success", "Livre n°{$livre->getId()} supprimé");
+            $this->addFlash("success", "Livre n°$id supprimé");
         } else {
             $this->addFlash("warning", "Livre n°{$livre->getId()} : Échec de la suppression");
         }

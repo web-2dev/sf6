@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin/abonne')]
+#[Route('/gestion/abonne')]
 final class AbonneController extends AbstractController
 {
     #[Route(name: 'app_admin_abonne_index', methods: ['GET'])]
