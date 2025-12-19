@@ -1,4 +1,29 @@
-{{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+
+    <script >
+        function addInterval(date, interval) {
+            const match = interval.match(/^P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)D)?$/);
+            if (!match) throw new Error("Format d'intervalle invalide : " + interval);
+
+            const [, years, months, days] = match.map(x => parseInt(x) || 0);
+
+            const newDate = new Date(date);
+            newDate.setFullYear(newDate.getFullYear() + years);
+            newDate.setMonth(newDate.getMonth() + months);
+            newDate.setDate(newDate.getDate() + days);
+
+            return newDate;
+        }
+
+        const inputDateEmprunt = document.querySelector("#emprunt_dateEmprunt");
+        const inputDatePrevue = document.querySelector("#emprunt_datePrevue");
+        const intervalle = "{{ temps_emprunt_prevu }}";
+        console.log("form emprunt : ", inputDateEmprunt, inputDatePrevue);
+        if( inputDateEmprunt ) {
+            inputDateEmprunt.addEventListener('change', function(evt) {
+                const dateEmprunt = new Date(this.value);
+                const datePrevue = addInterval(dateEmprunt, intervalle);
+                inputDatePrevue.value = datePrevue.toISOString().split('T')[0];
+            });
+        }
+    </script>

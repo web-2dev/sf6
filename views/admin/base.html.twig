@@ -6,6 +6,15 @@
 
 {% block title %}Gestion{% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	<style>
+		label.form-label {
+			text-shadow: 0 0 4px white;
+		}
+	</style>
+{% endblock %}
+
 
 {% block javascripts %}
 	{# {{ parent() }} #}

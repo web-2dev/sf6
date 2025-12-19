@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Emprunt;
 use App\Form\EmpruntType;
 use App\Repository\EmpruntRepository;
+use DateInterval;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +32,11 @@ final class EmpruntController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if( !$emprunt->getDatePrevue() ) {
+                $intervalle = new DateInterval($this->getParameter("temps_emprunt_prevu"));
+                $date = DateTimeImmutable::createFromInterface($emprunt->getDateEmprunt());
+                $emprunt->setDatePrevue( $date->add( $intervalle) );
+            }
             $entityManager->persist($emprunt);
             $entityManager->flush();
 
@@ -39,6 +46,7 @@ final class EmpruntController extends AbstractController
         return $this->render('admin/emprunt/new.html.twig', [
             'emprunt' => $emprunt,
             'form' => $form,
+            "temps_emprunt_prevu" => $this->getParameter(("temps_emprunt_prevu")),
         ]);
     }
 
@@ -57,6 +65,11 @@ final class EmpruntController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if( !$emprunt->getDatePrevue() ) {
+                $intervalle = new DateInterval($this->getParameter("temps_emprunt_prevu"));
+                $date = DateTimeImmutable::createFromInterface($emprunt->getDateEmprunt());
+                $emprunt->setDatePrevue( $date->add( $intervalle) );
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_emprunt_index', [], Response::HTTP_SEE_OTHER);
@@ -65,6 +78,7 @@ final class EmpruntController extends AbstractController
         return $this->render('admin/emprunt/edit.html.twig', [
             'emprunt' => $emprunt,
             'form' => $form,
+            "temps_emprunt_prevu" => $this->getParameter(("temps_emprunt_prevu")),
         ]);
     }
 
