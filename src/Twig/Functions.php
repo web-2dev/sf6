@@ -8,6 +8,8 @@ use App\Repository\LivreRepository;
 use DateTime, DateTimeInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\LazyResponseException;
 use Twig\Extension\AbstractExtension;
 use Twig\Node\Expression\Unary as OpérateurUnaire;
 use Twig\Node\Expression\Binary as OpérateurBinaire;
@@ -187,11 +189,12 @@ class Functions extends AbstractExtension {
         return $this->livreRepo->aDejaEmprunte($abonne, $livre);
     }
 
-    public function livreDejaEmprunte(Livre $livre): bool {
+    public function livreDejaEmprunte(Livre $livre) {
         if( $user = $this->securite->getUser() )
             return $this->livreRepo->aDejaEmprunte($user, $livre);
+        return new Response(status: 403);
         throw new \Exception("Aucun utilisateur connecté", 1);
-        
+    
     }
 
     public function livreDejaCommente(Livre $livre): bool {
