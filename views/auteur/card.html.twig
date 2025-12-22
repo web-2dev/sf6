@@ -1,17 +1,13 @@
 {% set portrait_src = auteur.portrait ?? "no_picutre.png" %}
 <div class="col p-0">
     <div class="card ">
-        <img class="card-img-top miniature" src="{{ asset(" img/portraits/" ~ portrait_src) }}" alt="pas de photo">
+        <img class="card-img-top miniature" src="{{ asset("img/portraits/" ~ portrait_src) }}" alt="pas de photo">
             <div class="card-body">
                 <h5 class="card-title ">
                     {{ auteur.identite }}
                 </h5>
                 <p class="card-text">
-                    Livres : 
-                                        
-                    <strong>
-                        {{ auteur.livres|length }}
-                    </strong>
+                    Livres : <strong>{{ auteur.livres|length }}</strong>
                 </p>
             {# <p class="card-text">Mots-clés : <strong>{{ genre.motsCles }}</strong></p> #}
             </div>

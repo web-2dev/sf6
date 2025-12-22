@@ -26,7 +26,7 @@ class VisiteurController extends AbstractController
     #[Route("/auteurs", name:"app_visiteur_auteurs")]
     public function auteurs(AuteurRepository $auteurRepository) {
         
-        return $this->render("visiteur/auteurs.html.twig", [ "auteurs" => $auteurRepository->findAll() ]); 
+        return $this->render("visiteur/auteurs.html.twig", [ "auteurs" => $auteurRepository->findAll(["nom" => "asc"]) ]); 
     }
 
     #[Route("/auteur-{id}/fiche", name:"app_visiteur_auteur_fiche")]

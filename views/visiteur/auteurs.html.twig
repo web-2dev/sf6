@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Auteurs{% endblock %}
+{% block titre %}{{titre|default('Tous les auteurs')}}{% endblock %}
+
 
 {% block body %}
 <div class="row mx-0">
-    <h2 class="col">Tous les auteurs</h2>
-    <h3 class="col-1">(x{{ auteurs|length }})</h3>
+    <h2 class="col">x{{ auteurs|length }} auteurs</h2>
 </div>
 
 {# <div class="card-group"> #}
