@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Dev\ParentController;
 use App\Entity\Abonne;
 use App\Form\AbonneType;
 use App\Repository\AbonneRepository;
@@ -13,7 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/gestion/abonne')]
-final class AbonneController extends AbstractController
+final class AbonneController extends ParentController
 {
     #[Route(name: 'app_admin_abonne_index', methods: ['GET'])]
     public function index(AbonneRepository $abonneRepository): Response
@@ -28,6 +29,14 @@ final class AbonneController extends AbstractController
     {
         return $this->render('admin/abonne/index.html.twig', [
             'abonnes' => $abonneRepository->findLecteurs(),
+        ]);
+    }
+
+    #[Route(path: "/bibliothecaires", name: 'app_admin_abonne_bibliothecaires', methods: ['GET'])]
+    public function librarians(AbonneRepository $abonneRepository): Response
+    {
+        return $this->render('admin/abonne/index.html.twig', [
+            'abonnes' => $abonneRepository->findBiblios(),
         ]);
     }
 

@@ -47,11 +47,27 @@ class AbonneRepository extends ParentRepository implements PasswordUpgraderInter
     }
 
     /**
+     * Abonnés lecteur uniquement
+     */
+    public function findBiblios() {
+        return $this->queryBuilderFindBiblios() ->getQuery()->getResult();
+    }
+
+    /**
      * 💬 les méthodes qui retournent un QueryBuilder peuvent être utilisées dans les classes Form pour les EntityType.
      */
     public function queryBuilderFindLecteurs() {
         return $this->createQueryBuilder("a")
                     ->where("a.roles LIKE '%ROLE_LECTEUR%'")
+                    ->orderBy("a.pseudo");
+    }
+    
+    /**
+     * 💬 les méthodes qui retournent un QueryBuilder peuvent être utilisées dans les classes Form pour les EntityType.
+     */
+    public function queryBuilderFindBiblios() {
+        return $this->createQueryBuilder("a")
+                    ->where("a.roles LIKE '%ROLE_BIBLIO%'")
                     ->orderBy("a.pseudo");
     }
     

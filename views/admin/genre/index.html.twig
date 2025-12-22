@@ -1,4 +1,4 @@
-{% extends '_communs/admin/crud/liste.html.twig' %}
+{% extends '_communs/admin/crud/index.html.twig' %}
 
 {% set titreH1 = "genres" %}
 {% set colonnes = ["Libellé", "Mots-clés", "Livres"] %}
@@ -12,7 +12,7 @@
             <td>{{ entite.libelle }}</td>
             <td>{{ entite.motsCles }}</td>
             <th class="text-center">{{ entite.livres|length }}</th>
-            <td>{{ include("_communs/admin/crud/case_actions.html.twig") }}</td>
+            {{ include("_communs/admin/crud/case_actions.html.twig") }}
         </tr>
     {% else %}
         <tr>

@@ -22,8 +22,8 @@
     <form method="post" class="p-5 d-flex justify-content-center">
         <div class="">
             {% if error %}
-                <div class="alert alert-danger">
-                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                <div class="alert alert-danger" onclick="this.remove();">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}<span class="close"><i class="fa fa-times-square"></i></span>
                 </div>
             {% endif %}
 

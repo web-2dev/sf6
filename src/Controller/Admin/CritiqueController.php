@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Dev\ParentController;
 use App\Entity\Critique;
 use App\Form\CritiqueType;
 use App\Repository\CritiqueRepository;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/critique')]
-final class CritiqueController extends AbstractController
+final class CritiqueController extends ParentController
 {
     #[Route(name: 'app_admin_critique_index', methods: ['GET'])]
     public function index(CritiqueRepository $critiqueRepository): Response

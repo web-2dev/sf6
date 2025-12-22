@@ -18,11 +18,17 @@
 						<div class="accordion-body">
 							<a class="nav-link {{ chemin == "app_admin_abonne_index" ? " active" : " " }}" href="{{ path("app_admin_abonne_index") }}">
 								<i class="fa fa-list-alt"></i>
-								Tous les abonnés
+								Usagers
 							</a>
+
+							<a class="nav-link {{ chemin == "app_admin_abonne_bibliothecaires" ? " active" : " " }}" href="{{ path("app_admin_abonne_bibliothecaires") }}">
+								<i class="fa fa-list-alt"></i>
+								Bibliothécaires
+							</a>
+
 							<a class="nav-link {{ chemin == "app_admin_abonne_lecteurs" ? " active" : " " }}" href="{{ path("app_admin_abonne_lecteurs") }}">
-								<i class="fa fa-book-open-reader"></i>
-								Tous les lecteurs
+								<i class="fa fa-list-alt"></i>
+								Lecteurs
 							</a>
 
 							<a class="nav-link {{ chemin == "app_admin_abonne_new" ? " active" : " " }}" href="{{ path("app_admin_abonne_new") }}">
@@ -30,7 +36,7 @@
 								Ajouter
 							</a>
 
-							<a class="nav-link {{ chemin == "app_admin_abonne_show" ? " active" : " " }}" href="">
+							<a class="nav-link {{ chemin == "app_admin_abonne_show" ? " active" : " " }} disabled" href="">
 								<i class="fa fa-address-book"></i> Fiche usager
 							</a>
 						</div>

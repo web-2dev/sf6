@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Dev\ParentController;
 use App\Entity\Emprunt;
 use App\Form\EmpruntType;
 use App\Repository\EmpruntRepository;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/emprunt')]
-final class EmpruntController extends AbstractController
+final class EmpruntController extends ParentController
 {
     #[Route(name: 'app_admin_emprunt_index', methods: ['GET'])]
     public function index(EmpruntRepository $empruntRepository): Response

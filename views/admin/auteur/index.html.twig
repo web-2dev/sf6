@@ -1,4 +1,4 @@
-{% extends '_communs/admin/crud/liste.html.twig' %}
+{% extends '_communs/admin/crud/index.html.twig' %}
 
 {% set titreH1 = "auteurs" %}
 {% set colonnes = [ "Nom", "Biographie", "Naissance", "Décès" ] %}
@@ -13,9 +13,7 @@
                 <td>{{ entite.biographie|extrait(10) }}</td>
                 <td>{{ entite.naissance ? entite.naissance|date() : '' }}</td>
                 <td>{{ entite.deces     ? entite.deces|date()     : '' }}</td>
-                <td>
-                    {{ include("_communs/admin/crud/case_actions.html.twig") }}
-                </td>
+                {{ include("_communs/admin/crud/case_actions.html.twig") }}
             </tr>
         {% else %}
             <tr>

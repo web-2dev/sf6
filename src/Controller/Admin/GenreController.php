@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Dev\ParentController;
 use App\Entity\Genre;
 use App\Form\GenreType;
 use App\Repository\GenreRepository;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/genre')]
-final class GenreController extends AbstractController
+final class GenreController extends ParentController
 {
     #[Route(name: 'app_admin_genre_index', methods: ['GET'])]
     public function index(GenreRepository $genreRepository): Response

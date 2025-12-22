@@ -1,30 +1,24 @@
-{% extends 'base.html.twig' %}
+{% extends '_communs/admin/crud/show.html.twig' %}
 
-{% block title %}Critique{% endblock %}
+{% set entite = critique %}
 
-{% block body %}
-    <h1>Critique</h1>
+{% block fiche_tbody %}
+    <tbody>
+        <tr>
+            <th class="col-2">Du livre</th>
+            <td><a href="{{ path('app_admin_livre_show', {id: critique.livre.id}) }}">{{ critique.livre.titreAuteur }}</a></td>
+        </tr>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ critique.id }}</td>
-            </tr>
-            <tr>
-                <th>Note</th>
-                <td>{{ critique.note }}</td>
-            </tr>
-            <tr>
-                <th>Commentaire</th>
-                <td>{{ critique.commentaire }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_admin_critique_index') }}">back to list</a>
-
-    <a href="{{ path('app_admin_critique_edit', {'id': critique.id}) }}">edit</a>
-
-    {{ include('admin/critique/_delete_form.html.twig') }}
+        <tr>
+            <th>Par le lecteur</th>
+            <td><a href="{{ path('app_admin_abonne_show', {id: critique.abonne.id}) }}">{{ critique.abonne.pseudo (critique.abonne.identite) }}</a></td>
+        <tr>
+            <th>Qui donne la note de </th>
+            <td>{{ critique.note }} <i class="fa fa-book"></i></td>
+        </tr>
+        <tr>
+            <th>Et écrit la critique suivante</th>
+            <td>{{ critique.commentaire }}</td>
+        </tr>
+    </tbody>
 {% endblock %}

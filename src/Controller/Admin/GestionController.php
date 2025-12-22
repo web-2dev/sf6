@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Dev\ParentController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -11,7 +12,7 @@ use App\Repository\EmpruntRepository    as ERepo;
 use App\Repository\GenreRepository  as GRepo;
 use App\Repository\LivreRepository  as LRepo;
 
-class GestionController extends AbstractController
+class GestionController extends ParentController
 {
     #[Route('/admin/gestion', name: 'app_admin_gestion')]
     public function index(AbRepo $ar, ARepo $aR, ERepo $er, GRepo $gr, LRepo $lr): Response

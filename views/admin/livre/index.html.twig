@@ -1,7 +1,7 @@
-{% extends '_communs/admin/crud/liste.html.twig' %}
+{% extends '_communs/admin/crud/index.html.twig' %}
 
 {% set titreH1 = "livres" %}
-{% set colonnes = ["Couverture", "Titre", "Auteur", "Genres", "Avis"] %}
+{% set colonnes = ["Couverture", "Titre", "Auteur", "Genres", "Emprunts", "Avis"] %}
 {% set table = "livre" %}
 
 {% block tbody_list %}
@@ -16,10 +16,11 @@
             <td>
                 {% for genre in entite.genres %}
                     <a href="{{ path ('app_admin_genre_show', {id: genre.id}) }}">{{ genre.libelle }}</a>{% if !loop.last %}, {% endif %}
-                {% endfor %}            
+                {% endfor %}
             </td>
-            <th>{{ entite.critiques|length }}</th>
-            <td class="text-center">{{ include("_communs/admin/crud/case_actions.html.twig") }}</td>
+            <td>{{ entite.emprunts|length }}</td>
+            <td>{{ entite.critiques|length }}</td>
+            {{ include("_communs/admin/crud/case_actions.html.twig") }}
         </tr>
     {% else %}
         <tr>

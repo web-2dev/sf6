@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Dev\ParentController;
 use App\Entity\Auteur;
 use App\Form\AuteurType;
 use App\Repository\AuteurRepository;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/auteur')]
-final class AuteurController extends AbstractController
+final class AuteurController extends ParentController
 {
     #[Route(name: 'app_admin_auteur_index', methods: ['GET'])]
     public function index(AuteurRepository $auteurRepository): Response

@@ -1,15 +1,15 @@
 {% set livre = form.vars.value %}
 
 <style>
-    fieldset:not(fieldset fieldset) { background-color: #bfb9b985; border: 1px solid;}
+    fieldset:not(fieldset fieldset) { background-color: #bfb9b985; border: 1px solid; padding: 1em;}
 </style>
 
 <div class="d-flex gap-2">
     <fieldset class="col">
         <legend></legend>
         {{ form_row(form.titre) }}
-        {{ form_row(form.synopsis) }}
         {{ form_row(form.auteur) }}
+        {{ form_row(form.synopsis) }}
     </fieldset>
 
     <fieldset class="col">

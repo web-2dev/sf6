@@ -1,77 +1,67 @@
-{% extends 'admin/base.html.twig' %}
+{% extends '_communs/admin/crud/show.html.twig' %}
 
-{% block title %}Abonne{% endblock %}
-{% block titre %}Résumé Utilisateur{% endblock %}
+{% set entite = abonne %}
 
-{% block body %}
+{% block fiche_tbody %}
+    <tbody>
+        <tr>
+            <th class="col-1">Id</th>
+            <td>{{ abonne.id }}</td>
+        </tr>
+        <tr>
+            <th>Pseudo</th>
+            <td>{{ abonne.pseudo }}</td>
+        </tr>
+        <tr>
+            <th>Autorisations</th>
+            <td>{{ abonne|autorisations }}</td>
+        </tr>
+        <tr>
+            <th>Mot de passe</th>
+            <td>{{ abonne.password ? "*****" : "⚠" }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ abonne.prenom }} {{ abonne.nom }}</td>
+        </tr>
+        <tr>
+            <th>Adresse</th>
+            <td>{{ abonne.adresse ?: "-" }}</td>
+        </tr>
+        <tr>
+            <th>Naissance</th>
+            <td>{{ abonne.naissance ? abonne.naissance|date ~ " (" ~ abonne.naissance|age ~ " ans)"  : '-' }}</td>
+        </tr>
 
-    <table class="table table-bordered">
-        <tbody>
-            <tr>
-                <th class="col-1">Id</th>
-                <td>{{ abonne.id }}</td>
-            </tr>
-            <tr>
-                <th>Pseudo</th>
-                <td>{{ abonne.pseudo }}</td>
-            </tr>
-            <tr>
-                <th>Autorisations</th>
-                <td>{{ abonne|autorisations }}</td>
-            </tr>
-            <tr>
-                <th>Mot de passe</th>
-                <td>{{ abonne.password ? "*****" : "⚠" }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ abonne.prenom }} {{ abonne.nom }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ abonne.adresse ?: "-" }}</td>
-            </tr>
-            <tr>
-                <th>Naissance</th>
-                <td>{{ abonne.naissance ? abonne.naissance|date ~ " (" ~ abonne.naissance|age ~ " ans)"  : '-' }}</td>
-            </tr>
-
-            <tr>
-                <th>Emprunts</th>
-                <td>
-                    <table class="table">
-                        <thead class="table-info">
+        <tr>
+            <th>Emprunts</th>
+            <td>
+                <table class="table">
+                    <thead class="table-info">
+                        <tr>
+                            <th>Livre</th>
+                            <th>Emprunt</th>
+                            <th>Retour</th>
+                            <th>Retards</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for emprunt in abonne.emprunts %}                            
                             <tr>
-                                <th>Livre</th>
-                                <th>Emprunt</th>
-                                <th>Retour</th>
-                                <th>Retards</th>
+                                <td class="position-relative"><a class="stretched-link" href="{{ path('app_admin_livre_show', {id: emprunt.livre.id}) }}">{{ emprunt.livre.titreauteur }} </a></td>
+                                <td>{{ emprunt.dateEmprunt|date }}</td>
+                                <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date : '' }}</td>
+                                <td>{# TODO fonction retard #}  {{ emprunt.datePrevue ? emprunt.datePrevue|date : '' }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {% for emprunt in abonne.emprunts %}                            
-                                <tr>
-                                    <td>{{ emprunt.livre.titreauteur }} </td>
-                                    <td>{{ emprunt.dateEmprunt|date }}</td>
-                                    <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date : '' }}</td>
-                                    <td>{# TODO fonction retard #}  {{ emprunt.datePrevue ? emprunt.datePrevue|date : '' }}</td>
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <td colspan="5">Aucun emprunt enregistré pour cet abonné</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>            
-                </td>
-            </tr>
-            
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_admin_abonne_index') }}">back to list</a>
-
-    <a href="{{ path('app_admin_abonne_edit', {'id': abonne.id}) }}">edit</a>
-
-    {{ include('admin/abonne/_delete_form.html.twig') }}
+                        {% else %}
+                            <tr>
+                                <td colspan="5">Aucun emprunt enregistré pour cet abonné</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>            
+            </td>
+        </tr>
+        
+    </tbody>
 {% endblock %}

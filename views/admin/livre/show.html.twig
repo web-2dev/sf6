@@ -1,4 +1,4 @@
-{% extends '_communs/admin/crud/fiche.html.twig' %}
+{% extends '_communs/admin/crud/show.html.twig' %}
 
 {% set entite = livre %}
 
@@ -15,7 +15,7 @@
     </tr>
     <tr>
         <th>Auteur</th>
-        <td><a href="{{ path('app_admin_auteur_show', {id: livre.auteur.id}) }}">{{ livre.auteur }}</z></td>
+        <td class="position-relative"><a class="stretched-link" href="{{ path('app_admin_auteur_show', {id: livre.auteur.id}) }}">{{ livre.auteur }}</z></td>
     </tr>
     <tr>
         <th>Genres</th>
@@ -37,13 +37,45 @@
         <th>URL</th>
         <td>{{ livre.url }}</td>
     </tr>
+    
+    <tr>
+        <th>Emprunts</th>
+        <td>
+            <table class="table table-bordered">
+                <thead class="table-info">
+                    <tr>
+                        <th>Lecteur</th>
+                        <th>Emprunt</th>
+                        <th>Retour</th>
+                        <th>Retards</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emprunt in livre.emprunts %}                            
+                        <tr>
+                            <td class="position-relative"><a class="stretched-link" href="{{ path('app_admin_abonne_show', {id: emprunt.abonne.id}) }}">{{ emprunt.abonne.pseudo }} </a></td>
+                            <td>{{ emprunt.dateEmprunt|date }}</td>
+                            <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date : '' }}</td>
+                            <td>{# TODO fonction retard #}  {{ emprunt.datePrevue ? emprunt.datePrevue|date : '' }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">Aucun emprunt enregistré pour cet abonné</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>            
+        </td>
+    </tr>
+
+
     <tr>
         <th>Critiques</th>
         <td>
             <div class="col-9">
                 {% for critique in livre.critiques %}
                     <div class="d-flex">
-                        <span class="col-3">{{ critique.abonne.pseudo }} </span>
+                        <span class="col-3 position-relative" ><a class="stretched-link" href="{{ path('app_admin_abonne_show', {id: critique.abonne.id}) }}">{{ critique.abonne.pseudo }}</a> </span>
                         <span class="col-2"> {{ critique.note }} <i class="fa fa-book"></i> / 10 </span>
                         <span class="col-7"> {{ critique.commentaire }} </span>
                     </div>

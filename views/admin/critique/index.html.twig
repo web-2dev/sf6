@@ -1,4 +1,4 @@
-{% extends '_communs/admin/crud/liste.html.twig' %}
+{% extends '_communs/admin/crud/index.html.twig' %}
 
 {% set titreH1 = "critiques" %}
 {% set colonnes = ["Lecteur", "Livre", "Note", "Commentaire"] %}
@@ -10,11 +10,11 @@
         {% for entite in critiques %}
             <tr>
                 <td>{{ entite.id }}</td>
-                <td>{{ entite.abonne.pseudo }}</td>
-                <td>{{ entite.livre.titreAuteur }}</td>
+                <td class="position-relative"><a href="{{ path('app_admin_abonne_show', {id: entite.abonne.id}) }}">{{ entite.abonne.pseudo }}</a></td>
+                <td class="position-relative"><a href="{{ path('app_admin_livre_show', {id: entite.livre.id}) }}">{{ entite.livre.titreAuteur }}</a></td>
                 <td>{{ entite.note }}</td>
                 <td>{{ entite.commentaire }}</td>
-                <td>{{ include("_communs/admin/crud/case_actions.html.twig") }}</td>
+                {{ include("_communs/admin/crud/case_actions.html.twig") }}
             </tr>
         {% else %}
             <tr>

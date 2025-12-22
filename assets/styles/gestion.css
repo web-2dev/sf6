@@ -50,7 +50,7 @@ table i.fa { margin-right: 3%; }
 /* td:has(a.stretched-link:hover) { background-color: gray; } */
 td.position-relative:hover { background-color: gray; }
 td > a.stretched-link { text-decoration: none; color: inherit; }
-
+/* td > a:not(.stretched-link):hover { background-color: gray; color: black; padding-inline: 5px; } */
 
 /* */
 label, .col-form-label{
