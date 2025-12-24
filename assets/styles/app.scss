@@ -9,6 +9,10 @@ $success: #527e52;
 $white: #eee;
 $largeur_aside: 200px;
 
+/* grid */
+// $grid-columns: 12 !default;
+$grid-gutter-width: 3rem !default;
+
 
 // @import "../../vendor/twbs/bootstrap/scss/bootstrap.scss";
 // @import "gestion.scss";
@@ -16,26 +20,36 @@ $largeur_aside: 200px;
 // Pour étendre les classes w- de Bootstrap avec tous les %ages possibles
 @for $i from 0 to 100 {
     .w-#{$i}{
-      width: $i * 1%;
+      width: $i * 1% !important;
     }
 }
 
-html {
-    background-color: $primary;
-    height: 100vh;
-    background-image: url("../images/bibpublique_stokholm.png");
-    background-size: cover;
-}
+// html {
+//     background-color: $primary;
+//     height: 100vh;
+//     background-image: url("../images/bibpublique_stokholm.png");
+//     background-size: cover;
+// }
+
+// body {
+//     // annuler le padding de .container
+//     // padding-inline: 0 !important;
+
+//     height: 100%;
+//     background-color: transparent;
+//     // background-repeat: repeat;
+//     // /**/ height: 100vh;
+// }
 
 body {
-    // annuler le padding de .container
-    // padding-inline: 0 !important;
+    background-image: url('../images/bibpublique_stokholm.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+  }
+  
 
-    height: 100%;
-    background-color: transparent;
-    // background-repeat: repeat;
-    // /**/ height: 100vh;
-}
 
 body > .container {
     background-color: rgba(211, 211, 211, 0.666);
@@ -79,7 +93,7 @@ h1{
 // barre nav de pagination
 .pagination {
     margin-top: 50px;
-  }
+}
 
 
 /* IMAGES */
@@ -90,8 +104,8 @@ img.adapt { max-width: 100%; height: auto; }
     width: auto;
 }
 .miniature {
-    width: 100px;
-    height: auto;
+    width: 120px;
+    height: 150px;
 }
 
 
@@ -115,9 +129,9 @@ svg {
   
 // .menu-item-contents:hover { color: white !important; background-color: black; }
 .menu-item-contents:hover { text-shadow: 0px 0px 20px;  }
-.menu-item-contents:hover > * {
-    // text-decoration: underline;
-}
+// .menu-item-contents:hover > * {
+//      text-decoration: underline;
+// }
 .menu-item-contents:hover [class *= "fa-"] {
     text-decoration: none;
 }
@@ -125,3 +139,6 @@ svg {
 
 /* MESSAGES */
 .alert > span.close { float: right; }
+
+/* CARD */
+.card-link { text-decoration: none; }
