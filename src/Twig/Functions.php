@@ -189,18 +189,19 @@ class Functions extends AbstractExtension {
         return $this->livreRepo->aDejaEmprunte($abonne, $livre);
     }
 
-    public function livreDejaEmprunte(Livre $livre) {
+    public function livreDejaEmprunte(Livre $livre): ?bool {
         if( $user = $this->securite->getUser() )
             return $this->livreRepo->aDejaEmprunte($user, $livre);
-        return new Response(status: 403);
-        throw new \Exception("Aucun utilisateur connecté", 1);
+        return null;
+        // return new Response(status: 403);
+        // throw new \Exception("Aucun utilisateur connecté", 1);
     
     }
 
-    public function livreDejaCommente(Livre $livre): bool {
+    public function livreDejaCommente(Livre $livre): ?bool {
         if( $user = $this->securite->getUser() )
             return $this->livreRepo->aDejaCommente($user, $livre);
-        throw new \Exception("Aucun utilisateur connecté", 1);
+        return null;
         
     }
 

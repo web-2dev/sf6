@@ -1,18 +1,12 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Genres
-{% endblock %}
+
+{% block title %}Genres{% endblock %}
+{% block titre %}{{ word is defined ? "Résultats de la recherche de '<code>"~ word ~"</code>'" : titre|default("Tous les genres") }}{% endblock %}
+
 {% block body %}
-    <div class="row mx-0">
-        <h2 class="col">
-            Tous les genres
-        </h2>
-        <h3 class="col-1">
-            (x
-            {{ genres|length }}
-            )
-        </h3>
-    </div>
+    <div class="row mx-0"><h3 class="">Trouvés : ×{{ genres|length }}</h3></div>
+    <div class="row mx-0"><h4 class="">Recherche dans le titre ou parmi les mots-clés</h4></div>
+    
     <div class="row row-cols-1 row-cols-md-3 g-4 px-3">
         {% for genre in genres %}
             {% include "genre/card.html.twig" %}

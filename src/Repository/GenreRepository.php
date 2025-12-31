@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Genre;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Livre;
+use App\Entity\Auteur;
+use App\Repository\ParentRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Genre>
@@ -61,6 +64,28 @@ class GenreRepository extends ParentRepository
             ->getResult()
         ;
         return $temp;
+    }
+
+    /**
+        SELECT a.nom, a.prenom, l.titre, g.libelle
+        FROM auteur a 
+            LEFT JOIN livre l ON a.id = l.auteur_id
+            JOIN livre_genre lg ON lg.livre_id = l.id
+            JOIN genre g ON lg.genre_id = g.id
+        WHERE a.nom = "asimov"
+        -- GROUP BY l.titre
+        GROUP BY g.libelle
+        ORDER BY a.nom, a.prenom, l.titre;     
+     */
+    public function findGenresByAuteur(Auteur $a) {
+        $query = $this->createQueryBuilder("g")
+                        ->join("g.livres", "l")
+                        ->join(Auteur::class, "a", "WITH", "a.id = l.auteur")
+                        ->where("a.id = :id")
+                        ->groupBy("g.libelle")
+                        ->setParameter("id", $a->getId());
+
+        return $query->getQuery()->getResult();
     }
 
     

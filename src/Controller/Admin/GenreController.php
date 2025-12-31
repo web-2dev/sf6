@@ -64,10 +64,12 @@ final class GenreController extends ParentController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $livres = $form->get("livres")->getData();
-            if( $livres->count() ) {
-                foreach ($livres as $livre) {
-                    $genre->addLivre( $livre );
+            if( $form->has("livres") ) {
+                $livres = $form->get("livres")->getData();
+                if( $livres->count() ) {
+                    foreach ($livres as $livre) {
+                        $genre->addLivre( $livre );
+                    }
                 }
             }
             $entityManager->flush();

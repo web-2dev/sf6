@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Livres
-{% endblock %}
+
+{% block title %}Livres{% endblock %}
+{% block titre %}{{ word is defined ? "Résultats de la recherche de <code>"~ word ~"</code>" : titre|default("Tous les livres") }}{% endblock %}
+
 {% block body %}
     <div class="row mx-0">
         <h2 class="col">Tous les livres</h2>
-        <h3 class="col-1">
-            (x{{ livres|length }} )
-        </h3>
+        <h3 class="col-1">(×{{ livres|length }} )</h3>
     </div>
+    
     {# <div class="card-group"> #}
     <div class="row row-cols-1 row-cols-md-3 g-4 px-3">
         {% for livre in livres %}

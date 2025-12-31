@@ -91,21 +91,27 @@ abstract class ParentRepository extends ServiceEntityRepository
         }
     }
 
-    public function search(string $field, string $search, array $where = []) {
+    public function search(string|array $fields, string $search, array $where = []) {
         $search = $search ?? "%";
-        $query = $this->createQueryBuilder("a")
-                    ->where("a.$field LIKE :search")
-                    ->setParameter("search", "%$search%");
+        if( is_string($fields) ) {
+            $fields = [ $fields ];
+        }
+        $query = $this->createQueryBuilder("a");
+        foreach ($fields as $field) {
+            $query->orWhere("a.$field LIKE :$field");
+            $query->setParameter($field, "%$search%");
+        }
+        
         if( $where ) {
             foreach ($where as $champ => $sens) {
                 dump("$champ => $sens" );
                 $query->addOrderBy("a.$champ", $sens);
             }
-            // dd("$champ => $sens", $query);
         }
-
         return $query->getQuery()->getResult();
     }
+
+
     /* 
     TODO
         public function save(DedEntite $entity, bool $flush = false): void

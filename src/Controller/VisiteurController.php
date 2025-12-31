@@ -14,14 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class VisiteurController extends AbstractController
 {
-    #[Route('/visiteur', name: 'app_visiteur')]
-    public function index(): Response
-    {
-        return $this->render('visiteur/index.html.twig', [
-            'controller_name' => 'VisiteurController',
-        ]);
-    }
-
     // AUTEURS
     #[Route("/auteurs", name:"app_visiteur_auteurs")]
     public function auteurs(AuteurRepository $auteurRepository) {
@@ -30,13 +22,12 @@ class VisiteurController extends AbstractController
     }
 
     #[Route("/auteur-{id}/fiche", name:"app_visiteur_auteur_fiche")]
-    public function auteurFiche(Auteur $auteur): Response {
-        
+    public function auteurFiche(Auteur $auteur, GenreRepository $gr, AuteurRepository $ar): Response {
         return $this->render("auteur/fiche.html.twig", compact("auteur")); 
     }
 
     // LIVRES
-    #[Route("/livres", name:"app_visiteur_livre")]
+    #[Route("/livres", name:"app_visiteur_livres")]
     public function livres(LivreRepository $livreRepository) {
         
         return $this->render("visiteur/livres.html.twig", [ "livres" => $livreRepository->findAll() ]); 
@@ -49,13 +40,14 @@ class VisiteurController extends AbstractController
     }
 
     // GENRES
-    #[Route("/genres", name:"app_visiteur_genre")]
+    #[Route("/genres", name:"app_visiteur_genres")]
     public function genres(GenreRepository $genreRepository) {
         
         return $this->render("visiteur/genres.html.twig", [ "genres" => $genreRepository->findAll() ]); 
     }
 
-    #[Route("/genre-{libelle}/fiche", name:"app_visiteur_genre_fiche")]
+    #[Route("/genre-{libelle}/fiche", name:"app_visiteur_genre_fiche_libelle")]
+    #[Route("/genre-{id}/fiche", name:"app_visiteur_genre_fiche", requirements: [ "id" => "\d+" ])]
     public function genreFiche(Genre $genre): Response {
         
         return $this->render("genre/fiche.html.twig", compact("genre")); 

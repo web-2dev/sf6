@@ -55,6 +55,19 @@ class Auteur extends ParentEntity
     public function __toString() {
         return $this->getIdentite();
     }
+
+    public function getGenres(): array
+    {
+        $genres = [];
+    
+        foreach ($this->livres as $book) {
+            foreach ($book->getGenres() as $genre) {
+                $genres[$genre->getId()] = $genre;
+            }
+        }
+    
+        return array_values($genres);
+    }    
     // ╔═══════════════════════════════════════════════════════════════════════╗
     // ║                           GETTERS && SETTERS                          ║
     // ╚═══════════════════════════════════════════════════════════════════════╝

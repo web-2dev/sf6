@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Auteur;
+use App\Entity\Livre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -31,7 +32,6 @@ class AuteurRepository extends ParentRepository
                                FROM auteur a JOIN livre l ON a.id = l.auteur_id 
                                GROUP BY a.id) t)      
      */
-
     public function findProlifique($plus = true): ?Auteur
     {
         // $query = $this->em->createQuery("SELECT a 
@@ -58,5 +58,26 @@ class AuteurRepository extends ParentRepository
         return $auteur;
     }
     
- 
+    /**
+        SELECT a.nom, a.prenom, l.titre, g.libelle
+        FROM auteur a 
+            LEFT JOIN livre l ON a.id = l.auteur_id
+            JOIN livre_genre lg ON lg.livre_id = l.id
+            JOIN genre g ON lg.genre_id = g.id
+        WHERE a.nom = "asimov"
+        -- GROUP BY l.titre
+        GROUP BY g.libelle
+        ORDER BY a.nom, a.prenom, l.titre;     
+     */
+    // public function findGenres(Auteur $a) {
+    //     $query = $this->createQueryBuilder("a")
+    //                     ->join(Livre::class, "l", "WITH", "a.id = l.auteur")
+    //                     ->join("l.genres", "g")
+    //                     ->where("a.id = :id")
+    //                     ->groupBy("g.libelle")
+    //                     ->select("g")
+    //                     ->setParameter("id", $a->getId());
+
+    //     return $query->getQuery()->getResult();
+    // }
 }

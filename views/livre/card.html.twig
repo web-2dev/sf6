@@ -13,7 +13,7 @@
 
             <div class="col-8">
                 <div class="card-body">
-                    <p class="card-text">De : <strong>{{ livre.auteur ? livre.auteur.nom : "" }}</strong></p>
+                    <p class="card-text">De : <strong>{{ livre.auteur ? livre.auteur.identite : "" }}</strong></p>
                     <p class="card-text">Genre{{ (livre.genres|length > 1) ? "s" : "" }} : <strong>{{ livre.genre }}</strong></p>
                 </div>
             </div>

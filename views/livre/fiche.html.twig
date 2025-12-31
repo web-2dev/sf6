@@ -7,7 +7,7 @@
 {% block body %}
     <div class="row">
         <div class="col-3">
-            {{ livre.couverture|img("couvertures", "adapt")|raw }}
+            {{ livre.couverture|img("couvertures", "adapt livre-relie")|raw }}
             {# {{ chemin_couvertures ~ livre.couverture }} #}
         </div>
         <div class="col-9">
@@ -17,7 +17,6 @@
                         <strong class="col-3 text-right">Titre</strong>
                         <span class="col-9  d-flex justify-content-between align-items-center" >
                             {{ livre.titre }}
-
                             <span class="badge bg-primary text-success"> {{ livre|dispo ? "✔" : "❌" }}</span>
                         </span>
 
@@ -37,7 +36,7 @@
                         {# 💬 COURS : La variable 'loop' permet d'avoir des informations sur les itérations #}
                         <span class="col-9">
                             {% for genre in livre.genres %}
-                                <a href="{{ path('app_visiteur_genre_fiche', {libelle: genre.libelle}) }}">{{ genre.libelle }}</a>  {{ loop.last ? "" : ", " }}
+                                <a href="{{ path('app_visiteur_genre_fiche_libelle', {libelle: genre.libelle}) }}">{{ genre.libelle }}</a>  {{ loop.last ? "" : ", " }}
                             {% endfor %}
                             {# On peut aussi utiliser la fonction getToutescategories ajoutée dans l'entité Categorie #}
                             {# {{ livre.toutesCategories }}  #}
@@ -95,7 +94,8 @@
     </div>
     
 
-    <a href="{{ path("app_home") }}" class="btn btn-primary mt-5"><i class="fa fa-home"> Retour</i></a>
+    <a href="{{ path("app_home") }}" class="btn btn-primary mt-5"><i class="fa fa-home"> Accueil</i></a>
+    <a href="" class="btn btn-secondary mt-5" onclick="history.back();"><i class="fa fa-reply"> </i> Retour</a>
 
     {% if is_granted("ROLE_BIBLIO") %}
         <a href="{{ "" }}" class="btn btn-success mt-5 disabled"><i class="fa fa-cart"></i> Enregistrer un emprunt</a>

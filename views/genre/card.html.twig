@@ -1,0 +1,21 @@
+<div class="col-4 mb-3 px-2">
+    <div class="card card-genre bg-secondary text-white">
+        <h4 class="card-header bg-info text-light d-flex justify-content-between">
+            Genre : {{ genre.libelle }}
+        </h4>
+        <div class="card-body">
+            <h5 class="card-title">Mots clés : </h5>
+            <p class="card-text carte_module">{{ genre.motscles }}</p>
+            <h5 class="card-title">Livres : </h5>
+            <p class="">{{ genre.livres|length}} livres</p>
+        </div>
+
+        <div class="card-footer">
+            <a href="{{ path("app_visiteur_genre_fiche_libelle", {libelle: genre.libelle}) }}" class="card-link text-dark"> 
+                <i class="fa fa-book"></i> Voir plus 
+            </a>
+        </div>
+    </div>
+</div>
+
+

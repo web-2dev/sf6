@@ -1,26 +1,31 @@
-{% set portrait_src = auteur.portrait ?? "no_picutre.png" %}
-<div class="col p-0">
-    <div class="card ">
-        <img class="card-img-top miniature" src="{{ asset("img/portraits/" ~ portrait_src) }}" alt="pas de photo">
-            <div class="card-body">
-                <h5 class="card-title ">
-                    {{ auteur.identite }}
-                </h5>
-                <p class="card-text">
-                    Livres : <strong>{{ auteur.livres|length }}</strong>
-                </p>
-            {# <p class="card-text">Mots-clés : <strong>{{ genre.motsCles }}</strong></p> #}
+<div class="col">
+    <div class="auteur card mb-3 bg-secondary text-white" style="max-width: 540px">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img class="img-fluid rounded-start miniature" src="{{ asset("/img/portraits/" ~ (auteur.portrait ?? "no_picture.png")) }}" alt="portrait {{ auteur.identite }}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title carte_module">{{ auteur.identite }}</h5>
+                    <p class="card-text">{{ auteur.naissance ? auteur.naissance|date("Y") : "..." }} - {{ auteur.deces ? auteur.deces|date("Y") : "..." }}</p>
+                    
+                    <p class="card-text">
+                        <small class="carte_module"><strong>Genres</strong> : {{ auteur.genres|join(", ") }}</small>
+                    </p>
+
+                    <p class="card-text">
+                        <small ><strong>Livres proposés</strong> : {{ auteur.livres|length }}</small>
+                    </p>
+
+                </div>
             </div>
             <div class="card-footer">
-                <small class="text-muted">
-                    <a href="{{ path("app_visiteur_auteur_fiche", {id: auteur.id}) }}" class="card-link">
-                        <i class="fa fa-book"></i>
-                        Voir plus 
-                                                                
-                                            
+                {# <small class="text-muted"> #}
+                    <a href="{{ path("app_visiteur_auteur_fiche", {id: auteur.id}) }}" class="card-link text-dark">
+                        <i class="fa fa-book"></i> Voir plus 
                     </a>
-                </small>
+                {# </small> #}
             </div>
         </div>
     </div>
-    
+</div>

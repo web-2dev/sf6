@@ -38,27 +38,19 @@
             {% endif %}
 
                 <li class="nav-item ">
-                    <a class="nav-link" href="">
-                        <i class="fa fa-grip-lines-vertical_"></i>
-                    </a>
+                    <a class="nav-link" href=""><i class="fa fa-grip-lines-vertical_"></i></a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_auteurs" ? " active" : " " }}" href="{{ path("app_visiteur_auteurs") }}">
-                        Auteurs 
-                                        
-                    </a>
+                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_auteurs" ? " active" : " " }}" href="{{ path("app_visiteur_auteurs") }}">Auteurs</a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_livre" ? " active" : " " }}" href="{{ path("app_visiteur_livre") }}">
-                        Livres 
-                                        
-                    </a>
+                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_livres" ? " active" : " " }}" href="{{ path("app_visiteur_livres") }}">Livres</a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_genre" ? " active" : " " }}" href="{{ path("app_visiteur_genre") }}">
-                        Genres 
-                                        
-                    </a>
+                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_genres" ? " active" : " " }}" href="{{ path("app_visiteur_genres") }}">Genres</a>
                 </li>
 
       

@@ -1,0 +1,70 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Fiche Genre{% endblock %}
+
+{% block titre %}Fiche du genre <code>{{ genre.libelle }}</code>{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-3">
+            {# {{ genre.couverture|img("couvertures", "adapt")|raw }} #}
+            {# {{ chemin_couvertures ~ genre.couverture }} #}
+        </div>
+        <div class="col-9">
+            <ul class="list-group ">
+                <li class="list-group-item">
+                    <h2 class="row">
+                        <strong class="col-3 text-right">Libellé</strong>
+                        <span class="col-9  d-flex justify-content-between align-items-center" >
+                            {{ genre.libelle }}
+
+                            <span class="badge bg-primary text-dark"> {{ genre.livres|length }} livres</span>
+                        </span>
+
+                    </h2>
+                </li>
+                
+                <li class="list-group-item">
+                    <h3 class="row">
+                        <strong class="col-3 text-right">Mots clés</strong>
+                        <span class="col-9">{{ genre.motscles }}</span>
+                    </h3>
+                </li>
+                
+                <li class="list-group-item">
+                    <h4 class="row">
+                        <strong class="col-xl-3 col-lg-12">Livres</strong>
+                        <ul class="col-8">
+                        {% for livre in genre.livres %}
+                            <li><a href="{{ path('app_visiteur_livre_fiche', {id: livre.id}) }}">{{ livre.titreauteur }}</a></li>
+                        {% endfor %}
+                        </ul>
+                        
+                    </h4>
+                </li>
+
+                <li class="list-group-item">
+                    <h5 class="row">
+                        <strong class="col-3 text-right">Popularité</strong>
+                        <span class="col-9"> 
+                            <span class="badge bg-primary text-dark">Emprunté <i class="fa fa-ellipsis"></i> fois </span>
+                        </span>
+                    </h5>
+                </li>
+            </ul> 
+        </div>
+    </div>
+    
+
+    <a href="{{ path("app_home") }}" class="btn btn-primary mt-5"><i class="fa fa-home"> Retour</i></a>
+
+    {% if is_granted("ROLE_BIBLIO") %}
+        <a href="{{ "" }}" class="btn btn-success mt-5 disabled"><i class="fa fa-cart"></i> Enregistrer un emprunt</a>
+    {% endif %}
+
+    {% if is_granted("ROLE_LECTEUR") %}
+        <a href="{{ "" }}" class="btn btn-success mt-5 disabled"><i class="fa fa-shopping-cart"></i> Réserver</a>
+    {% endif %}
+
+
+{% endblock %}

@@ -10,6 +10,19 @@
             <ul class="list-group ">
                 <li class="list-group-item">
                     <h4 class="row">
+                        <strong class="col-4">Portrait</strong>
+                        <span class="col-8">
+                            <img src="/img/portraits/{{ auteur.portrait|default("no_picture.png") }}" alt="" style="width: 100%">
+                        </span>
+                    </h4>
+                </li>
+
+            </ul> 
+        </div>
+        <div class="col-8">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <h4 class="row">
                         <strong class="col-xl-3 col-lg-12">Nom</strong>
                         <span class="col-xl-9  col-lg-12 d-flex justify-content-between align-items-center" >
                             {{ auteur.identite }}
@@ -21,39 +34,36 @@
                 
                 <li class="list-group-item">
                     <h4 class="row">
-                        <strong class="col-4">Oeuvres</strong>
-                        <span class="col-8">{{ auteur.livres|length }}</span>
+                        <strong class="col-xl-3 col-lg-12">Vie</strong>
+                        <span class="col-9">{{ auteur.naissance ? auteur.naissance|date : "..." }} - {{ auteur.deces ? auteur.deces|date : "..." }}</span>
                     </h4>
                 </li>
 
                 <li class="list-group-item">
                     <h4 class="row">
-                        <strong class="col-3">Vie</strong>
-                        <span class="col-9">{{ auteur.naissance ? auteur.naissance|date : "..." }} - {{ auteur.deces ? auteur.deces|date : "..." }}</span>
+                        <strong class="col-xl-3 col-lg-12">Biographie</strong>
+                        <span class="col-8">{{ auteur.biographie }}</span>
                     </h4>
                 </li>
-                
 
-
-            </ul> 
-        </div>
-        <div class="col-8">
-            <li class="list-group-item">
-                <h4 class="row">
-                    <strong class="col-2 ">Livres</strong>
-                    <ul>
-                    {% for livre in auteur.livres %}
-                        <li><a href="{{ path('app_visiteur_livre_fiche', {id: livre.id}) }}">{{ livre.titreAuteur }}</a></li>
-                    {% endfor %}
-                    </ul>
-                    
-                </h4>
-            </li>
+                <li class="list-group-item">
+                    <h4 class="row">
+                        <strong class="col-xl-3 col-lg-12">Livres</strong>
+                        <ul class="col-8">
+                        {% for livre in auteur.livres %}
+                            <li><a href="{{ path('app_visiteur_livre_fiche', {id: livre.id}) }}">{{ livre.titre }}</a></li>
+                        {% endfor %}
+                        </ul>
+                        
+                    </h4>
+                </li>
+            </ul>
         </div>
     </div>
     
 
-    <a href="{{ path("app_home") }}" class="btn btn-primary mt-5"><i class="fa fa-home"> Retour</i> Accueil</a>
+    <a href="{{ path("app_home") }}" class="btn btn-secondary mt-5"><i class="fa fa-home"> Accueil</i> </a>
+    <a href="" class="btn btn-primary mt-5"><i class="fa fa-reply" onclick="history.back();"> Retour</i> </a>
     {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path("app_admin_auteur_edit", {id: auteur.id}) }}" class="btn btn-primary mt-5"><i class="fa fa-edit"> Actualisation</i></a>
         

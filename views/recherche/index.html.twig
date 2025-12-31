@@ -1,69 +1,43 @@
 {% extends 'base.html.twig' %}
-{% block titre %}
-    Résultats de la recherche de : 
-                    
-                
-            
-        
-    <code>
-        {{ search_word }}
-    </code>
-{% endblock %}
+{% block titre %} Résultats de la recherche de : <code>{{ search_word|e("html") }}</code> {% endblock %}
+
 {% block body %}
     <ul class="list-group">
-        <li class="list-group-item active">
-            Auteurs
-                                            
-                                
-                    
-        </li>
+        <li class="list-group-item active"><i class="fa fa-user-pen"></i> Auteurs</li>
         {% for auteur in auteurs %}
             <li class="list-group-item ">
-                {{ auteur.identite }}
+                <a href="{{ path ('app_visiteur_auteur_fiche', {id: auteur.id}) }}" class="btn btn info"> 
+                    <i class="fa fa-user-pen"></i> {{ auteur.identite }}
+                </a>
             </li>
         {% else %}
-            <li class="list-group-item">
-                Aucun résultat trouvé
-                            
-            </li>
+            <li class="list-group-item">Aucun résultat trouvé</li>
         {% endfor %}
     </ul>
 
     <ul class="list-group">
-        <li class="list-group-item active">
-            Livres
-                                            
-                                
-                    
-        </li>
+        <li class="list-group-item active"><i class="fa fa-book"></i> Livres </li>
         {% for livre in livres %}
             <li class="list-group-item ">
-                {{ livre.titre }}
+                <a href="{{ path ('app_visiteur_livre_fiche', {id: livre.id}) }}" class="btn btn info"> 
+                    <i class="fa fa-book"></i> {{ livre.titre }} 
+                </a>
             </li>
         {% else %}
-            <li class="list-group-item">
-                Aucun résultat trouvé
-                            
-            </li>
+            <li class="list-group-item"> Aucun résultat trouvé </li>
         {% endfor %}
     </ul>
 
     <ul class="list-group">
-        <li class="list-group-item active">
-            Genres
-                                            
-                                
-                    
-        </li>
+        <li class="list-group-item active"><i class="fa fa-icons"></i> Genres </li>
         {% for genre in genres %}
             <li class="list-group-item ">
-                {{ genre.libelle }}
+                <a href="{{ path ('app_visiteur_genre_fiche', {id: genre.id}) }}" class="btn btn info"> 
+                    <i class="fa fa-icons"></i> {{ genre.libelle }}
+                </a>
             </li>
         {% else %}
-            <li class="list-group-item">
-                Aucun résultat trouvé
-                            
-            </li>
+            <li class="list-group-item"> Aucun résultat trouvé </li>
         {% endfor %}
     </ul>
 
