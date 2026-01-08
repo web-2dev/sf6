@@ -33,7 +33,8 @@ class VisiteurController extends AbstractController
         return $this->render("visiteur/livres.html.twig", [ "livres" => $livreRepository->findAll() ]); 
     }
 
-    #[Route("/livre-{id}/fiche", name:"app_visiteur_livre_fiche")]
+    #[Route("/livre/{url}/fiche", name:"app_visiteur_livre_fiche")]
+    #[Route("/livre-{id}/fiche", name:"app_visiteur_livre_fiche_id")]
     public function livreFiche(Livre $livre): Response {
         
         return $this->render("livre/fiche.html.twig", compact("livre")); 

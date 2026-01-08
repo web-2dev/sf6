@@ -20,14 +20,27 @@
         </div>
         
         <div class="card-footer">
-            <a href="{{ path("app_visiteur_livre_fiche", {id: livre.id}) }}" class="card-link"> 
+            <a href="{{ path("app_visiteur_livre_fiche", {url: livre.url}) }}" class="card-link"> 
                 <i class="fa fa-book"></i> Voir plus 
             </a>
             {% if is_granted("ROLE_LECTEUR") and livre is livreDejaEmprunte and livre is not livreDejaCommente %}        
-                <a href="{{ path("app_lecteur_critique", {"id": livre.id}) }}" class="card-link">
+                <a href="{{ path("app_lecteur_critique", {"url": livre.url}) }}" class="card-link">
                     <i class="fa fa-star"></i> Noter
                 </a>
             {% endif %}
+
+            {% if is_granted("ROLE_LECTEUR") and livre is livreDejaLu and livre is not livreDejaCommente %}        
+                <a href="{{ path("app_lecteur_critique", {"url": livre.url}) }}" class="card-link">
+                    <i class="fa fa-star"></i> Critiquer
+                </a>
+            {% endif %}
+
+            {% if is_granted("ROLE_LECTEUR") and livre is not livreDejaLu %}
+                <a href="{{ path("app_lecteur_livre_lu", {"url": livre.url}) }}" class="card-link">
+                    <i class="fa fa-book-open"></i> Marquer comme lu
+                </a>
+            {% endif %}
+
             {# 
             {% if is_granted("ROLE_LECTEUR") and livre.dispo %}        
                 <a href="{{ path("app_espace_reserver", {"id": livre.id}) }}" class="card-link">

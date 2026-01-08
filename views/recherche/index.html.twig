@@ -19,7 +19,7 @@
         <li class="list-group-item active"><i class="fa fa-book"></i> Livres </li>
         {% for livre in livres %}
             <li class="list-group-item ">
-                <a href="{{ path ('app_visiteur_livre_fiche', {id: livre.id}) }}" class="btn btn info"> 
+                <a href="{{ path ('app_visiteur_livre_fiche', {url: livre.url}) }}" class="btn btn info"> 
                     <i class="fa fa-book"></i> {{ livre.titre }} 
                 </a>
             </li>

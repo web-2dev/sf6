@@ -51,7 +51,7 @@
                         <strong class="col-xl-3 col-lg-12">Livres</strong>
                         <ul class="col-8">
                         {% for livre in auteur.livres %}
-                            <li><a href="{{ path('app_visiteur_livre_fiche', {id: livre.id}) }}">{{ livre.titre }}</a></li>
+                            <li><a href="{{ path('app_visiteur_livre_fiche', {url: livre.url}) }}">{{ livre.titre }}</a></li>
                         {% endfor %}
                         </ul>
                         

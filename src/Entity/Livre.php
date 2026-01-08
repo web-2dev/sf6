@@ -12,51 +12,58 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
 class Livre extends ParentEntity
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+        #[ORM\Column(length: 50)]
     private ?string $titre = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+        #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $synopsis = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
+        #[ORM\Column(length: 100, nullable: true)]
     private ?string $couverture = null;
 
-    #[ORM\Column(length: 255)]
+        #[ORM\Column(length: 255)]
     private ?string $url = null;
 
-    #[ORM\ManyToOne(inversedBy: 'livres', cascade:["persist"])]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: "Un livre est écrit par un auteur")]
+        #[ORM\ManyToOne(inversedBy: 'livres', cascade:["persist"])]
+        #[ORM\JoinColumn(nullable: false)]
+        #[Assert\NotNull(message: "Un livre est écrit par un auteur")]
     private ?Auteur $auteur = null;
 
     /**
      * @var Collection<int, Genre>
      */
-    #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'livres')]
+        #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'livres')]
     private Collection $genres;
 
     /**
      * @var Collection<int, Emprunt>
      */
-    #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'livre', orphanRemoval: true)]
+        #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'livre', orphanRemoval: true)]
     private Collection $emprunts;
 
     /**
      * @var Collection<int, Critique>
      */
-    #[ORM\OneToMany(targetEntity: Critique::class, mappedBy: 'livre', orphanRemoval: true)]
+        #[ORM\OneToMany(targetEntity: Critique::class, mappedBy: 'livre', orphanRemoval: true)]
     private Collection $critiques;
+
+    /**
+     * @var Collection<int, Lecture>
+     */
+        #[ORM\OneToMany(targetEntity: Lecture::class, mappedBy: 'livre')]
+    private Collection $lectures;
 
     public function __construct()
     {
         $this->genres = new ArrayCollection();
         $this->emprunts = new ArrayCollection();
         $this->critiques = new ArrayCollection();
+        $this->lectures = new ArrayCollection();
     }
 
     // ╔═══════════════════════════════════════════════════════════════════════╗
@@ -234,6 +241,36 @@ class Livre extends ParentEntity
             // set the owning side to null (unless already changed)
             if ($critique->getLivre() === $this) {
                 $critique->setLivre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Lecture>
+     */
+    public function getLectures(): Collection
+    {
+        return $this->lectures;
+    }
+
+    public function addLecture(Lecture $lecture): static
+    {
+        if (!$this->lectures->contains($lecture)) {
+            $this->lectures->add($lecture);
+            $lecture->setLivre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLecture(Lecture $lecture): static
+    {
+        if ($this->lectures->removeElement($lecture)) {
+            // set the owning side to null (unless already changed)
+            if ($lecture->getLivre() === $this) {
+                $lecture->setLivre(null);
             }
         }
 

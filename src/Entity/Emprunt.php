@@ -6,29 +6,29 @@ use App\Repository\EmpruntRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: EmpruntRepository::class)]
+    #[ORM\Entity(repositoryClass: EmpruntRepository::class)]
 class Emprunt extends ParentEntity
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+        #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateEmprunt = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+        #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateRetour = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+        #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $datePrevue = null;
 
-    #[ORM\ManyToOne(inversedBy: 'emprunts')]
-    #[ORM\JoinColumn(nullable: false)]
+        #[ORM\ManyToOne(inversedBy: 'emprunts')]
+        #[ORM\JoinColumn(nullable: false)]
     private ?Abonne $abonne = null;
 
-    #[ORM\ManyToOne(inversedBy: 'emprunts')]
-    #[ORM\JoinColumn(nullable: false)]
+        #[ORM\ManyToOne(inversedBy: 'emprunts')]
+        #[ORM\JoinColumn(nullable: false)]
     private ?Livre $livre = null;
 
     // ╔═══════════════════════════════════════════════════════════════════════╗
@@ -37,6 +37,10 @@ class Emprunt extends ParentEntity
     // public function __toString() {
         
     // }
+
+        // public function getRetard() {
+        //     // $this->datePrevue.
+        // }
     // ╔═══════════════════════════════════════════════════════════════════════╗
     // ║                           GETTERS && SETTERS                          ║
     // ╚═══════════════════════════════════════════════════════════════════════╝

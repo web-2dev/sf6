@@ -13,23 +13,23 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 class Critique extends ParentEntity
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+        #[ORM\Column]
     private ?int $note = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+        #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $commentaire = null;
 
-    #[ORM\ManyToOne(inversedBy: 'critiques')]
-    #[ORM\JoinColumn(name: "abonne_id", nullable: false)]
+        #[ORM\ManyToOne(inversedBy: 'critiques')]
+        #[ORM\JoinColumn(name: "abonne_id", nullable: false)]
     private ?Abonne $abonne = null;
 
-    #[ORM\ManyToOne(inversedBy: 'critiques')]
-    #[ORM\JoinColumn(name: "livre_id", nullable: false)]
+        #[ORM\ManyToOne(inversedBy: 'critiques')]
+        #[ORM\JoinColumn(name: "livre_id", nullable: false)]
     private ?Livre $livre = null;
 
     public function getId(): ?int

@@ -71,6 +71,7 @@ class Functions extends AbstractExtension {
             new TwigTest("dejaEmprunte", [$this, "dejaEmprunte"]),
             new TwigTest("livreDejaEmprunte", [$this, "livreDejaEmprunte"]),
             new TwigTest("livreDejaCommente", [$this, "livreDejaCommente"]),
+            new TwigTest("livreDejaLu", [$this, "livreDejaLu"]),
         ];}
 
     // 💬 Ajouter des variables globales Twig   
@@ -201,8 +202,13 @@ class Functions extends AbstractExtension {
     public function livreDejaCommente(Livre $livre): ?bool {
         if( $user = $this->securite->getUser() )
             return $this->livreRepo->aDejaCommente($user, $livre);
-        return null;
-        
+        return null;      
+    }
+
+    public function livreDejaLu(Livre $livre): ?bool {
+        if( $user = $this->securite->getUser() )
+            return $this->livreRepo->aDejaLu($user, $livre);
+        return null;      
     }
 
     public function age(DateTimeInterface $naissance): int {

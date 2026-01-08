@@ -18,54 +18,61 @@ class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticate
 {
     use \App\Trait\Personne;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+        #[ORM\Column(length: 180)]
     private ?string $pseudo = null;
 
     /**
      * @var list<string> The user roles
      */
-    #[ORM\Column]
+        #[ORM\Column]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+        #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 30, nullable: true)]
+        #[ORM\Column(length: 30, nullable: true)]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 30, nullable: true)]
+        #[ORM\Column(length: 30, nullable: true)]
     private ?string $nom = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+        #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $adresse = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+        #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $naissance = null;
 
     /**
      * @var Collection<int, Emprunt>
      */
-    #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'abonne', orphanRemoval: true)]
+        #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'abonne', orphanRemoval: true)]
     private Collection $emprunts;
 
     /**
      * @var Collection<int, Critique>
      */
-    #[ORM\OneToMany(targetEntity: Critique::class, mappedBy: 'abonne', orphanRemoval: true)]
+        #[ORM\OneToMany(targetEntity: Critique::class, mappedBy: 'abonne', orphanRemoval: true)]
     private Collection $critiques;
+
+    /**
+     * @var Collection<int, Lecture>
+     */
+        #[ORM\OneToMany(targetEntity: Lecture::class, mappedBy: 'abonne', orphanRemoval: true)]
+    private Collection $lectures;
 
     public function __construct()
     {
         $this->emprunts = new ArrayCollection();
         $this->critiques = new ArrayCollection();
+        $this->lectures = new ArrayCollection();
     }
     
     // ╔═══════════════════════════════════════════════════════════════════════╗
@@ -257,6 +264,36 @@ class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticate
             // set the owning side to null (unless already changed)
             if ($critique->getAbonne() === $this) {
                 $critique->setAbonne(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Lecture>
+     */
+    public function getLectures(): Collection
+    {
+        return $this->lectures;
+    }
+
+    public function addLecture(Lecture $lecture): static
+    {
+        if (!$this->lectures->contains($lecture)) {
+            $this->lectures->add($lecture);
+            $lecture->setAbonne($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLecture(Lecture $lecture): static
+    {
+        if ($this->lectures->removeElement($lecture)) {
+            // set the owning side to null (unless already changed)
+            if ($lecture->getAbonne() === $this) {
+                $lecture->setAbonne(null);
             }
         }
 

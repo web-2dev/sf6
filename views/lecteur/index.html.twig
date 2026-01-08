@@ -1,20 +1,96 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LecteurController!{% endblock %}
+{% block title %}Espace Lecteur{% endblock %}
+{% block titre %}{{ block("title") }}  {% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="row">
+        <div class="col">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+            <ul class="list-group mb-3">
+                <li class="list-group-item bg-secondary"><h4>Mes lectures</h4></li>
+                {% for lecture in lectures %}
+                    <li class="list-group-item position-relative"><a href="{{ path('app_visiteur_livre_fiche', {url: lecture.livre.url}) }}" class="stretched-link">{{ lecture.livre }}</a></li>
+                {% endfor %}
+            </ul>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>G:/Dev/Formation/Cours/SYMFONY/codes_sources/cours_sf6/src/Controller/LecteurController.php</code></li>
-        <li>Your template at <code>G:/Dev/Formation/Cours/SYMFONY/codes_sources/cours_sf6/views/lecteur/index.html.twig</code></li>
-    </ul>
-</div>
+            <ul class="list-group mb-3">
+                <li class="list-group-item bg-secondary"><h4>Mes emprunts</h4></li>
+                {% for emprunt in app.user.emprunts %}
+                    <li class="list-group-item">{{ emprunt.livre.titreAuteur }} : <i>emprunté du</i> {{ emprunt.dateEmprunt|date() }} <i>au</i> {{ emprunt.dateRetour|date }}</li>
+                {% endfor %}
+            </ul>
+
+            <ul class="list-group mb-3">
+                <li class="list-group-item bg-secondary"><h4>Mes critiques</h4></li>
+                {% for critique in app.user.critiques %}
+                    <li class="list-group-item">
+                        <mark class="me-3"><a href="{{ path('app_visiteur_livre_fiche', {url: critique.livre.url}) }}" class="stretched-link">{{ critique.livre.titreAuteur }}</a></mark> {{ critique.note }} <i class="fa fa-star me-3"></i> <i>{{ critique.commentaire|extrait(30) }}</i>
+
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="col">
+            <ul class="list-group">
+                <li class="list-group-item bg-secondary"><h4>Mes informations</h4></li>
+                <li class="list-group-item">
+                    <table>
+                        <tr>
+                            <th>Catégorie</th>
+                            <td>{{ app.user|autorisations }}</td>
+                        </tr>
+                    </table>
+                </li>
+
+                <li class="list-group-item">
+                    <table>
+                        <tr>
+                            <th>PSEUDO</th>
+                            <td>{{ app.user.pseudo }}</td>
+                        </tr>
+                    </table>
+                </li>
+
+                <li class="list-group-item">
+                    <table>
+                        <tr>
+                            <th>Identité</th>
+                            <td>{{ app.user.nomcomplet }}</td>
+                        </tr>
+                    </table>
+                </li>
+
+                <li class="list-group-item">
+                    <table>
+                        <tr>
+                            <th>Date de naissance</th>
+                            <td>{{ app.user.naissance ? app.user.naissance|date : "-" }} </td>
+                        </tr>
+                    </table>
+                </li>
+
+
+                <li class="list-group-item">
+                    <table>
+                        <tr>
+                            <th>E-mail</th>
+                            <td>***</td>
+                        </tr>
+                    </table>
+                </li>
+
+                <li class="list-group-item">
+                    <table>
+                        <tr>
+                            <th>Adresse</th>
+                            <td>{{ app.user.adresse }}</td>
+                        </tr>
+                    </table>
+                </li>
+            </ul>
+        </div>
+    
+    </div>
 {% endblock %}

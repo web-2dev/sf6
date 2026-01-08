@@ -153,7 +153,7 @@ svg {
 
 .card.bg-secondary .card-link:hover { color: white !important; }
 
-/* */
+/* image couverture de livre */
 .tranche-livre {
     background: #f3eadc;
     border-top: 4px solid #6b4f3a;
@@ -203,3 +203,12 @@ svg {
   );
 
 }
+
+// Liens
+/* Liens dans une table */
+/* td:has(a.stretched-link:hover) { background-color: gray; } */
+.position-relative:hover { background-color: gray; }
+.position-relative > a.stretched-link { text-decoration: none; color: inherit; }
+/* td > a:not(.stretched-link):hover { background-color: gray; color: black; padding-inline: 5px; } */
+
+

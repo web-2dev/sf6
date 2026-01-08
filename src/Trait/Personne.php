@@ -11,7 +11,7 @@ trait Personne
 
     public function getNomComplet()
     {
-        return trim("$this->prenom $this->nom");
+        return trim(ucfirst(strtolower($this->prenom)) . " " . strtoupper($this->nom));
     }
 
 }
