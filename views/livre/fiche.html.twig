@@ -17,12 +17,14 @@
                         <strong class="col-3 text-right">Titre</strong>
                         <span class="col-9  d-flex justify-content-between align-items-center" >
                             {{ livre.titre }}
-                            {% if livre is livreDejaLu %}
-                                <span>Lu : <span class="badge bg-primary text-success">✔</span></span>
-                            {% else %}
-                                <span>Lu : <span class="badge bg-primary "><a href="{{ path ('app_lecteur_livre_lu', {url: livre.url}) }}">❌</a></span></span>
+                           
+                           {% if app.user %}
+                                {% if livre is livreDejaLu %}
+                                    <span>Lu : <span class="badge bg-primary text-success">✔</span></span>
+                                {% else %}
+                                    <span>Lu : <span class="badge bg-primary "><a href="{{ path ('app_lecteur_livre_lu', {url: livre.url}) }}">❌</a></span></span>
+                                {% endif %}
                             {% endif %}
-                            
                         </span>
 
                     </h2>
@@ -86,7 +88,7 @@
                             {% for critique in livre.critiques %}
                                 <hr>
                                 <div class="d-flex">
-                                    {% if app.user.userIdentifier == critique.abonne.userIdentifier %}
+                                    {% if app.user and app.user.userIdentifier == critique.abonne.userIdentifier %}
                                         <span class="col-3"><mark>{{ critique.abonne.pseudo }}</mark> </span>
                                     {% else %}
                                         <span class="col-3">{{ critique.abonne.pseudo }} </span>
