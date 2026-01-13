@@ -16,10 +16,19 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AuteurController extends ParentController
 {
     #[Route(name: 'app_admin_auteur_index', methods: ['GET'])]
-    public function index(AuteurRepository $auteurRepository): Response
+    public function index(AuteurRepository $auteurRepository, Request $request): Response
     {
+        $col = $request->query->get("col", "prenom");
+        $dir = $request->query->get("dir", "asc");
+
+        if( $col == "nom" ) {
+            $tri = ["prenom" => $dir, "nom" => $dir ];
+        } else {
+            $tri = [ $col => $dir ];
+        }
+
         return $this->render('admin/auteur/index.html.twig', [
-            'auteurs' => $auteurRepository->findAll(),
+            'auteurs' => $auteurRepository->findAll($tri),
         ]);
     }
 
