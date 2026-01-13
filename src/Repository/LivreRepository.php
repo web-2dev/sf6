@@ -359,7 +359,17 @@ class LivreRepository extends ParentRepository
     }
 
 
-
+    public function findAllOrderedByAuteur(string $dir)
+    {
+        return $this->createQueryBuilder('l')
+            ->leftJoin('l.auteur', 'a')
+            ->addSelect('a')
+            ->orderBy('a.prenom', $dir)
+            ->addOrderBy('a.nom', $dir)
+            ->getQuery()
+            ->getResult();
+    }
+    
 
 
 

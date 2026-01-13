@@ -111,6 +111,18 @@ abstract class ParentRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function findAllOrderedByRelation($champRelie, array $champsPourTri)
+    {
+
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->leftJoin("t.$champRelie", $champRelie)
+            ->addSelect($champRelie);
+        foreach ($champsPourTri as $champ => $sens) {
+            $queryBuilder->addOrderBy("$champRelie.$champ", $sens);
+        }
+        
+        return $queryBuilder->getQuery()->getResult();
+    }
 
     /* 
     TODO

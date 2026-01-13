@@ -12,7 +12,11 @@
             <tr>
                 <th><i class="fa fa-key"></i></th>
                 {% for colonne in colonnes %}
-                    <th>{{colonne}}</th>
+                    <th>
+                        <a href="?col={{ colonne|lower }}&dir=asc"><i class="fa fa-arrow-down-a-z text-dark"></i></a>
+                        {{colonne}}
+                        <a href="?col={{ colonne|lower }}&dir=desc"><i class="fa fa-arrow-down-z-a text-dark"></i></a>
+                    </th>
                 {% endfor %}
                 <th><i class="fa fa-screwdriver-wrench"></i></th>
             </tr>

@@ -15,11 +15,18 @@ use Symfony\Component\Routing\Attribute\Route;
 final class LivreController extends ParentController
 {
     #[Route(name: 'app_admin_livre_index', methods: ['GET'])]
-    public function index(LivreRepository $livreRepository): Response
+    public function index(LivreRepository $livreRepository, Request $request): Response
     {
-        return $this->render('admin/livre/index.html.twig', [
-            'livres' => $livreRepository->findAll(),
-        ]);
+        $col = $request->query->get("col", "titre");
+        $dir = $request->query->get("dir", "asc");
+        if( $col == "auteur" ) {
+            // $livres = $livreRepository->findAllOrderedByAuteur($dir);
+            $livres = $livreRepository->findAllOrderedByRelation($col, ["prenom" => $dir, "nom" => $dir]);
+        } else {
+            $livres = $livreRepository->findAll([$col => $dir]);
+
+        }
+        return $this->render('admin/livre/index.html.twig', compact("livres"));
     }
 
     #[Route('/new', name: 'app_admin_livre_new', methods: ['GET', 'POST'])]
