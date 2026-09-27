@@ -9,11 +9,9 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Identité</th>
                 <th>Pseudo</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Prenom</th>
-                <th>Nom</th>
+                <th>Droits</th>
                 <th>Adresse</th>
                 <th>Naissance</th>
                 <th>actions</th>
@@ -23,17 +21,15 @@
         {% for abonne in abonnes %}
             <tr>
                 <td>{{ abonne.id }}</td>
+                <td>{{ abonne.identite }}</td>
                 <td>{{ abonne.pseudo }}</td>
-                <td>{{ abonne.roles ? abonne.roles|json_encode : '' }}</td>
-                <td>{{ abonne.password }}</td>
-                <td>{{ abonne.prenom }}</td>
-                <td>{{ abonne.nom }}</td>
-                <td>{{ abonne.adresse }}</td>
-                <td>{{ abonne.naissance ? abonne.naissance|date('Y-m-d') : '' }}</td>
+                <td>{{ abonne|autorisations }} </td>
+                <td>{{ abonne.adresse|extrait(5) }}</td>
+                <td>{{ abonne.naissance ? abonne.naissance|date("d/m/y") : '' }}</td>
                 <td>
-                    <a href="{{ path('app_admin_abonne_show', {'id': abonne.id}) }}">show</a>
-                    <a href="{{ path('app_admin_abonne_edit', {'id': abonne.id}) }}">edit</a>
-                </td>
+                    <a href="{{ path('app_admin_abonne_show', {'id': abonne.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a href="{{ path('app_admin_abonne_edit', {'id': abonne.id}) }}"><i class="fa fa-edit"></i></a>
+    </td>
             </tr>
         {% else %}
             <tr>

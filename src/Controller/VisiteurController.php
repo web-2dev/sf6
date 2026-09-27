@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Genre;
+use App\Entity\Livre;
 use App\Repository\GenreRepository;
 use App\Repository\LivreRepository;
 use App\Repository\AuteurRepository;
@@ -19,22 +21,39 @@ class VisiteurController extends AbstractController
         ]);
     }
 
+    /************************************************************ */
+    /** GENRES  */
+    /************************************************************ */
     #[Route("/genres", name:"app_visiteur_genre")]
     public function genres(GenreRepository $genreRepository) {
         
-        return $this->render("visiteur/genres.html.twig", [ "genres" => $genreRepository->findAll() ]); 
+        return $this->render("visiteur/genre/liste.html.twig", [ "genres" => $genreRepository->findAll() ]); 
     }
 
+    #[Route("/genres/{libelle}", name:"app_visiteur_genre_fiche")]
+    public function genre(Genre $genre) {
+        return $this->render("visiteur/genre/fiche.html.twig", compact("genre"));
+    }
+
+
+    
+    /************************************************************ */
+    /** AUTEURS  */
+    /************************************************************ */
     #[Route("/auteurs", name:"app_visiteur_auteur")]
     public function auteurs(AuteurRepository $auteurRepository) {
         
         return $this->render("visiteur/auteurs.html.twig", [ "auteurs" => $auteurRepository->findAll() ]); 
     }
 
-    #[Route("/livres", name:"app_visiteur_livre")]
-    public function livres(LivreRepository $livreRepository) {
-        
-        return $this->render("visiteur/livres.html.twig", [ "livres" => $livreRepository->findAll() ]); 
+    /************************************************************ */
+    /** LIVRES  */
+    /************************************************************ */
+
+    #[Route("/fiche-livre-{id}", name:"app_visiteur_livre_fiche", requirements:["id"=>"\d+"])]
+    public function livre(Livre $livre)
+    {
+        return $this->render("visiteur/livre/fiche.html.twig", [ "livre" => $livre ]);
     }
 
 }
