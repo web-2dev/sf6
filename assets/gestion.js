@@ -48,6 +48,35 @@ $(function(){
         dataSrcUploadedImage(this, $('#' + id + 'img'));
     });
 
+    $("a.nav-link.ajax").on("click", function(evtClick){
+        evtClick.preventDefault();
+        $.ajax({
+            url: $(this).prop("href"),
+            dataType: "html",
+            success: function(donnees) {
+                $("#gestion-contenu").html(donnees);            
+            },
+            error: function(jqXHR, status, error){
+                console.log(jqXHR);
+                $("#gestion-contenu").html("<div class='alert alert-danger'>" + status + " : " + error + "</div>");
+            }
+        });
+    }); 
+    
+    $("#frmAuteurIL").on("submit", (evt) => {
+        evt.preventDefault();
+        $.ajax({
+            url: $("#frmAuteurIL").prop("action"),
+            method: "post",
+            data: $('#frmAuteurIL').serialize(),
+            success: function(reponse){
+                console.log(reponse);
+            },
+            error: function(jqxhr, error, status) {
+                console.log("ERREUR AJAX " + error + "- " + status);
+            }
+        });
+    });
     // let main = document.querySelector("main");
     // let hauteurAvant = main.clientHeight;
     // main.style.height = "calc(100vh - 60px)";

@@ -1,0 +1,18 @@
+{{ form_start(form, {attr: {class: "frm", action: path('app_admin_auteur_new_ajax'), id: "frmAuteurIL" }}) }}
+    <td><a class="btn btn-primary disabled"><i class="fa fa-plus"></i></a></td>
+    <td>
+        <div class="d-flex">
+            {{ form_widget(form.prenom, {attr: {placeholder: "prénom"   }}) }}
+            {{ form_widget(form.nom,    {attr: {placeholder: "nom"      }}) }}
+        </div>
+    </td>
+    <td>{{ form_widget(form.biographie, {attr: {placeholder: "bio", rows: "1"}}) }}</td>
+    <td
+        <div class="d-flex">
+            {{ form_widget(form.naissance,  {attr: {placeholder: "naissance"}}) }}
+            {{ form_widget(form.deces,      {attr: {placeholder: "deces"    }}) }}
+        </div>
+    </td>
+    <td><button  class="btn btn-secondary form-control"><i class="fa fa-save"></i></button></td>
+    {{ form_widget(form) }}
+{{ form_end(form) }}
