@@ -72,6 +72,7 @@ class Functions extends AbstractExtension {
 
     public function résumé(?string $texte, int $longueur): string
     {
+        $texte = $texte ?? "";
         return strlen($texte) > $longueur ? substr($texte, 0, $longueur) . "[...]" : $texte;
     }
 
