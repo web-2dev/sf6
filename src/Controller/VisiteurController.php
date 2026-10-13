@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Controller\Dev\ParentController;
 use App\Entity\Genre;
 use App\Entity\Livre;
 use App\Repository\GenreRepository;
@@ -9,9 +10,8 @@ use App\Repository\LivreRepository;
 use App\Repository\AuteurRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class VisiteurController extends AbstractController
+class VisiteurController extends ParentController
 {
     #[Route('/visiteur', name: 'app_visiteur')]
     public function index(): Response

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Biblio index{% endblock %}
+
+{% block body %}
+    <h1>Biblio index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Creation</th>
+                <th>Modification</th>
+                <th>Suppression</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for biblio in biblios %}
+            <tr>
+                <td>{{ biblio.id }}</td>
+                <td>{{ biblio.nom }}</td>
+                <td>{{ biblio.creation ? biblio.creation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ biblio.modification ? biblio.modification|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ biblio.suppression ? biblio.suppression|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_biblio_show', {'id': biblio.id}) }}">show</a>
+                    <a href="{{ path('app_admin_biblio_edit', {'id': biblio.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_biblio_new') }}">Create new</a>
+{% endblock %}

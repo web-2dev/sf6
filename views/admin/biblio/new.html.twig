@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Biblio{% endblock %}
+
+{% block body %}
+    <h1>Create new Biblio</h1>
+
+    {{ include('admin/biblio/_form.html.twig') }}
+
+    <a href="{{ path('app_admin_biblio_index') }}">back to list</a>
+{% endblock %}

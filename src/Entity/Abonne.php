@@ -56,6 +56,9 @@ class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticate
     #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'abonne', orphanRemoval: true)]
     private Collection $emprunts;
 
+    #[ORM\OneToOne(mappedBy: 'lecteur', cascade: ['persist', 'remove'])]
+    private ?Biblio $biblio = null;
+
     public function __construct()
     {
         $this->emprunts = new ArrayCollection();
@@ -214,6 +217,23 @@ class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticate
                 $emprunt->setAbonne(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBiblio(): ?Biblio
+    {
+        return $this->biblio;
+    }
+
+    public function setBiblio(Biblio $biblio): static
+    {
+        // set the owning side of the relation if necessary
+        if ($biblio->getLecteur() !== $this) {
+            $biblio->setLecteur($this);
+        }
+
+        $this->biblio = $biblio;
 
         return $this;
     }

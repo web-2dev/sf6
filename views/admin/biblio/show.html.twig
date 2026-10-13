@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Biblio{% endblock %}
+
+{% block body %}
+    <h1>Biblio</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ biblio.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ biblio.nom }}</td>
+            </tr>
+            <tr>
+                <th>Creation</th>
+                <td>{{ biblio.creation ? biblio.creation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modification</th>
+                <td>{{ biblio.modification ? biblio.modification|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Suppression</th>
+                <td>{{ biblio.suppression ? biblio.suppression|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_biblio_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_biblio_edit', {'id': biblio.id}) }}">edit</a>
+
+    {{ include('admin/biblio/_delete_form.html.twig') }}
+{% endblock %}

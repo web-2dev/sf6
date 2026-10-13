@@ -11,43 +11,50 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
 class Livre extends ParentEntity
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+     #[ORM\Id]
+     #[ORM\GeneratedValue]
+     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+     #[ORM\Column(length: 50)]
     private ?string $titre = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $synopsis = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
+     #[ORM\Column(length: 100, nullable: true)]
     private ?string $couverture = null;
 
-    #[ORM\Column(length: 255)]
+     #[ORM\Column(length: 255)]
     private ?string $url = null;
 
-    #[ORM\ManyToOne(inversedBy: 'livres')]
-    #[ORM\JoinColumn(nullable: false)]
+     #[ORM\ManyToOne(inversedBy: 'livres')]
+     #[ORM\JoinColumn(nullable: false)]
     private ?Auteur $auteur = null;
 
     /**
      * @var Collection<int, Genre>
      */
-    #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'livres')]
+     #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'livres')]
     private Collection $genres;
 
     /**
      * @var Collection<int, Emprunt>
      */
-    #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'livre', orphanRemoval: true)]
+     #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'livre', orphanRemoval: true)]
     private Collection $emprunts;
+
+    /**
+     * @var Collection<int, Exemplaire>
+     */
+     #[ORM\OneToMany(targetEntity: Exemplaire::class, mappedBy: 'livre', orphanRemoval: true)]
+    private Collection $exemplaires;
 
     public function __construct()
     {
         $this->genres = new ArrayCollection();
         $this->emprunts = new ArrayCollection();
+        $this->exemplaires = new ArrayCollection();
     }
 
     // ╔═══════════════════════════════════════════════════════════════════════╗
@@ -189,6 +196,36 @@ class Livre extends ParentEntity
             // set the owning side to null (unless already changed)
             if ($emprunt->getLivre() === $this) {
                 $emprunt->setLivre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Exemplaire>
+     */
+    public function getExemplaires(): Collection
+    {
+        return $this->exemplaires;
+    }
+
+    public function addExemplaire(Exemplaire $exemplaire): static
+    {
+        if (!$this->exemplaires->contains($exemplaire)) {
+            $this->exemplaires->add($exemplaire);
+            $exemplaire->setLivre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExemplaire(Exemplaire $exemplaire): static
+    {
+        if ($this->exemplaires->removeElement($exemplaire)) {
+            // set the owning side to null (unless already changed)
+            if ($exemplaire->getLivre() === $this) {
+                $exemplaire->setLivre(null);
             }
         }
 

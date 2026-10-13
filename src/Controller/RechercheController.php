@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
+use App\Controller\Dev\ParentController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class RechercheController extends AbstractController
+class RechercheController extends ParentController
 {
     #[Route('/recherche', name: 'app_recherche')]
     public function index(): Response
