@@ -18,7 +18,7 @@ class VisiteurController extends ParentController
     /************************************************************ */
     /** GENRES  */
     /************************************************************ */
-    #[Route("/genres", name:"app_visiteur_genreS")]
+    #[Route("/genres", name:"app_visiteur_genres")]
     public function genres(GenreRepository $genreRepository) {
         
         return $this->render("visiteur/genre/liste.html.twig", [ "genres" => $genreRepository->findAll() ]); 
