@@ -43,27 +43,20 @@ class Livre extends ParentEntity
     /**
      * @var Collection<int, Emprunt>
      */
-        #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'livre', orphanRemoval: true)]
+     #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'livre', orphanRemoval: true)]
     private Collection $emprunts;
 
     /**
-     * @var Collection<int, Critique>
+     * @var Collection<int, Exemplaire>
      */
-        #[ORM\OneToMany(targetEntity: Critique::class, mappedBy: 'livre', orphanRemoval: true)]
-    private Collection $critiques;
-
-    /**
-     * @var Collection<int, Lecture>
-     */
-        #[ORM\OneToMany(targetEntity: Lecture::class, mappedBy: 'livre')]
-    private Collection $lectures;
+     #[ORM\OneToMany(targetEntity: Exemplaire::class, mappedBy: 'livre', orphanRemoval: true)]
+    private Collection $exemplaires;
 
     public function __construct()
     {
         $this->genres = new ArrayCollection();
         $this->emprunts = new ArrayCollection();
-        $this->critiques = new ArrayCollection();
-        $this->lectures = new ArrayCollection();
+        $this->exemplaires = new ArrayCollection();
     }
 
     // ╔═══════════════════════════════════════════════════════════════════════╗
@@ -218,59 +211,29 @@ class Livre extends ParentEntity
     }
 
     /**
-     * @return Collection<int, Critique>
+     * @return Collection<int, Exemplaire>
      */
-    public function getCritiques(): Collection
+    public function getExemplaires(): Collection
     {
-        return $this->critiques;
+        return $this->exemplaires;
     }
 
-    public function addCritique(Critique $critique): static
+    public function addExemplaire(Exemplaire $exemplaire): static
     {
-        if (!$this->critiques->contains($critique)) {
-            $this->critiques->add($critique);
-            $critique->setLivre($this);
+        if (!$this->exemplaires->contains($exemplaire)) {
+            $this->exemplaires->add($exemplaire);
+            $exemplaire->setLivre($this);
         }
 
         return $this;
     }
 
-    public function removeCritique(Critique $critique): static
+    public function removeExemplaire(Exemplaire $exemplaire): static
     {
-        if ($this->critiques->removeElement($critique)) {
+        if ($this->exemplaires->removeElement($exemplaire)) {
             // set the owning side to null (unless already changed)
-            if ($critique->getLivre() === $this) {
-                $critique->setLivre(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Lecture>
-     */
-    public function getLectures(): Collection
-    {
-        return $this->lectures;
-    }
-
-    public function addLecture(Lecture $lecture): static
-    {
-        if (!$this->lectures->contains($lecture)) {
-            $this->lectures->add($lecture);
-            $lecture->setLivre($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLecture(Lecture $lecture): static
-    {
-        if ($this->lectures->removeElement($lecture)) {
-            // set the owning side to null (unless already changed)
-            if ($lecture->getLivre() === $this) {
-                $lecture->setLivre(null);
+            if ($exemplaire->getLivre() === $this) {
+                $exemplaire->setLivre(null);
             }
         }
 

@@ -1,0 +1,309 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma bibliothèque{% endblock %}
+
+{% block body %}
+    <div
+        class="container py-4">
+
+        {# ============================================================ EN-TÊTE ============================================================ #}
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="mb-1">Ma bibliothèque</h1>
+                <p class="text-muted mb-0"> {{ app.user.biblio.exemplaires|length }} livre(s) </p>
+            </div>
+
+            <div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLivreExistant">
+                    Ajouter un livre
+                </button>
+
+                <a href="{{ path('app_admin_livre_new') }}" class="btn btn-outline-primary">
+                    Nouveau livre
+                </a>
+            </div>
+        </div>
+
+        {# ============================================================ FILTRES ============================================================ #}
+
+        <div class="card mb-4">
+            <div class="card-body">
+
+                <form method="get" class="form-row align-items-end">
+
+                    <div class="form-group col-md-5 mb-md-0">
+                        <label for="recherche">Rechercher</label>
+
+                        <input type="search" class="form-control" id="recherche" name="q" value="{{ app.request.query.get('q') }}" placeholder="Titre, auteur...">
+                    </div>
+
+                    <div class="form-group col-md-3 mb-md-0">
+                        <label for="statut">Statut</label>
+
+                        <select class="form-control" id="statut" name="statut">
+                            <option value="">Tous</option>
+                            <option value="lu">Lu</option>
+                            <option value="a_lire">À lire</option>
+                            <option value="commence">Commencé</option>
+                            <option value="abandonne">Abandonné</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-md-0">
+                        <label for="acquisition">Situation</label>
+
+                        <select class="form-control" id="acquisition" name="acquisition">
+                            <option value="">Toutes</option>
+                            <option value="emprunte">Emprunté</option>
+                            <option value="achete">Acheté</option>
+                            <option value="cadeau">Cadeau</option>
+                            <option value="trouve">Trouvé</option>
+                            <option value="vendu">Vendu</option>
+                            <option value="rendu">Rendu</option>
+                            <option value="donne">Donné</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-1 mb-0">
+                        <button type="submit" class="btn btn-secondary btn-block">
+                            OK
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+        {# ============================================================ LISTE DES LIVRES ============================================================ #}
+
+        {% if app.user.biblio.exemplaires is empty %}
+
+            <div class="alert alert-light border text-center py-5">
+                <h4>Votre bibliothèque est vide</h4>
+
+                <p class="text-muted mb-3">
+                    Ajoutez votre premier livre pour commencer votre collection.
+                </p>
+
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLivreExistant">
+                    Ajouter un livre
+                </button>
+            </div>
+
+        {% else %}
+
+            <div class="row">
+
+                {% for livreBibliotheque in app.user.biblio.exemplaires %}
+
+                    {% set livre = livreBibliotheque.livre %}
+
+                    <div class="col-12 mb-3">
+
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div
+                                    class="row align-items-center">
+
+                                    {# Couverture #}
+
+                                    <div class="col-md-1 text-center mb-3 mb-md-0">
+
+                                        {% if livre.couverture %}
+                                            <img src="{{ asset(livre.couverture) }}" alt="{{ livre.titre }}" class="img-fluid rounded">
+                                        {% else %}
+                                            <div class="bg-light border rounded py-4 text-muted"> 📖 </div>
+                                        {% endif %}
+
+                                    </div>
+
+                                    {# Informations du livre #}
+
+                                    <div class="col-md-5">
+
+                                        <h5 class="card-title mb-1">
+                                            <a href=""> {{ livre.titre }} </a>
+                                        </h5>
+
+                                        {% if livre.auteur %}
+                                            <p class="text-muted mb-2"> {{ livre.auteur.identite }} </p>
+                                        {% endif %}
+
+
+                                    </div>
+
+                                    {# État de lecture #}
+
+                                    <div class="col-md-2">
+
+                                        <small class="text-muted d-block mb-1">Lecture</small>
+
+                                        {% set lectureClasses = {
+                                                                'lu': 'success',
+                                                                'a_lire': 'secondary',
+                                                                'commence': 'primary',
+                                                                'abandonne': 'danger'
+                                                            } %}
+
+                                        {% set lectureLabels = {
+                                                                'lu': 'Lu',
+                                                                'a_lire': 'À lire',
+                                                                'commence': 'Commencé',
+                                                                'abandonne': 'Abandonné'
+                                                            } %}
+
+                                        {# <span class="badge bg-{{ lectureClasses[livrebibliotheque.statut] ?? 'light' }}">
+                                            {{ lectureLabels[livrebibliotheque.statut] ?? 'Non défini' }}
+                                        </span> #}
+
+                                    </div>
+
+                                    {# Situation du livre #}
+
+                                    <div class="col-md-2">
+
+                                        <small class="text-muted d-block mb-1">
+                                            Situation
+                                        </small>
+
+                                        {% set situationLabels = {
+                                            'achete'    : 'Acheté',
+                                            'emprunte'  : 'Emprunté',
+                                            'rendu'     : 'Rendu',
+                                            'cadeau'    : 'Cadeau',
+                                            'trouve'    : 'Trouvé',
+                                            'vendu'     : 'Vendu',
+                                            'donne'     : 'Donné'} %}
+
+                                        {# <span class="badge bg-light border">
+                                            {{ situationLabels[livrebibliotheque.acquisition] ?? 'Non définie' }}
+                                        </span> #}
+
+                                    </div>
+
+                                    {# Actions #}
+
+                                    <div class="col-md-2 text-md-right mt-3 mt-md-0">
+                                        {# 
+                                        <a href="{{ path( 'bibliotheque_livre_edit', {id: livrebibliotheque.id} ) }}" class="btn btn-sm btn-outline-secondary">
+                                            Modifier
+                                        </a> #}
+
+                                        {# <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#removeBook{{ livrebibliotheque.id }}">
+                                            Retirer
+                                        </button> #}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                {% else %}
+                    PROBLEME
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+        {# ============================================================ MODALE : AJOUTER UN LIVRE EXISTANT ============================================================ #}
+
+        <div class="modal fade" id="modalLivreExistant" tabindex="-1" role="dialog" aria-hidden="true">
+
+            <div class="modal-dialog modal-lg" role="document">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h5 class="modal-title">
+                            Ajouter un livre à ma bibliothèque
+                        </h5>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <form method="post" action="{{ path('app_espace_biblio_livre_add') }}">
+
+                            <div class="form-group">
+
+                                <label for="livre">Livre</label>
+
+                                <select class="form-control" id="livre" name="livre" required>
+                                    <option value="">Choisissez un livre...</option>
+
+                                    {% for livre in livresDisponibles %}
+                                        <option value="{{ livre.id }}">
+                                            {{ livre.titre }} — {{ livre.auteur.identite }}
+                                        </option>
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="form-group col-md-6">
+
+                                    <label for="nouvelleLecture">État de lecture</label>
+
+                                    <select class="form-control" id="nouvelleLecture" name="lecture">
+                                        <option value="a_lire">À lire</option>
+                                        <option value="commence">Commencé</option>
+                                        <option value="lu">Lu</option>
+                                        <option value="abandonne">Abandonné</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="form-group col-md-6">
+
+                                    <label for="nouvelleAcquisition">Situation</label>
+
+                                    <select class="form-control" id="nouvelleAcquisition" name="acquisition">
+                                        <option value="">Non précisée</option>
+                                        <option value="achete">Acheté</option>
+                                        <option value="emprunte">Emprunté</option>
+                                        <option value="cadeau">Cadeau</option>
+                                        <option value="trouve">Trouvé</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <input type="hidden" name="_token" value="{{ csrf_token('bibliotheque_add_livre') }}">
+
+                            <div class="text-end">
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+
+                                <button type="submit" class="btn btn-primary">Ajouter à ma bibliothèque</button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

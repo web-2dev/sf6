@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Genres{% endblock %}
+
+{% block body %}
+    <div class="row mx-0">
+        <h2 class="col">Tous les genres</h2>
+        <h3 class="col-1">(x{{ genres|length }})</h3>
+    </div>
+
+
+    <div class="card-deck">
+        {% for genre in genres %}
+            {% include "visiteur/genre/vignette.html.twig" %}
+        {% else %}
+            </div>
+            <div class="alert alert-info">Aucun genre trouvé
+        {% endfor %}
+    </div>
+{% endblock %}
+
+

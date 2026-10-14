@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Exemplaire index{% endblock %}
+
+{% block body %}
+    <h1>Exemplaire index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Note</th>
+                <th>Commentaire</th>
+                <th>Statut</th>
+                <th>Acquisition</th>
+                <th>Creation</th>
+                <th>Modification</th>
+                <th>Suppression</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exemplaire in exemplaires %}
+            <tr>
+                <td>{{ exemplaire.id }}</td>
+                <td>{{ exemplaire.note }}</td>
+                <td>{{ exemplaire.commentaire }}</td>
+                <td>{{ exemplaire.statut }}</td>
+                <td>{{ exemplaire.acquisition }}</td>
+                <td>{{ exemplaire.creation ? exemplaire.creation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ exemplaire.modification ? exemplaire.modification|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ exemplaire.suppression ? exemplaire.suppression|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_exemplaire_show', {'id': exemplaire.id}) }}">show</a>
+                    <a href="{{ path('app_admin_exemplaire_edit', {'id': exemplaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_exemplaire_new') }}">Create new</a>
+{% endblock %}

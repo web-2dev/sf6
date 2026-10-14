@@ -12,22 +12,23 @@
                 {# ? si app.user n'est pas null, c'est qu'un utilisateur est connecté. app.user contient un objet User (classe Abonne dans le projet actuel) #}
                 {# ? on peut aussi utiliser le rôle IS_AUTHENTICATED_FULLY qui signifie qu'il y a  un utilisateur connecté #}
                 <li class="nav-item">
-                    <a class="nav-link {{ app.request.attributes.get("_route") == "app_espace" ? "active" : "" }}" href="{{ path(is_granted('ROLE_ADMIN') ? "app_admin_gestion" : "app_espace") }}">
-                        <i class="fas fa-user"></i> {{ app.user.userIdentifier }} {# Espace_lecteur ou Gestion #}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path("app_logout") }}" title="se déconnecter">
-                        <i class="fa-solid fa-person-through-window"></i> {# Déconnexion  #}
-                    </a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link {{ app.request.attributes.get("_route") == "app_login" ? "active" : "" }}" 
-                       href="{{ path("app_login") }}" title="se connecter">
-                        <i class="fas fa-door-open"></i> {# Connexion #}
-                    </a>
-                </li>
+                    <a class="nav-link {{ app.request.attributes.get("_route") == "app_espace" ? "active" : "" }}" 
+                       href="{{ path(is_granted('ROLE_ADMIN') ? "app_admin_gestion" : "app_espace_biblio") }}">
+						<i class="fas fa-user"></i> {{ app.user.userIdentifier }} {# Espace_lecteur ou Gestion #}
+					</a>
+                </li>app_espace_mabiblio
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path("app_logout") }}">
+						<i class="fas fa-door-closed"></i> {# Déconnexion  #}
+					</a>
+				</li>
+			{% else %}
+				<li class="nav-item">
+					<a class="nav-link {{ app.request.attributes.get("_route") == "app_login" ? "active" : "" }}" 
+                       href="{{ path("app_login") }}">
+						<i class="fas fa-door-open"></i> {# Connexion #}
+					</a>
+				</li>
 
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.attributes.get("_route") == "app_register" ? "active" : "" }}" 
@@ -37,20 +38,21 @@
                 </li>
             {% endif %}
 
-                <li class="nav-item ">
-                    <a class="nav-link" href=""><i class="fa fa-grip-lines-vertical_"></i></a>
+				<li class="nav-item "><a class="nav-link" href=""><i class="fa fa-grip-lines-vertical_"></i></a></li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_auteurs" ? " active" : " " }}" 
+                       href="{{ path("app_visiteur_auteurs") }}">Auteurs</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_auteurs" ? " active" : " " }}" href="{{ path("app_visiteur_auteurs") }}">Auteurs</a>
+                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_livres" ? " active" : " " }}" 
+                       href="{{ path("app_visiteur_livres") }}">Livres</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_livres" ? " active" : " " }}" href="{{ path("app_visiteur_livres") }}">Livres</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_genres" ? " active" : " " }}" href="{{ path("app_visiteur_genres") }}">Genres</a>
+                    <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_genres" ? " active" : " " }}" 
+                       href="{{ path("app_visiteur_genres") }}">Genres</a>
                 </li>
 
       

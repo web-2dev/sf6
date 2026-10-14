@@ -38,14 +38,14 @@ class AbonneType extends AbstractType
                 "required"      =>  !$abonne->getId(),
                 "label"         =>  "Mot de passe",
                 // "constraints"   =>  [
-                //                         new Regex(pattern: "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{6,15})$/",
-                //                                   message: "Le mot de passe doit être composé d'au moins :
-                //                                                 une minuscule,
-                //                                                 une majuscule,
-                //                                                 un chiffre,
-                //                                                 un caractère spécial -+!*$@%_,
-                //                                                 6 caractères, jusqu'à 15")
-                //                     ]
+                    //                         new Regex(pattern: "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{6,15})$/",
+                    //                                   message: "Le mot de passe doit être composé d'au moins :
+                    //                                                 une minuscule,
+                    //                                                 une majuscule,
+                    //                                                 un chiffre,
+                    //                                                 un caractère spécial -+!*$@%_,
+                    //                                                 6 caractères, jusqu'à 15")
+                    //                     ]
             ])
             ->add('roles', ChoiceType::class, [
                 "choices"       =>  $roles,

@@ -56,17 +56,8 @@ class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticate
         #[ORM\OneToMany(targetEntity: Emprunt::class, mappedBy: 'abonne', orphanRemoval: true)]
     private Collection $emprunts;
 
-    /**
-     * @var Collection<int, Critique>
-     */
-        #[ORM\OneToMany(targetEntity: Critique::class, mappedBy: 'abonne', orphanRemoval: true)]
-    private Collection $critiques;
-
-    /**
-     * @var Collection<int, Lecture>
-     */
-        #[ORM\OneToMany(targetEntity: Lecture::class, mappedBy: 'abonne', orphanRemoval: true)]
-    private Collection $lectures;
+    #[ORM\OneToOne(mappedBy: 'lecteur', cascade: ['persist', 'remove'])]
+    private ?Biblio $biblio = null;
 
     public function __construct()
     {
@@ -240,62 +231,19 @@ class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticate
         return $this;
     }
 
-    /**
-     * @return Collection<int, Critique>
-     */
-    public function getCritiques(): Collection
+    public function getBiblio(): ?Biblio
     {
-        return $this->critiques;
+        return $this->biblio;
     }
 
-    public function addCritique(Critique $critique): static
+    public function setBiblio(Biblio $biblio): static
     {
-        if (!$this->critiques->contains($critique)) {
-            $this->critiques->add($critique);
-            $critique->setAbonne($this);
+        // set the owning side of the relation if necessary
+        if ($biblio->getLecteur() !== $this) {
+            $biblio->setLecteur($this);
         }
 
-        return $this;
-    }
-
-    public function removeCritique(Critique $critique): static
-    {
-        if ($this->critiques->removeElement($critique)) {
-            // set the owning side to null (unless already changed)
-            if ($critique->getAbonne() === $this) {
-                $critique->setAbonne(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Lecture>
-     */
-    public function getLectures(): Collection
-    {
-        return $this->lectures;
-    }
-
-    public function addLecture(Lecture $lecture): static
-    {
-        if (!$this->lectures->contains($lecture)) {
-            $this->lectures->add($lecture);
-            $lecture->setAbonne($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLecture(Lecture $lecture): static
-    {
-        if ($this->lectures->removeElement($lecture)) {
-            // set the owning side to null (unless already changed)
-            if ($lecture->getAbonne() === $this) {
-                $lecture->setAbonne(null);
-            }
-        }
+        $this->biblio = $biblio;
 
         return $this;
     }

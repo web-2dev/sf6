@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Exemplaire{% endblock %}
+
+{% block body %}
+    <h1>Exemplaire</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ exemplaire.id }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ exemplaire.note }}</td>
+            </tr>
+            <tr>
+                <th>Commentaire</th>
+                <td>{{ exemplaire.commentaire }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ exemplaire.statut }}</td>
+            </tr>
+            <tr>
+                <th>Acquisition</th>
+                <td>{{ exemplaire.acquisition }}</td>
+            </tr>
+            <tr>
+                <th>Creation</th>
+                <td>{{ exemplaire.creation ? exemplaire.creation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modification</th>
+                <td>{{ exemplaire.modification ? exemplaire.modification|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Suppression</th>
+                <td>{{ exemplaire.suppression ? exemplaire.suppression|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_exemplaire_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_exemplaire_edit', {'id': exemplaire.id}) }}">edit</a>
+
+    {{ include('admin/exemplaire/_delete_form.html.twig') }}
+{% endblock %}

@@ -6,13 +6,13 @@ use App\Repository\GenreRepository;
 use App\Repository\LivreRepository;
 use App\Repository\AbonneRepository;
 use App\Repository\AuteurRepository;
+use App\Controller\Dev\ParentController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 
-class RechercheController extends AbstractController
+class RechercheController extends ParentController
 {
     #[Route('/recherche', name: 'app_recherche')]
     public function index(AbonneRepository $repoAbonne,

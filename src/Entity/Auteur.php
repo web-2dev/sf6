@@ -14,30 +14,30 @@ class Auteur extends ParentEntity
 {
     use Personne;
     
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+     #[ORM\Id]
+     #[ORM\GeneratedValue]
+     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 30)]
+     #[ORM\Column(length: 30)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 30, nullable: true)]
+     #[ORM\Column(length: 30, nullable: true)]
     private ?string $prenom = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $biographie = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $naissance = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deces = null;
 
     /**
      * @var Collection<int, Livre>
      */
-    #[ORM\OneToMany(targetEntity: Livre::class, mappedBy: 'auteur', orphanRemoval: true)]
+     #[ORM\OneToMany(targetEntity: Livre::class, mappedBy: 'auteur', orphanRemoval: true)]
     private Collection $livres;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -170,15 +170,16 @@ class Auteur extends ParentEntity
         return $this;
     }
 
-    public function getPortrait(): ?string
-    {
-        return $this->portrait;
-    }
+    // 2DO 
+    // public function getPortrait(): ?string
+    // {
+    //     return $this->portrait;
+    // }
 
-    public function setPortrait(?string $portrait): static
-    {
-        $this->portrait = $portrait;
+    // public function setPortrait(?string $portrait): static
+    // {
+    //     $this->portrait = $portrait;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 }
