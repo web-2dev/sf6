@@ -155,9 +155,9 @@
                                                                 'abandonne': 'Abandonné'
                                                             } %}
 
-                                        {# <span class="badge bg-{{ lectureClasses[livrebibliotheque.statut] ?? 'light' }}">
-                                            {{ lectureLabels[livrebibliotheque.statut] ?? 'Non défini' }}
-                                        </span> #}
+                                        <span class="badge bg-{{ lectureClasses[livreBibliotheque.statut.value] ?? 'light' }}">
+                                            {{ lectureLabels[livreBibliotheque.statut.value] ?? 'Non défini' }}
+                                        </span>
 
                                     </div>
 
@@ -178,9 +178,9 @@
                                             'vendu'     : 'Vendu',
                                             'donne'     : 'Donné'} %}
 
-                                        {# <span class="badge bg-light border">
-                                            {{ situationLabels[livrebibliotheque.acquisition] ?? 'Non définie' }}
-                                        </span> #}
+                                        <span class="badge bg-light border">
+                                            {{ situationLabels[livreBibliotheque.acquisition] ?? 'Non définie' }}
+                                        </span>
 
                                     </div>
 
@@ -188,11 +188,11 @@
 
                                     <div class="col-md-2 text-md-right mt-3 mt-md-0">
                                         {# 
-                                        <a href="{{ path( 'bibliotheque_livre_edit', {id: livrebibliotheque.id} ) }}" class="btn btn-sm btn-outline-secondary">
+                                        <a href="{{ path( 'bibliotheque_livre_edit', {id: livreBibliotheque.id} ) }}" class="btn btn-sm btn-outline-secondary">
                                             Modifier
                                         </a> #}
 
-                                        {# <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#removeBook{{ livrebibliotheque.id }}">
+                                        {# <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#removeBook{{ livreBibliotheque.id }}">
                                             Retirer
                                         </button> #}
 
