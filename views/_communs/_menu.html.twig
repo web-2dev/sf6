@@ -16,7 +16,7 @@
                        href="{{ path(is_granted('ROLE_ADMIN') ? "app_admin_gestion" : "app_espace_biblio") }}">
 						<i class="fas fa-user"></i> {{ app.user.userIdentifier }} {# Espace_lecteur ou Gestion #}
 					</a>
-                </li>app_espace_mabiblio
+                </li>
 				<li class="nav-item">
 					<a class="nav-link" href="{{ path("app_logout") }}">
 						<i class="fas fa-door-closed"></i> {# Déconnexion  #}
@@ -38,7 +38,7 @@
                 </li>
             {% endif %}
 
-				<li class="nav-item "><a class="nav-link" href=""><i class="fa fa-grip-lines-vertical_"></i></a></li>
+				<li class="nav-item "><a class="nav-link"><i class="fa fa-grip-lines-vertical"></i></a></li>
 
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.attributes.get(" _route") == "app_visiteur_auteurs" ? " active" : " " }}" 

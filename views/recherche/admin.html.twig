@@ -42,7 +42,11 @@
         <div class="tab-pane fade" id="content-livres" role="tabpanel" aria-labelledby="profile-tab">
             <ul class="list-group">
                 {% for livre in livres %}
-                    <li class="list-group-item"> <a href="{{ path('app_admin_livre_show', {id: livre.id}) }}">{{ livre.titre }}</a></li>
+                    <li class="list-group-item"> 
+                        <a href="{{ path('app_admin_livre_show', {id: livre.id}) }}">
+                            {{ livre.id ~ " - " ~ livre.titre }}
+                        </a>
+                    </li>
                 {% endfor %}
             </ul>
                     

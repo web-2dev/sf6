@@ -19,7 +19,7 @@
                 {% endfor %}
             </td>
             <td>{{ entite.emprunts|length }}</td>
-            <td>{{ entite.critiques|length }}</td>
+            {# <td>{{ entite.critiques|length }}</td> #}
             {{ include("_communs/admin/crud/case_actions.html.twig") }}
         </tr>
     {% else %}

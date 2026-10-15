@@ -73,7 +73,7 @@
         <th>Critiques</th>
         <td>
             <div class="col-9">
-                {% for critique in livre.critiques %}
+                {# {% for critique in livre.critiques %}
                     <div class="d-flex">
                         <span class="col-3 position-relative" ><a class="stretched-link" href="{{ path('app_admin_abonne_show', {id: critique.abonne.id}) }}">{{ critique.abonne.pseudo }}</a> </span>
                         <span class="col-2"> {{ critique.note }} <i class="fa fa-book"></i> / 10 </span>
@@ -82,7 +82,7 @@
                     <hr>
                 {% else %}
                     <div class="alert-info">Aucune critique enregistrée pour ce livre</div>
-                {% endfor %}
+                {% endfor %} #}
             </div>
         </td>
     </tr>

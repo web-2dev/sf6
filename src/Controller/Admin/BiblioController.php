@@ -81,19 +81,4 @@ final class BiblioController extends AbstractController
     }
 
     #################### DED
-    // #[Route("/dev", name:"app_admin_biblio_dev", priority: 1)]
-    // public function dev(AbonneRepository $repoAbonne, EntityManagerInterface $em): Response {
-    //     $lecteurs = $repoAbonne->findAll();
-    //     /** @var \App\Entity\Abonne $lecteur */
-    //     foreach ($lecteurs as $lecteur) {
-    //         if( in_array("ROLE_LECTEUR", $lecteur->getRoles() )  ) {
-    //             $biblio = new Biblio;
-    //             $biblio->setLecteur($lecteur);
-    //             $biblio->setNom("Biblio de " . $lecteur->getPseudo());
-    //             $em->persist($biblio);
-    //         }
-    //     }
-    //     $em->flush();
-    //     return $this->redirectToRoute("app_admin_biblio_index"); 
-    // }
 }
