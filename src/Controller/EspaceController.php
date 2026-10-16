@@ -41,6 +41,8 @@ class EspaceController extends ParentController
         $livre = $repoLivre->find( $livre );
         $acquisition = $rq->request->get("acquisition");
         $statut = $rq->request->get('lecture');
+        $tome = $rq->request->get("tome");
+        $sousTitre = $rq->request->get("sous_titre");
 
         // 💬 si le string $statut ne correspond pas à une valeur de l'enum, from génère une erreur, tryFrom retourne null  
         // $statut = StatutLecture::from( $statut );
@@ -50,6 +52,8 @@ class EspaceController extends ParentController
         $exemplaire->setStatut( $statut );
         $exemplaire->setLivre( $livre );
         $exemplaire->setAcquisition( $acquisition );
+        $exemplaire->settome($tome);        
+        $exemplaire->setsousTitre($sousTitre);            
         
         $em->persist( $exemplaire );
         /** @var App\Entity\Abonne $lecteur */

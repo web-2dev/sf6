@@ -3,93 +3,221 @@
 {% block title %}Ma bibliothèque{% endblock %}
 
 {% block body %}
-    <div
-        class="container py-4">
 
-        {# ============================================================ EN-TÊTE ============================================================ #}
+    {# ============================================================
+       CONSTANTES D'AFFICHAGE
+       ============================================================ #}
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
+    {% set lectureClasses = {
+        'lu': 'success',
+        'a_lire': 'secondary',
+        'commence': 'primary',
+        'abandonne': 'danger'
+    } %}
+
+    {% set lectureLabels = {
+        'lu': 'Lu',
+        'a_lire': 'À lire',
+        'commence': 'Commencé',
+        'abandonne': 'Abandonné'
+    } %}
+
+    {% set situationLabels = {
+        'achete': 'Acheté',
+        'emprunte': 'Emprunté',
+        'rendu': 'Rendu',
+        'cadeau': 'Cadeau',
+        'trouve': 'Trouvé',
+        'vendu': 'Vendu',
+        'donne': 'Donné'
+    } %}
+
+
+    <div class="container py-4">
+
+        {# ============================================================
+           EN-TÊTE
+           ============================================================ #}
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+
             <div>
                 <h1 class="mb-1">Ma bibliothèque</h1>
-                <p class="text-muted mb-0"> {{ app.user.biblio.exemplaires|length }} livre(s) </p>
+
+                <p class="text-muted mb-0">
+                    {{ app.user.biblio.exemplaires|length }} livre(s)
+                </p>
             </div>
 
-            <div>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLivreExistant">
+            <div class="d-flex gap-2">
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalLivreExistant"
+                >
                     Ajouter un livre
                 </button>
 
-                <a href="{{ path('app_admin_livre_new') }}" class="btn btn-outline-primary">
+                <a
+                    href="{{ path('app_admin_livre_new') }}"
+                    class="btn btn-outline-primary"
+                >
                     Nouveau livre
                 </a>
+
             </div>
+
         </div>
 
-        {# ============================================================ FILTRES ============================================================ #}
+
+        {# ============================================================
+           FILTRES
+           ============================================================ #}
 
         <div class="card mb-4">
+
             <div class="card-body">
 
-                <form method="get" class="form-row align-items-end">
+                <form method="get">
 
-                    <div class="form-group col-md-5 mb-md-0">
-                        <label for="recherche">Rechercher</label>
+                    <div class="row g-3 align-items-end">
 
-                        <input type="search" class="form-control" id="recherche" name="q" value="{{ app.request.query.get('q') }}" placeholder="Titre, auteur...">
-                    </div>
+                        <div class="col-md-5">
 
-                    <div class="form-group col-md-3 mb-md-0">
-                        <label for="statut">Statut</label>
+                            <label for="recherche" class="form-label">
+                                Rechercher
+                            </label>
 
-                        <select class="form-control" id="statut" name="statut">
-                            <option value="">Tous</option>
-                            <option value="lu">Lu</option>
-                            <option value="a_lire">À lire</option>
-                            <option value="commence">Commencé</option>
-                            <option value="abandonne">Abandonné</option>
-                        </select>
-                    </div>
+                            <input
+                                type="search"
+                                class="form-control"
+                                id="recherche"
+                                name="q"
+                                value="{{ app.request.query.get('q') }}"
+                                placeholder="Titre, auteur..."
+                            >
 
-                    <div class="form-group col-md-3 mb-md-0">
-                        <label for="acquisition">Situation</label>
+                        </div>
 
-                        <select class="form-control" id="acquisition" name="acquisition">
-                            <option value="">Toutes</option>
-                            <option value="emprunte">Emprunté</option>
-                            <option value="achete">Acheté</option>
-                            <option value="cadeau">Cadeau</option>
-                            <option value="trouve">Trouvé</option>
-                            <option value="vendu">Vendu</option>
-                            <option value="rendu">Rendu</option>
-                            <option value="donne">Donné</option>
-                        </select>
-                    </div>
 
-                    <div class="form-group col-md-1 mb-0">
-                        <button type="submit" class="btn btn-secondary btn-block">
-                            OK
-                        </button>
+                        <div class="col-md-3">
+
+                            <label for="statut" class="form-label">
+                                Statut
+                            </label>
+
+                            <select
+                                class="form-select"
+                                id="statut"
+                                name="statut"
+                            >
+                                <option value="">Tous</option>
+
+                                <option
+                                    value="lu"
+                                    {{ app.request.query.get('statut') == 'lu' ? 'selected' : '' }}
+                                >
+                                    Lu
+                                </option>
+
+                                <option
+                                    value="a_lire"
+                                    {{ app.request.query.get('statut') == 'a_lire' ? 'selected' : '' }}
+                                >
+                                    À lire
+                                </option>
+
+                                <option
+                                    value="commence"
+                                    {{ app.request.query.get('statut') == 'commence' ? 'selected' : '' }}
+                                >
+                                    Commencé
+                                </option>
+
+                                <option
+                                    value="abandonne"
+                                    {{ app.request.query.get('statut') == 'abandonne' ? 'selected' : '' }}
+                                >
+                                    Abandonné
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-3">
+
+                            <label for="acquisition" class="form-label">
+                                Situation
+                            </label>
+
+                            <select
+                                class="form-select"
+                                id="acquisition"
+                                name="acquisition"
+                            >
+                                <option value="">Toutes</option>
+
+                                {% for valeur, libelle in situationLabels %}
+                                    <option
+                                        value="{{ valeur }}"
+                                        {{ app.request.query.get('acquisition') == valeur ? 'selected' : '' }}
+                                    >
+                                        {{ libelle }}
+                                    </option>
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-1">
+
+                            <button
+                                type="submit"
+                                class="btn btn-secondary w-100"
+                            >
+                                OK
+                            </button>
+
+                        </div>
+
                     </div>
 
                 </form>
 
             </div>
+
         </div>
 
-        {# ============================================================ LISTE DES LIVRES ============================================================ #}
+
+        {# ============================================================
+           LISTE DES LIVRES
+           ============================================================ #}
 
         {% if app.user.biblio.exemplaires is empty %}
 
             <div class="alert alert-light border text-center py-5">
+
                 <h4>Votre bibliothèque est vide</h4>
 
                 <p class="text-muted mb-3">
                     Ajoutez votre premier livre pour commencer votre collection.
                 </p>
 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLivreExistant">
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalLivreExistant"
+                >
                     Ajouter un livre
                 </button>
+
             </div>
 
         {% else %}
@@ -99,96 +227,163 @@
                 {% for livreBibliotheque in app.user.biblio.exemplaires %}
 
                     {% set livre = livreBibliotheque.livre %}
+                    {% set statut = livreBibliotheque.statut %}
 
                     <div class="col-12 mb-3">
 
                         <div class="card">
+
                             <div class="card-body">
 
-                                <div
-                                    class="row align-items-center">
+                                <div class="row align-items-center g-3">
 
-                                    {# Couverture #}
+                                    {# ==================================================
+                                       COUVERTURE
+                                       ================================================== #}
 
-                                    <div class="col-md-1 text-center mb-3 mb-md-0">
+                                    <div class="col-md-1 text-center">
 
                                         {% if livre.couverture %}
-                                            <img src="{{ asset(chemin_couvertures ~ livre.couverture) }}" alt="{{ livre.titre }}" class="img-fluid rounded">
+
+                                            <img
+                                                src="{{ asset(chemin_couvertures ~ livre.couverture) }}"
+                                                alt="{{ livre.titre }}"
+                                                class="img-fluid rounded"
+                                            >
+
                                         {% else %}
-                                            <div class="bg-light border rounded py-4 text-muted"> 📖 </div>
+
+                                            <div class="bg-light border rounded py-4 text-muted">
+                                                📖
+                                            </div>
+
                                         {% endif %}
 
                                     </div>
 
-{# Informations du livre #}
 
-<div class="col-md-5">
+                                    {# ==================================================
+                                       INFORMATIONS DU LIVRE / EXEMPLAIRE
+                                       ================================================== #}
 
-    <h5 class="card-title mb-1">
-        <a href="">
-            {{ livre.titre }}
-        </a>
-    </h5>
+                                    <div class="col-md-5">
 
-    {% if livre.auteur %}
-        <p class="text-muted mb-2">
-            {{ livre.auteur.identite }}
-        </p>
-    {% endif %}
+                                        <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
 
+                                            <h5 class="card-title mb-0">
 
-    {# Note personnelle #}
+                                                <a href="">
+                                                    {{ livre.titre }}
+                                                </a>
 
-    {% if livreBibliotheque.note is not null %}
-        <div class="mb-2">
-            <span class="fw-semibold">Ma note :</span>
-
-            <span class="badge bg-warning text-dark">
-                {{ livreBibliotheque.note }}/5
-            </span>
-        </div>
-    {% endif %}
+                                            </h5>
 
 
-    {# Commentaire personnel #}
+                                            {# Tome propre à cet exemplaire #}
 
-    {% if livreBibliotheque.commentaire %}
-        <p class="mb-0 text-secondary small">
-            {{ livreBibliotheque.commentaire|slice(0, 150) }}
-            {% if livreBibliotheque.commentaire|length > 150 %}
-                …
-            {% endif %}
-        </p>
-    {% endif %}
+                                            {% if livreBibliotheque.tome is not null %}
 
-</div>
-                                    {# État de lecture #}
+                                                <span class="badge text-bg-secondary">
+                                                    Tome {{ livreBibliotheque.tome }}
+                                                </span>
 
-                                    <div class="col-md-2">
+                                            {% endif %}
 
-                                        <small class="text-muted d-block mb-1">Lecture</small>
+                                        </div>
 
-                                        {% set lectureClasses = {
-                                                                'lu': 'success',
-                                                                'a_lire': 'secondary',
-                                                                'commence': 'primary',
-                                                                'abandonne': 'danger'
-                                                            } %}
 
-                                        {% set lectureLabels = {
-                                                                'lu': 'Lu',
-                                                                'a_lire': 'À lire',
-                                                                'commence': 'Commencé',
-                                                                'abandonne': 'Abandonné'
-                                                            } %}
+                                        {# Sous-titre propre à cet exemplaire #}
 
-                                        <span class="badge bg-{{ lectureClasses[livreBibliotheque.statut.value] ?? 'light' }}">
-                                            {{ lectureLabels[livreBibliotheque.statut.value] ?? 'Non défini' }}
-                                        </span>
+                                        {% if livreBibliotheque.sousTitre %}
+
+                                            <div class="mb-1">
+                                                <span class="fw-medium">
+                                                    {{ livreBibliotheque.sousTitre }}
+                                                </span>
+                                            </div>
+
+                                        {% endif %}
+
+
+                                        {# Auteur #}
+
+                                        {% if livre.auteur %}
+
+                                            <p class="text-muted mb-2">
+                                                {{ livre.auteur.identite }}
+                                            </p>
+
+                                        {% endif %}
+
+
+                                        {# Note personnelle #}
+
+                                        {% if livreBibliotheque.note is not null %}
+
+                                            <div class="mb-2">
+
+                                                <span class="fw-semibold">
+                                                    Ma note :
+                                                </span>
+
+                                                <span class="badge text-bg-warning">
+                                                    {{ livreBibliotheque.note }}/5
+                                                </span>
+
+                                            </div>
+
+                                        {% endif %}
+
+
+                                        {# Commentaire personnel #}
+
+                                        {% if livreBibliotheque.commentaire %}
+
+                                            <p class="mb-0 text-secondary small">
+
+                                                {{ livreBibliotheque.commentaire|slice(0, 150) }}
+
+                                                {% if livreBibliotheque.commentaire|length > 150 %}
+                                                    …
+                                                {% endif %}
+
+                                            </p>
+
+                                        {% endif %}
 
                                     </div>
 
-                                    {# Situation du livre #}
+
+                                    {# ==================================================
+                                       ÉTAT DE LECTURE
+                                       ================================================== #}
+
+                                    <div class="col-md-2">
+
+                                        <small class="text-muted d-block mb-1">
+                                            Lecture
+                                        </small>
+
+                                        {% if statut %}
+
+                                            <span class="badge bg-{{ lectureClasses[statut.value] ?? 'light' }}">
+                                                {{ lectureLabels[statut.value] ?? 'Non défini' }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge text-bg-light border">
+                                                Non défini
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                    {# ==================================================
+                                       SITUATION DU LIVRE
+                                       ================================================== #}
 
                                     <div class="col-md-2">
 
@@ -196,135 +391,250 @@
                                             Situation
                                         </small>
 
-                                        {% set situationLabels = {
-                                            'achete'    : 'Acheté',
-                                            'emprunte'  : 'Emprunté',
-                                            'rendu'     : 'Rendu',
-                                            'cadeau'    : 'Cadeau',
-                                            'trouve'    : 'Trouvé',
-                                            'vendu'     : 'Vendu',
-                                            'donne'     : 'Donné'} %}
-
-                                        <span class="badge bg-light text-dark border">
+                                        <span class="badge text-bg-light border">
                                             {{ situationLabels[livreBibliotheque.acquisition] ?? 'Non définie' }}
                                         </span>
 
                                     </div>
 
-                                    {# Actions #}
 
-                                    <div class="col-md-2 text-md-right mt-3 mt-md-0">
-                                        {# 
-                                        <a href="{{ path( 'bibliotheque_livre_edit', {id: livreBibliotheque.id} ) }}" class="btn btn-sm btn-outline-secondary">
+                                    {# ==================================================
+                                       ACTIONS
+                                       ================================================== #}
+
+                                    <div class="col-md-2 text-md-end">
+
+                                        {#
+                                        <a
+                                            href="{{ path(
+                                                'bibliotheque_livre_edit',
+                                                {id: livreBibliotheque.id}
+                                            ) }}"
+                                            class="btn btn-sm btn-outline-secondary"
+                                        >
                                             Modifier
-                                        </a> #}
+                                        </a>
+                                        #}
 
-                                        {# <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#removeBook{{ livreBibliotheque.id }}">
+                                        {#
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm btn-outline-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#removeBook{{ livreBibliotheque.id }}"
+                                        >
                                             Retirer
-                                        </button> #}
+                                        </button>
+                                        #}
 
                                     </div>
 
                                 </div>
 
                             </div>
+
                         </div>
 
                     </div>
 
-                {% else %}
-                    PROBLEME
                 {% endfor %}
 
             </div>
 
         {% endif %}
 
-        {# ============================================================ MODALE : AJOUTER UN LIVRE EXISTANT ============================================================ #}
 
-        <div class="modal fade" id="modalLivreExistant" tabindex="-1" role="dialog" aria-hidden="true">
+        {# ============================================================
+           MODALE : AJOUTER UN LIVRE EXISTANT
+           ============================================================ #}
 
-            <div class="modal-dialog modal-lg" role="document">
+        <div
+            class="modal fade"
+            id="modalLivreExistant"
+            tabindex="-1"
+            aria-labelledby="modalLivreExistantLabel"
+            aria-hidden="true"
+        >
+
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
                 <div class="modal-content">
 
                     <div class="modal-header">
 
-                        <h5 class="modal-title">
+                        <h5
+                            class="modal-title"
+                            id="modalLivreExistantLabel"
+                        >
                             Ajouter un livre à ma bibliothèque
                         </h5>
 
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Fermer"
+                        ></button>
 
                     </div>
 
-                    <div class="modal-body">
 
-                        <form method="post" action="{{ path('app_espace_biblio_livre_add') }}">
+                    <form method="post" action="{{ path('app_espace_biblio_livre_add') }}" >
 
-                            <div class="form-group">
+                        <div class="modal-body">
 
-                                <label for="livre">Livre</label>
 
-                                <select class="form-control" id="livre" name="livre" required>
+                            {# ==================================================
+                               LIVRE
+                               ================================================== #}
+
+                            <div class="mb-3">
+
+                                <label for="livre" class="form-label" >Livre</label>
+
+                                <select class="form-select" id="livre" name="livre" required autofocus>
+
                                     <option value="">Choisissez un livre...</option>
 
                                     {% for livre in livresDisponibles %}
-                                        <option value="{{ livre.id }}">
-                                            {{ livre.titre }} — {{ livre.auteur.identite }}
-                                        </option>
+
+                                        <option value="{{ livre.id }}">{{ livre.titre }}{% if livre.auteur %} — {{ livre.auteur.identite }}{% endif %}</option>
+
                                     {% endfor %}
 
                                 </select>
 
                             </div>
 
-                            <div class="form-row">
 
-                                <div class="form-group col-md-6">
+                            {# ==================================================
+                               INFORMATIONS PROPRES À L'EXEMPLAIRE
+                               ================================================== #}
 
-                                    <label for="nouvelleLecture">État de lecture</label>
+                            <div class="row g-3 mb-3">
 
-                                    <select class="form-control" id="nouvelleLecture" name="lecture">
-                                        <option value="a_lire">À lire</option>
-                                        <option value="commence">Commencé</option>
-                                        <option value="lu">Lu</option>
-                                        <option value="abandonne">Abandonné</option>
+                                <div class="col-md-8">
+
+                                    <label for="sousTitre" class="form-label" >Sous-titre</label>
+
+                                    <input type="text" class="form-control" id="sousTitre" name="sousTitre" maxlength="255" placeholder="Complément de titre propre à cet exemplaire" >
+
+                                    <div class="form-text">
+                                        Facultatif. Permet de préciser un sous-titre ou un complément propre à cette édition.
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <label for="tome" class="form-label" > Tome </label>
+
+                                    <input type="number" class="form-control" id="tome" name="tome" min="1" step="1" placeholder="Ex. : 1" >
+
+                                    <div class="form-text">Facultatif.</div>
+
+                                </div>
+
+                            </div>
+
+
+                            {# ==================================================
+                               LECTURE / ACQUISITION
+                               ================================================== #}
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+
+                                    <label for="nouvelleLecture" class="form-label">État de lecture</label>
+
+                                    <select class="form-select" id="nouvelleLecture" name="lecture" >
+
+                                        <option value="a_lire"> À lire </option>
+
+                                        <option value="commence"> Commencé </option>
+
+                                        <option value="lu"> Lu </option>
+
+                                        <option value="abandonne"> Abandonné </option>
+
                                     </select>
 
                                 </div>
 
-                                <div class="form-group col-md-6">
 
-                                    <label for="nouvelleAcquisition">Situation</label>
+                                <div class="col-md-6">
 
-                                    <select class="form-control" id="nouvelleAcquisition" name="acquisition">
-                                        <option value="">Non précisée</option>
-                                        <option value="achete">Acheté</option>
-                                        <option value="emprunte">Emprunté</option>
-                                        <option value="cadeau">Cadeau</option>
-                                        <option value="trouve">Trouvé</option>
+                                    <label
+                                        for="nouvelleAcquisition"
+                                        class="form-label"
+                                    >
+                                        Situation
+                                    </label>
+
+                                    <select
+                                        class="form-select"
+                                        id="nouvelleAcquisition"
+                                        name="acquisition"
+                                    >
+
+                                        <option value="">
+                                            Non précisée
+                                        </option>
+
+                                        <option value="achete">
+                                            Acheté
+                                        </option>
+
+                                        <option value="emprunte">
+                                            Emprunté
+                                        </option>
+
+                                        <option value="cadeau">
+                                            Cadeau
+                                        </option>
+
+                                        <option value="trouve">
+                                            Trouvé
+                                        </option>
+
                                     </select>
 
                                 </div>
 
                             </div>
 
-                            <input type="hidden" name="_token" value="{{ csrf_token('bibliotheque_add_livre') }}">
 
-                            <div class="text-end">
+                            <input
+                                type="hidden"
+                                name="_token"
+                                value="{{ csrf_token('bibliotheque_add_livre') }}"
+                            >
 
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        </div>
 
-                                <button type="submit" class="btn btn-primary">Ajouter à ma bibliothèque</button>
 
-                            </div>
+                        <div class="modal-footer">
 
-                        </form>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Annuler
+                            </button>
 
-                    </div>
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+                                Ajouter à ma bibliothèque
+                            </button>
+
+                        </div>
+
+                    </form>
 
                 </div>
 
@@ -333,4 +643,5 @@
         </div>
 
     </div>
+
 {% endblock %}

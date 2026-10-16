@@ -29,3 +29,6 @@ _docs/
 
 *.jpg
 migrations
+
+TempController.php
+views/dev/temp/
