@@ -120,21 +120,48 @@
 
                                     </div>
 
-                                    {# Informations du livre #}
+{# Informations du livre #}
 
-                                    <div class="col-md-5">
+<div class="col-md-5">
 
-                                        <h5 class="card-title mb-1">
-                                            <a href=""> {{ livre.titre }} </a>
-                                        </h5>
+    <h5 class="card-title mb-1">
+        <a href="">
+            {{ livre.titre }}
+        </a>
+    </h5>
 
-                                        {% if livre.auteur %}
-                                            <p class="text-muted mb-2"> {{ livre.auteur.identite }} </p>
-                                        {% endif %}
+    {% if livre.auteur %}
+        <p class="text-muted mb-2">
+            {{ livre.auteur.identite }}
+        </p>
+    {% endif %}
 
 
-                                    </div>
+    {# Note personnelle #}
 
+    {% if livreBibliotheque.note is not null %}
+        <div class="mb-2">
+            <span class="fw-semibold">Ma note :</span>
+
+            <span class="badge bg-warning text-dark">
+                {{ livreBibliotheque.note }}/5
+            </span>
+        </div>
+    {% endif %}
+
+
+    {# Commentaire personnel #}
+
+    {% if livreBibliotheque.commentaire %}
+        <p class="mb-0 text-secondary small">
+            {{ livreBibliotheque.commentaire|slice(0, 150) }}
+            {% if livreBibliotheque.commentaire|length > 150 %}
+                …
+            {% endif %}
+        </p>
+    {% endif %}
+
+</div>
                                     {# État de lecture #}
 
                                     <div class="col-md-2">

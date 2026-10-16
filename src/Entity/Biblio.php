@@ -10,22 +10,22 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: BiblioRepository::class)]
 class Biblio extends ParentEntity
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
+        #[ORM\Column(length: 50, nullable: true)]
     private ?string $nom = null;
 
-    #[ORM\OneToOne(inversedBy: 'biblio', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+        #[ORM\OneToOne(inversedBy: 'biblio', cascade: ['persist', 'remove'])]
+        #[ORM\JoinColumn(nullable: false)]
     private ?Abonne $lecteur = null;
 
     /**
      * @var Collection<int, Exemplaire>
      */
-    #[ORM\OneToMany(targetEntity: Exemplaire::class, mappedBy: 'biblio', orphanRemoval: true)]
+        #[ORM\OneToMany(targetEntity: Exemplaire::class, mappedBy: 'biblio', orphanRemoval: true)]
     private Collection $exemplaires;
 
     public function __construct()

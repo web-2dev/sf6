@@ -30,10 +30,13 @@ class Exemplaire extends ParentEntity
     private ?string $commentaire = null;
 
      #[ORM\Column(nullable: true, enumType: StatutLecture::class)]
-     private ?StatutLecture $statut = null;
-
+    private ?StatutLecture $statut = null;
      #[ORM\Column(length: 50, nullable: true)]
-     private ?string $acquisition = null;
+    private ?string $acquisition = null;
+     #[ORM\Column(length: 255, nullable: true)]
+    private ?string $sousTitre = null;
+     #[ORM\Column(nullable: true)]
+    private ?int $tome = null;
 
     public function getId(): ?int
     {
@@ -108,6 +111,30 @@ class Exemplaire extends ParentEntity
     public function setAcquisition(?string $acquisition): static
     {
         $this->acquisition = $acquisition;
+
+        return $this;
+    }
+
+    public function getSousTitre(): ?string
+    {
+        return $this->sousTitre;
+    }
+
+    public function setSousTitre(?string $sousTitre): static
+    {
+        $this->sousTitre = $sousTitre;
+
+        return $this;
+    }
+
+    public function getTome(): ?int
+    {
+        return $this->tome;
+    }
+
+    public function setTome(?int $tome): static
+    {
+        $this->tome = $tome;
 
         return $this;
     }

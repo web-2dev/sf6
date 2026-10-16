@@ -22,6 +22,13 @@ class LivreRepository extends ParentRepository
     //?     ║                        REQUÊTES PERSONNALISÉES                        ║       
     //?     ╚═══════════════════════════════════════════════════════════════════════╝       
 
+    public function queryAll() {
+        return $this->createQueryBuilder("l")
+                    ->join("l.auteur", "a")
+                    ->orderBy("a.nom")
+                    ->addOrderBy("l.titre")
+                    ;
+    }
 
     /**
      * 💬 Livres empruntés (requête avec jointure)                                                                
