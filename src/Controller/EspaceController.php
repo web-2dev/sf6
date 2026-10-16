@@ -52,8 +52,8 @@ class EspaceController extends ParentController
         $exemplaire->setStatut( $statut );
         $exemplaire->setLivre( $livre );
         $exemplaire->setAcquisition( $acquisition );
-        $exemplaire->settome($tome);        
-        $exemplaire->setsousTitre($sousTitre);            
+        $exemplaire->settome($tome !== null && $tome !== '' ? (int) $tome : null);
+        $exemplaire->setsousTitre($sousTitre !== '' ? $sousTitre : null);
         
         $em->persist( $exemplaire );
         /** @var App\Entity\Abonne $lecteur */
