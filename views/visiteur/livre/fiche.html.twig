@@ -17,8 +17,7 @@
                         <span class="col-9  d-flex justify-content-between align-items-center" >
                             {{ livre.titre }}
 
-                            <!-- <span class="badge badge-primary badge-pill">{% if livre.dispo is not null %} {{ livre.dispo ? "✔" : "❌" }} {% endif %}</span> -->
-                            <span class="badge badge-primary badge-pill"> <i class="fa fa-{{ livre.dispo ? "check" : "times" }}"></i> </span>
+                            <span class="badge badge-primary badge-pill"> <i class="fa fa-{{ livre|dispo ? "check" : "times" }}"></i> </span>
                         </span>
 
                     </h2>
@@ -48,7 +47,7 @@
                 <li class="list-group-item">
                     <h5 class="row">
                         <strong class="col-3 text-right">Résumé</strong>
-                        <span class="col-9">{{ livre.resume }}</span>
+                        <span class="col-9">{{ livre.synopsis }}</span>
                     </h5>
                 </li>
 
@@ -57,7 +56,7 @@
                     <h6 class="row">
                         <strong class="col-3 text-right">Disponible</strong>
                         <span class="col-9">
-                            <span class="badge badge-primary badge-pill">{% if livre.dispo is not null %} {{ livre.dispo ? "✔" : "❌" }} {% endif %}</span>
+                            <span class="badge badge-primary badge-pill">{{ livre|dispo ? "✔" : "❌" }}</span>
                         </span>
                     </h6>
                 </li>
@@ -76,7 +75,7 @@
     </div>
     
 
-    <a href="{{ path("app_accueil") }}" class="btn btn-primary mt-5"><i class="fa fa-home"> Retour</i></a>
+    <a href="{{ path("app_home") }}" class="btn btn-primary mt-5"><i class="fa fa-home"> Retour</i></a>
 
     {% if is_granted("ROLE_LECTEUR") %}
         <a href="{{ "" }}" class="btn btn-success mt-5">Emprunter</a>

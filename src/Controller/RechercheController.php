@@ -51,7 +51,7 @@ class RechercheController extends ParentController
                     'abonnes' => $repoAbonne->search("pseudo", $word),
                     'auteurs' => $repoAuteur->search(["nom", "prenom"], $word),
                     'livres' => $repoLivre->search("titre", $word),
-                    'genres' => $repoGenre->search(["libelle", "mots_cles"], $word),
+                    'genres' => $repoGenre->search(["libelle", "motsCles"], $word),
                     "search_word"   =>  $word
                 ]);
         }

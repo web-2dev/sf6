@@ -34,7 +34,7 @@
                     {# 💬 COURS : La variable 'loop' permet d'avoir des informations sur les itérations #}
                     <ul>
                     {% for livre in genre.livres %}
-                        <li><a href="{{ path('app_visiteur_livre_fiche', {id: livre.id}) }}">{{ livre.titreAuteur }}</a></li>
+                        <li><a href="{{ path('app_visiteur_livre_fiche', {url: livre.url}) }}">{{ livre.titreAuteur }}</a></li>
                     {% endfor %}
                     </ul>
                 </h4>

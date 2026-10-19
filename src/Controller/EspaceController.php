@@ -25,42 +25,4 @@ class EspaceController extends ParentController
         return $this->render('espace/index.html.twig', []);
     }
 
-    #[Route("/ma-biblio", name:"app_espace_biblio", methods: ["GET"])]
-    public function maBiblio(LivreRepository $repoLivre): Response {
-        $livresDisponibles =  $repoLivre->findAll(["titre" => "ASC"]);
-        return $this->render("espace/ma-biblio", [
-            "livresDisponibles" => $livresDisponibles,
-        ]); 
-    }
-
-
-    #[Route("/ma-biblio/ajouter-un-livre", name:"app_espace_biblio_livre_add", methods:["POST"])]
-    public function biblioAjouterLivre(Request $rq, LivreRepository $repoLivre, EntityManagerInterface $em): Response {
-        $exemplaire = new Exemplaire;
-        $livre = $rq->request->get("livre");
-        $livre = $repoLivre->find( $livre );
-        $acquisition = $rq->request->get("acquisition");
-        $statut = $rq->request->get('lecture');
-        $tome = $rq->request->get("tome");
-        $sousTitre = $rq->request->get("sous_titre");
-
-        // 💬 si le string $statut ne correspond pas à une valeur de l'enum, from génère une erreur, tryFrom retourne null  
-        // $statut = StatutLecture::from( $statut );
-        $statut = StatutLecture::tryfrom( $statut );
-        if( !$statut ) $statut = StatutLecture::AUCUN;
-
-        $exemplaire->setStatut( $statut );
-        $exemplaire->setLivre( $livre );
-        $exemplaire->setAcquisition( $acquisition );
-        $exemplaire->settome($tome !== null && $tome !== '' ? (int) $tome : null);
-        $exemplaire->setsousTitre($sousTitre !== '' ? $sousTitre : null);
-        
-        $em->persist( $exemplaire );
-        /** @var App\Entity\Abonne $lecteur */
-        $lecteur = $this->getUser();
-        $lecteur->getBiblio()->addExemplaire( $exemplaire );
-        // $exemplaire->setBiblio( $lecteur->getBiblio());
-        $em->flush();
-        return $this->redirectToRoute("app_espace_biblio"); 
-    }
 }
