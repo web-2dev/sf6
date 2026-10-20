@@ -47,8 +47,10 @@ class Functions extends AbstractExtension {
      * Je référence le nouveau filtre grâce à la méthode getFilters()
      * Si je veux ajouter une fonction, j'utilise la méthode getFunctions() et
      * pour ajouter un test, getTests()
+     * 
+     * @return array
      */
-    public function getFilters() {
+    public function getFilters() : array {
         return [ 
             new TwigFilter("autorisations", [$this, "autorisations"]),
             new TwigFilter("img", [$this, "baliseImg"]),

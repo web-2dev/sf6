@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ exemplaire.livre.titre }}{% endblock %}
+
+{% block body %}
+
+    <div class="container py-4">
+
+        <h1 class="mb-1">
+            Modifier {{ exemplaire.livre.titre }}
+        </h1>
+
+        {% if exemplaire.livre.auteur %}
+            <p class="text-muted mb-4">
+                {{ exemplaire.livre.auteur.identite }}
+            </p>
+        {% endif %}
+
+        <div class="card">
+            <div class="card-body">
+
+                {{ form_start(form) }}
+
+                    {{ form_widget(form) }}
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+
+                        <a
+                            href="{{ path('app_espace_biblio') }}"
+                            class="btn btn-secondary"
+                        >
+                            Annuler
+                        </a>
+
+                        <button class="btn btn-primary">
+                            Enregistrer
+                        </button>
+
+                    </div>
+
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

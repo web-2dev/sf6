@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
+use App\Enum\Provenance;
 use App\Enum\StatutLecture;
-use App\Repository\ExemplaireRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ExemplaireRepository;
 
 #[ORM\Entity(repositoryClass: ExemplaireRepository::class)]
 class Exemplaire extends ParentEntity
@@ -31,8 +32,10 @@ class Exemplaire extends ParentEntity
 
      #[ORM\Column(nullable: true, enumType: StatutLecture::class)]
     private ?StatutLecture $statut = null;
-     #[ORM\Column(length: 50, nullable: true)]
-    private ?string $acquisition = null;
+    
+     #[ORM\Column(enumType: Provenance::class, nullable: true)]
+    private ?Provenance $acquisition = null;
+
      #[ORM\Column(length: 255, nullable: true)]
     private ?string $sousTitre = null;
      #[ORM\Column(nullable: true)]
@@ -103,12 +106,12 @@ class Exemplaire extends ParentEntity
         return $this;
     }
 
-    public function getAcquisition(): ?string
+    public function getAcquisition(): ?Provenance
     {
         return $this->acquisition;
     }
 
-    public function setAcquisition(?string $acquisition): static
+    public function setAcquisition(?Provenance $acquisition): static
     {
         $this->acquisition = $acquisition;
 

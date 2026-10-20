@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Biblio;
 use App\Entity\Exemplaire;
 use App\Entity\Livre;
+use App\Enum\Provenance;
 use App\Enum\StatutLecture;
 use App\Repository\LivreRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,42 +15,44 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 
 class ExemplaireType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('note')
+            ->add('note', IntegerType::class, [
+                "constraints"   =>  [
+                    new \Symfony\Component\Validator\Constraints\Positive(message: "La plus basse note est 1"),
+                    new LessThanOrEqual(value: 10, message: "La note maximum est 10")
+                ]
+            ])
             ->add('commentaire')
             ->add('statut', EnumType::class, [
-                "class"     =>  StatutLecture::class
+                "class"         =>  StatutLecture::class,
+                "choice_label"  =>  fn(StatutLecture $statut) => $statut->label()
             ])
-            ->add('acquisition')
-            // ->add('creation', null, [
-            //     'widget' => 'single_text',
-            // ])
-            // ->add('modification', null, [
-            //     'widget' => 'single_text',
-            // ])
-            // ->add('suppression', null, [
-            //     'widget' => 'single_text',
-            // ])
-            ->add('biblio', EntityType::class, [
-                'class' => Biblio::class,
-                'choice_label' => function(Biblio $b) {
-                    return $b->getLecteur()->getPseudo() . " <{$b->getNom()}>";
-                },
+            ->add('acquisition', EnumType::class, [
+                "class"         =>  Provenance::class,
+                "choice_label"  =>  fn(Provenance $acquis) => $acquis->value
             ])
-            ->add('livre', EntityType::class, [
-                'class' => Livre::class,
-                'choice_label' => function(Livre $l) {
-                    return $l->getAuteurTitre();
-                },
-                "query_builder" =>  function(LivreRepository $lr) { 
-                    return $lr->queryAll(); 
-                },
-            ])
+
+            // ->add('biblio', EntityType::class, [
+            //     'class' => Biblio::class,
+            //     'choice_label' => function(Biblio $b) {
+            //         return $b->getLecteur()->getPseudo() . " <{$b->getNom()}>";
+            //     },
+            // ])
+            // ->add('livre', EntityType::class, [
+            //     'class' => Livre::class,
+            //     'choice_label' => function(Livre $l) {
+            //         return $l->getAuteurTitre();
+            //     },
+            //     "query_builder" =>  function(LivreRepository $lr) { 
+            //         return $lr->queryAll(); 
+            //     },
+            // ])
             ->add("tome", IntegerType::class, [
                 "required"      =>  false
             ])

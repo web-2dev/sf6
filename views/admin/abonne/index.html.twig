@@ -14,7 +14,7 @@
             <td>{{ abonne.identite }}</td>
             <td class="col-1">{{ abonne.naissance ? abonne.naissance|age : '' }}</td>
             <td class="text-center">{{ abonne.emprunts|length ?: "-" }} </td>
-            <td class="text-center">{{ abonne.biblio.exemplaires|length ?: "-" }} </td>
+            <td class="text-center">{{ abonne.biblio ? abonne.biblio.exemplaires|length ?: "-" : "❌" }} </td>
             {{ include("_communs/admin/crud/case_actions.html.twig", {entite: abonne}) }}
         </tr>
     {% else %}

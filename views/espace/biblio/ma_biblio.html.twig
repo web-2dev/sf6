@@ -51,19 +51,11 @@
 
             <div class="d-flex gap-2">
 
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalLivreExistant"
-                >
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLivreExistant" >
                     Ajouter un livre
                 </button>
 
-                <a
-                    href="{{ path('app_espace_biblio_livre_new') }}"
-                    class="btn btn-outline-primary"
-                >
+                <a href="{{ path('app_espace_biblio_livre_new') }}" class="btn btn-outline-primary" >
                     Nouveau livre
                 </a>
 
@@ -86,86 +78,40 @@
 
                         <div class="col-md-5">
 
-                            <label for="recherche" class="form-label">
-                                Rechercher
-                            </label>
+                            <label for="filtre" class="form-label"> Filtrer </label>
 
-                            <input
-                                type="search"
-                                class="form-control"
-                                id="recherche"
-                                name="q"
-                                value="{{ app.request.query.get('q') }}"
-                                placeholder="Titre, auteur..."
-                            >
+                            <input type="search" class="form-control" id="filtre" name="filtre" value="{{ app.request.query.get('filtre') }}" placeholder="Titre, auteur..." >
 
                         </div>
 
 
                         <div class="col-md-3">
 
-                            <label for="statut" class="form-label">
-                                Statut
-                            </label>
+                            <label for="statut" class="form-label"> Statut </label>
 
-                            <select
-                                class="form-select"
-                                id="statut"
-                                name="statut"
-                            >
+                            <select class="form-select" id="statut" name="statut">
                                 <option value="">Tous</option>
 
-                                <option
-                                    value="lu"
-                                    {{ app.request.query.get('statut') == 'lu' ? 'selected' : '' }}
-                                >
-                                    Lu
-                                </option>
+                                <option value="lu" {{ app.request.query.get('statut') == 'lu' ? 'selected' : '' }} > Lu </option>
 
-                                <option
-                                    value="a_lire"
-                                    {{ app.request.query.get('statut') == 'a_lire' ? 'selected' : '' }}
-                                >
-                                    À lire
-                                </option>
+                                <option value="a_lire" {{ app.request.query.get('statut') == 'a_lire' ? 'selected' : '' }} > À lire </option>
 
-                                <option
-                                    value="commence"
-                                    {{ app.request.query.get('statut') == 'commence' ? 'selected' : '' }}
-                                >
-                                    Commencé
-                                </option>
+                                <option value="commence" {{ app.request.query.get('statut') == 'commence' ? 'selected' : '' }} > Commencé </option>
 
-                                <option
-                                    value="abandonne"
-                                    {{ app.request.query.get('statut') == 'abandonne' ? 'selected' : '' }}
-                                >
-                                    Abandonné
-                                </option>
-
+                                <option value="abandonne" {{ app.request.query.get('statut') == 'abandonne' ? 'selected' : '' }} > Abandonné </option>
                             </select>
-
                         </div>
 
 
                         <div class="col-md-3">
 
-                            <label for="acquisition" class="form-label">
-                                Situation
-                            </label>
+                            <label for="acquisition" class="form-label"> Situation </label>
 
-                            <select
-                                class="form-select"
-                                id="acquisition"
-                                name="acquisition"
-                            >
+                            <select class="form-select" id="acquisition" name="acquisition" >
                                 <option value="">Toutes</option>
 
                                 {% for valeur, libelle in situationLabels %}
-                                    <option
-                                        value="{{ valeur }}"
-                                        {{ app.request.query.get('acquisition') == valeur ? 'selected' : '' }}
-                                    >
+                                    <option value="{{ valeur }}" {{ app.request.query.get('acquisition') == valeur ? 'selected' : '' }} >
                                         {{ libelle }}
                                     </option>
                                 {% endfor %}
@@ -177,12 +123,7 @@
 
                         <div class="col-md-1">
 
-                            <button
-                                type="submit"
-                                class="btn btn-secondary w-100"
-                            >
-                                OK
-                            </button>
+                            <button type="submit" class="btn btn-secondary w-100" > OK </button>
 
                         </div>
 
@@ -209,12 +150,7 @@
                     Ajoutez votre premier livre pour commencer votre collection.
                 </p>
 
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalLivreExistant"
-                >
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLivreExistant" >
                     Ajouter un livre
                 </button>
 
@@ -272,9 +208,7 @@
 
                                             <h5 class="card-title mb-0">
 
-                                                <a href="">
-                                                    {{ livre.titre }}
-                                                </a>
+                                                <a href=""> {{ livre.titre }} </a>
 
                                             </h5>
 
@@ -283,9 +217,7 @@
 
                                             {% if livreBibliotheque.tome is not null %}
 
-                                                <span class="badge text-bg-secondary">
-                                                    Tome {{ livreBibliotheque.tome }}
-                                                </span>
+                                                <span class="badge text-bg-secondary">Tome {{ livreBibliotheque.tome }}</span>
 
                                             {% endif %}
 
@@ -297,9 +229,7 @@
                                         {% if livreBibliotheque.sousTitre %}
 
                                             <div class="mb-1">
-                                                <span class="fw-medium">
-                                                    {{ livreBibliotheque.sousTitre }}
-                                                </span>
+                                                <span class="fw-medium">{{ livreBibliotheque.sousTitre }}</span>
                                             </div>
 
                                         {% endif %}
@@ -309,9 +239,7 @@
 
                                         {% if livre.auteur %}
 
-                                            <p class="text-muted mb-2">
-                                                {{ livre.auteur.identite }}
-                                            </p>
+                                            <p class="text-muted mb-2">{{ livre.auteur.identite }}</p>
 
                                         {% endif %}
 
@@ -322,13 +250,9 @@
 
                                             <div class="mb-2">
 
-                                                <span class="fw-semibold">
-                                                    Ma note :
-                                                </span>
+                                                <span class="fw-semibold">Ma note :</span>
 
-                                                <span class="badge text-bg-warning">
-                                                    {{ livreBibliotheque.note }}/5
-                                                </span>
+                                                <span class="badge text-bg-warning">{{ livreBibliotheque.note }}/10</span>
 
                                             </div>
 
@@ -360,21 +284,15 @@
 
                                     <div class="col-md-2">
 
-                                        <small class="text-muted d-block mb-1">
-                                            Lecture
-                                        </small>
+                                        <small class="text-muted d-block mb-1">Lecture</small>
 
                                         {% if statut %}
 
-                                            <span class="badge bg-{{ lectureClasses[statut.value] ?? 'light' }}">
-                                                {{ lectureLabels[statut.value] ?? 'Non défini' }}
-                                            </span>
+                                            <span class="badge bg-{{ lectureClasses[statut.value] ?? 'light' }}">{{ lectureLabels[statut.value] ?? 'Non défini' }}</span>
 
                                         {% else %}
 
-                                            <span class="badge text-bg-light border">
-                                                Non défini
-                                            </span>
+                                            <span class="badge text-bg-light border">Non défini</span>
 
                                         {% endif %}
 
@@ -387,13 +305,9 @@
 
                                     <div class="col-md-2">
 
-                                        <small class="text-muted d-block mb-1">
-                                            Situation
-                                        </small>
+                                        <small class="text-muted d-block mb-1">Situation</small>
 
-                                        <span class="badge text-bg-light border">
-                                            {{ situationLabels[livreBibliotheque.acquisition] ?? 'Non définie' }}
-                                        </span>
+                                        <span class="badge text-bg-light border">{{ livreBibliotheque.acquisition ? livreBibliotheque.acquisition.value : 'Non définie' }}</span>
 
                                     </div>
 
@@ -403,40 +317,92 @@
                                        ================================================== #}
 
                                     <div class="col-md-2 text-md-end">
-
-                                        {#
-                                        <a
-                                            href="{{ path(
-                                                'bibliotheque_livre_edit',
-                                                {id: livreBibliotheque.id}
-                                            ) }}"
-                                            class="btn btn-sm btn-outline-secondary"
-                                        >
+                                        
+                                        <a href="{{ path( 'app_espace_biblio_livre_edit', {id: livreBibliotheque.id} ) }}" class="btn btn-sm btn-outline-secondary" >
                                             Modifier
                                         </a>
-                                        #}
 
-                                        {#
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-danger"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#removeBook{{ livreBibliotheque.id }}"
-                                        >
+                                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#retirerExemplaire{{ livreBibliotheque.id }}" >
                                             Retirer
                                         </button>
-                                        #}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {# ==================================================
+                        MODALE retirer exemplaire
+                        ================================================== #}
+                    <div class="modal fade" id="retirerExemplaire{{ livreBibliotheque.id }}" tabindex="-1" aria-labelledby="retirerExemplaireLabel{{ livreBibliotheque.id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+
+                            <div class="modal-content">
+
+                                <form method="post" action="{{ path('app_espace_biblio_exemplaire_remove', {id: livreBibliotheque.id}) }}">
+
+                                    <div class="modal-header">
+
+                                        <h5 class="modal-title" id="retirerExemplaireLabel{{ livreBibliotheque.id }}" >
+                                            Retirer {{ livre.titre }}
+                                        </h5>
+
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer" ></button>
 
                                     </div>
 
-                                </div>
+                                    <div class="modal-body">
+
+                                        <p>
+                                            Que devient cet exemplaire ?
+                                        </p>
+
+                                        <select class="form-select" name="acquisition" required >
+                                            <option value="" selected disabled> Choisissez... </option>
+
+                                                {% for acquisition in acquisitionsSortie %}
+                                                    <option value="{{ acquisition.value }}">
+                                                        {{ acquisition.value }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+
+                                        <input
+                                            type="hidden"
+                                            name="_token"
+                                            value="{{ csrf_token(
+                                                'remove_exemplaire_' ~ livreBibliotheque.id
+                                            ) }}"
+                                        >
+
+                                    </div>
+
+                                    <div class="modal-footer">
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-secondary"
+                                            data-bs-dismiss="modal"
+                                        >
+                                            Annuler
+                                        </button>
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-danger"
+                                        >
+                                            Retirer
+                                        </button>
+
+                                    </div>
+
+                                </form>
 
                             </div>
 
                         </div>
-
                     </div>
-
                 {% endfor %}
 
             </div>
@@ -448,13 +414,7 @@
            MODALE : AJOUTER UN LIVRE EXISTANT
            ============================================================ #}
 
-        <div
-            class="modal fade"
-            id="modalLivreExistant"
-            tabindex="-1"
-            aria-labelledby="modalLivreExistantLabel"
-            aria-hidden="true"
-        >
+        <div class="modal fade" id="modalLivreExistant" tabindex="-1" aria-labelledby="modalLivreExistantLabel" aria-hidden="true" >
 
             <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
@@ -462,19 +422,9 @@
 
                     <div class="modal-header">
 
-                        <h5
-                            class="modal-title"
-                            id="modalLivreExistantLabel"
-                        >
-                            Ajouter un livre à ma bibliothèque
-                        </h5>
+                        <h5 class="modal-title" id="modalLivreExistantLabel" >Ajouter un livre à ma bibliothèque</h5>
 
-                        <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Fermer"
-                        ></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer" ></button>
 
                     </div>
 
@@ -519,9 +469,7 @@
 
                                     <input type="text" class="form-control" id="sousTitre" name="sousTitre" maxlength="255" placeholder="Complément de titre propre à cet exemplaire" >
 
-                                    <div class="form-text">
-                                        Facultatif. Permet de préciser un sous-titre ou un complément propre à cette édition.
-                                    </div>
+                                    <div class="form-text">Facultatif. Permet de préciser un sous-titre ou un complément propre à cette édition.</div>
 
                                 </div>
 
@@ -566,28 +514,19 @@
 
                                 <div class="col-md-6">
 
-                                    <label
-                                        for="nouvelleAcquisition"
-                                        class="form-label"
-                                    >
-                                        Situation
-                                    </label>
+                                    <label for="nouvelleAcquisition" class="form-label" > Situation </label>
 
-                                    <select
-                                        class="form-select"
-                                        id="nouvelleAcquisition"
-                                        name="acquisition"
-                                    >
+                                    <select class="form-select" id="nouvelleAcquisition" name="acquisition" >
 
                                         <option value="">Non précisée</option>
 
-                                        <option value="achete">Acheté</option>
+                                        <option value="acheté">Acheté</option>
 
-                                        <option value="emprunte">Emprunté</option>
+                                        <option value="emprunté">Emprunté</option>
 
-                                        <option value="cadeau">Cadeau</option>
+                                        <option value="offer">Cadeau</option>
 
-                                        <option value="trouve">Trouvé</option>
+                                        <option value="trouvé">Trouvé</option>
 
                                     </select>
 
@@ -596,31 +535,16 @@
                             </div>
 
 
-                            <input
-                                type="hidden"
-                                name="_token"
-                                value="{{ csrf_token('bibliotheque_add_livre') }}"
-                            >
+                            <input type="hidden" name="_token" value="{{ csrf_token('bibliotheque_add_livre') }}" >
 
                         </div>
 
 
                         <div class="modal-footer">
 
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                            >
-                                Annuler
-                            </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" > Annuler </button>
 
-                            <button
-                                type="submit"
-                                class="btn btn-primary"
-                            >
-                                Ajouter à ma bibliothèque
-                            </button>
+                            <button type="submit" class="btn btn-primary" > Ajouter à ma bibliothèque </button>
 
                         </div>
 
