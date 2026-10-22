@@ -4,7 +4,7 @@ namespace App\Enum;
 
 enum StatutLecture : string
 {
-    case AUCUN = "_";
+    // case AUCUN = "_";
     case A_LIRE = 'a_lire';
     case COMMENCE = 'commence';
     case LU = 'lu';
@@ -12,9 +12,9 @@ enum StatutLecture : string
 
     function label() {
         switch ($this) {
-            case self::AUCUN:
-                return "";
-                break;
+            // case self::AUCUN:
+            //     return "";
+            //     break;
             
             case self::A_LIRE :
                 return "à lire";

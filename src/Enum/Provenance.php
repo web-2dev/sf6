@@ -4,7 +4,7 @@ namespace App\Enum;
 
 enum Provenance : string
 {
-    case INDEFINI = "";
+    // case INDEFINI = "";
     case ACHAT = "acheté";
     case EMPRUNT = "emprunté";
     case CADEAU = "offert";

@@ -6,10 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use App\Entity\Abonne as Lecteur;
 
 abstract class ParentController extends AbstractController
 {
     public AsciiSlugger $slugger;
+    public Lecteur $lecteur;
 
     public function __construct() {
         $this->slugger = new AsciiSlugger();

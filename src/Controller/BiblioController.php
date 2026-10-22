@@ -20,24 +20,41 @@ class BiblioController extends ParentController
 {
     #[Route("/", name:"app_espace_biblio", methods: ["GET"])]
     public function maBiblio(LivreRepository $repoLivre, Request $rq): Response {
+        $this->lecteur = $this->getUser();
         $filtre = $rq->query->get("filtre");
         $statut = $rq->query->get("statut");
         $acquisition = $rq->query->get("acquisition");
-        
-        if( !$filtre && !$statut && !$acquisition )
-            $livresDisponibles =  $repoLivre->findAll(["titre" => "ASC"]);
-        else {
-            $filtres = [];
-            if ( $filtre ) $filtres["titre"] = $filtre;
-            if ( $statut ) $filtres["statut"] = $statut;
-            if ( $acquisition ) $filtres["acquisition"] = $acquisition;
+        $exemplaires =  $this->lecteur->getBiblio()->getExemplaires();
+        if( $filtre || $statut || $acquisition ) {
 
-            $livresDisponibles = $repoLivre->findBy($filtres);
+            $exemplaires = $exemplaires
+                ->filter(function (Exemplaire $exemplaire) use ( $statut, $acquisition, $filtre ) {
+
+                    if ($statut && $exemplaire->getStatut()->value !== $statut) {
+                        return false;
+                    }
+
+                    if ($acquisition && $exemplaire->getAcquisition()->value !== $acquisition) {
+                        return false;
+                    }
+
+                    if ($filtre !== '') {
+                        $livre = $exemplaire->getLivre();
+                        $texte = mb_strtolower($livre->getTitre() . ' ' . ($livre->getAuteur()?->getIdentite() ?? ''));
+                        if (!str_contains($texte, mb_strtolower($filtre))) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+
         }
 
         return $this->render("espace/biblio/ma_biblio", [
-            "livresDisponibles" => $livresDisponibles,
-            "acquisitionsSortie" => Provenance::sorties()
+            "livresDisponibles"     =>  $repoLivre->findAll(["titre" => "ASC"]),
+            "exemplaires"           =>  $exemplaires,
+            "acquisitionsSortie"    =>  Provenance::sorties(),
+            "acquisitions"          =>  Provenance::cases()
         ]); 
     }
 
@@ -55,7 +72,8 @@ class BiblioController extends ParentController
         // 💬 si le string $statut ne correspond pas à une valeur de l'enum, from génère une erreur, tryFrom retourne null  
         // $statut = StatutLecture::from( $statut );
         $statut = StatutLecture::tryfrom( $statut );
-        if( !$statut ) $statut = StatutLecture::AUCUN;
+        $acquisition = StatutLecture::tryfrom( $acquisition );
+        // if( !$statut ) $statut = null; //StatutLecture::AUCUN;
 
         $exemplaire->setStatut( $statut );
         $exemplaire->setLivre( $livre );
