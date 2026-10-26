@@ -9,10 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
     #[ORM\Entity(repositoryClass: EmpruntRepository::class)]
 class Emprunt extends ParentEntity
 {
-        #[ORM\Id]
-        #[ORM\GeneratedValue]
-        #[ORM\Column]
-    private ?int $id = null;
 
         #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateEmprunt = null;

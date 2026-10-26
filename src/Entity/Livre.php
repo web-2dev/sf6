@@ -12,11 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
 class Livre extends ParentEntity
 {
-        #[ORM\Id]
-        #[ORM\GeneratedValue]
-        #[ORM\Column]
-    private ?int $id = null;
-
         #[ORM\Column(length: 50)]
     private ?string $titre = null;
 
@@ -95,10 +90,6 @@ class Livre extends ParentEntity
     // ║                           GETTERS && SETTERS                          ║
     // ╚═══════════════════════════════════════════════════════════════════════╝
     
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getTitre(): ?string
     {

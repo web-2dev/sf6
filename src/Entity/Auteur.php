@@ -13,13 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Auteur extends ParentEntity
 {
     use Personne;
-    
-     #[ORM\Id]
-     #[ORM\GeneratedValue]
-     #[ORM\Column]
-    private ?int $id = null;
 
-     #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 30)]
     private ?string $nom = null;
 
      #[ORM\Column(length: 30, nullable: true)]

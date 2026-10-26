@@ -18,10 +18,6 @@ class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticate
 {
     use \App\Trait\Personne;
 
-        #[ORM\Id]
-        #[ORM\GeneratedValue]
-        #[ORM\Column]
-    private ?int $id = null;
 
         #[ORM\Column(length: 180)]
     private ?string $pseudo = null;
@@ -62,8 +58,8 @@ class Abonne extends ParentEntity implements UserInterface, PasswordAuthenticate
     public function __construct()
     {
         $this->emprunts = new ArrayCollection();
-        $this->critiques = new ArrayCollection();
-        $this->lectures = new ArrayCollection();
+        // $this->critiques = new ArrayCollection();
+        // $this->lectures = new ArrayCollection();
     }
     
     // ╔═══════════════════════════════════════════════════════════════════════╗

@@ -59,6 +59,8 @@ class Functions extends AbstractExtension {
             new TwigFilter("isDejaEmprunte", [$this, "dejaEmprunte"]),
             new TwigFilter("isLivreDejaEmprunte", [$this, "livreDejaEmprunte"]),
             new TwigFilter("age", [$this, "age"]),
+            new TwigFilter("horodateur", [$this, "horodateur"]),
+            new TwigFilter("dateFR", [$this, "dateFR"]),
         ]; }
 
     public function getFunctions() {
@@ -219,4 +221,17 @@ class Functions extends AbstractExtension {
         $auj = new DateTime();
         return $auj->format("Y") - $naissance->format("Y");
     }
+
+    /** horodateur
+     *  💬 NB : si la date est nulle, retourne un chaîne vide   
+     */
+    public function horodateur(?DateTimeInterface $date)
+    {
+        return $date ? $date->format("d/m/Y H:i:s") : "";
+    }
+
+    public function dateFR(?DateTimeInterface $date)
+    {
+        return $date ? $date->format("d/m/Y") : "";
+    }    
 }

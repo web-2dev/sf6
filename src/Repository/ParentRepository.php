@@ -2,21 +2,23 @@
 
 namespace App\Repository;
 
+use DateTime;
 use App\Entity\ParentEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * ⚠ la classe doit être abstraite pour empêcher l'instanciation par Symfony qui essaye de relier le repository à une entité 
  * Méthodes : 
- *  • nb        :  nombre d'enregistrement de la table
- *  • dbName    : nom de la BDD actuellement utilisée
+ *  • nb                                    : nombre d'enregistrement de la table
+ *  • dbName                                : nom de la BDD actuellement utilisée
  *  • findAll                               : peut trier le résultat
  *  • findAllPaginate(page, nb, tri)        : permet gérer auto la pagination
  *  • findByPaginate(filtre, page, nb, tri) : permet gérer auto la pagination
- *  • save      : enregistrer une entité en BD
- *  • remove    : supprimer une entité de la BDD 
- *  • search    : recherche champ LIKE valeur 
- *  • 
+ *  • save                                  : enregistrer une entité en BD
+ *  • remove                                : supprimer une entité de la BDD 
+ *  • search(champs, cherché, filtre)       : recherche champ LIKE valeur 
+ *  • findAllOrderedByRelation              : tri selon un champ d'une table reliée (⚠ à tester)
  *  • 
  */
 abstract class ParentRepository extends ServiceEntityRepository
@@ -44,7 +46,19 @@ abstract class ParentRepository extends ServiceEntityRepository
     public function findAll($orderBy = null): array
     {
         return $this->findBy([], $orderBy);
+        /* VERSION ArrayCollection
+        return new ArrayCollection(parent::findBy([], $orderBy));
+        */
     }
+
+    /**
+     * @return Doctrine\Common\Collections\ArrayCollection
+     */
+    public function findByCollection(array $criteria, array|null $orderBy = null, int|null $limit = null, int|null $offset = null):  ArrayCollection {
+        
+        return new ArrayCollection(parent::findBy($criteria, $orderBy, $limit, $offset));
+    }
+     
 
     public function findAllPaginate(int $page, int $count = 10, $orderBy = null) : array {
         $requestResult = $this->createQueryBuilder("t");
@@ -77,21 +91,17 @@ abstract class ParentRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->persist($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        if ($flush) { $this->getEntityManager()->flush(); }
     }
 
     public function remove(ParentEntity $entity, bool $flush = true): void
     {
         $this->getEntityManager()->remove($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        if ($flush) { $this->getEntityManager()->flush(); }
     }
 
-    public function search(string|array $fields, string $search, array $where = []) {
+    public function search(string|array $fields, string $search, array $sort = []) {
         $search = $search ?? "%";
         if( is_string($fields) ) {
             $fields = [ $fields ];
@@ -102,8 +112,8 @@ abstract class ParentRepository extends ServiceEntityRepository
             $query->setParameter($field, "%$search%");
         }
         
-        if( $where ) {
-            foreach ($where as $champ => $sens) {
+        if( $sort ) {
+            foreach ($sort as $champ => $sens) {
                 dump("$champ => $sens" );
                 $query->addOrderBy("a.$champ", $sens);
             }
@@ -111,6 +121,10 @@ abstract class ParentRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    /**
+     * Tri par un champ d'une table reliée
+     * TODO : tester
+     */
     public function findAllOrderedByRelation($champRelie, array $champsPourTri)
     {
 
@@ -124,46 +138,6 @@ abstract class ParentRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-    /* 
-    TODO
-        public function save(DedEntite $entity, bool $flush = false): void
-        {
-            $auj = new DateTime();
-            /** @var \App\Entity\User $entity * /
-            if( $entity->getId() ) {
-                $entity->setModification( $auj );
-            } else {
-                $entity->setCreation( $auj );
-            }
-            $this->getEntityManager()->persist($entity);
 
-            if ($flush) {
-                $this->getEntityManager()->flush();
-            }
-        }
-
-        public function remove(DedEntite $entity, bool $flush = false): void
-        {
-            $this->getEntityManager()->remove($entity);
-
-            if ($flush) {
-                $this->getEntityManager()->flush();
-            }
-        }
-
-        public function flush() {
-            $this->getEntityManager()->flush();
-        }
-
-        public function enregistre(DedEntite $entite)
-        {
-            $this->save($entite, true);
-        }
-
-        public function supprime(DedEntite $entite)
-        {
-            $this->remove($entite, true);
-        }
-    */
 
 }

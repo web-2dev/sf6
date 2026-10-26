@@ -211,4 +211,8 @@ svg {
 .position-relative > a.stretched-link { text-decoration: none; color: inherit; }
 /* td > a:not(.stretched-link):hover { background-color: gray; color: black; padding-inline: 5px; } */
 
+// Bibliothèqur
+fieldset:not(fieldset fieldset) { background-color: #bfb9b985; border: 1px solid; padding: 1em;}
+.d-fond-princ { background-color: #a15dd8 ;  }
+.d-fond-erreur { background-color: #d85dd2; }
 

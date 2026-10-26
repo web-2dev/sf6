@@ -2,19 +2,26 @@
 
 namespace App\Entity;
 
+use DateTimeImmutable;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-class ParentEntity
+#[ORM\MappedSuperclass] // pour marquer l'héritage pour Doctrine
+abstract class ParentEntity
 {
-    // TODO • prop ID
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    protected $creation;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    protected ?int $id = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    protected $modification;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    protected ?DateTimeImmutable $creation;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    protected ?DateTimeImmutable $modification;
     
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    protected $suppression;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    protected ?DateTimeImmutable $suppression;
 
 
     
@@ -43,6 +50,12 @@ class ParentEntity
         $className = strtolower($className);                        // $className = "livre"
         return $className;
     }
+
+
+// --------------------------------------------------------------
+// GETTERS - SETTERS
+//---------------------------------------------------------------
+    public function getId(): ?int { return $this->id; }
 
     /**
      * Get the value of creation
@@ -98,4 +111,24 @@ class ParentEntity
 
         return $this;
     }
+
+
+// --------------------------------------------------------------
+// DOCTRINE
+//---------------------------------------------------------------
+
+    // ⚠ Annotations pour gérer les dates des entités      
+    // ⚠ 
+    #[ORM\PrePersist]
+    public function initialiserCreation(): void
+    {
+        $this->creation = new \DateTimeImmutable();
+    }
+
+
+    #[ORM\PreUpdate]
+    public function actualiserModification(): void
+    {
+        $this->modification = new \DateTimeImmutable();
+    }        
 }

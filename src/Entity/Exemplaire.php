@@ -11,10 +11,6 @@ use App\Repository\ExemplaireRepository;
 #[ORM\Entity(repositoryClass: ExemplaireRepository::class)]
 class Exemplaire extends ParentEntity
 {
-     #[ORM\Id]
-     #[ORM\GeneratedValue]
-     #[ORM\Column]
-    private ?int $id = null;
 
      #[ORM\ManyToOne(inversedBy: 'exemplaires')]
      #[ORM\JoinColumn(nullable: false)]
