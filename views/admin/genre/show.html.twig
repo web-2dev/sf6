@@ -24,10 +24,11 @@
             {% for livre in genre.livres %}
             <p>Livre n°{{ livre.id }} dont le titre est 
                 <a href="{{ path('app_admin_livre_show', {id: livre.id}) }}">{{ livre.titre }}</a>
-                de <a href="{{ path ('app_admin_auteur_show', {id: livre.auteur.id}) }}">{{ livre.auteur.identite }}</a> avec {{ livre.emprunts|length }} prêts et {{ livre.critiques|length }} avis
+                de <a href="{{ path ('app_admin_auteur_show', {id: livre.auteur.id}) }}">{{ livre.auteur.identite }}</a> 
+                , présent dans {{ livre.exemplaires|length }} bibliothèques persos.
             </p>
             {% else %}
-                <p>Aucun livre de cet auteur n'a été enregistré en BDD</p>
+                <p>Aucun livre n'est associé à ce genre</p>
             {% endfor %}
         </td>
 

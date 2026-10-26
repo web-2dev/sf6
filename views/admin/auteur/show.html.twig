@@ -52,11 +52,11 @@
                                         <a href="{{ path ('app_admin_genre_show', {id: genre.id}) }}">{{ genre.libelle }}</a>{% if !loop.last %}, {% endif %}
                                     {% endfor %}
                                 </td>
-                                <td>{{ livre.emprunts|length }} prêts <br> {{ livre.critiques|length }} avis</td>
+                                <td>Présent {{ livre.exemplaires|length }} bibliothèques persos <br> xx avis</td>
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="4">Aucun livre n'est encore lié à ce genre</td>
+                                <td colspan="4">Aucun livre n'est encore lié à cet auteur</td>
                             </tr>
                         {% endfor %}
                         </tbody>
