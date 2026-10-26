@@ -11,11 +11,19 @@
         <thead class="table-warning"  style="position: sticky;top: 80px; z-index: 100">
             <tr>
                 <th><i class="fa fa-key"></i></th>
-                {% for colonne in colonnes %}
+                {% for colonne, tri in colonnes %}
                     <th>
-                        <a href="?col={{ colonne|lower|slug }}&dir=asc"><i class="fa fa-arrow-down-a-z text-dark"></i></a>
-                        {{colonne}}
-                        <a href="?col={{ colonne|lower|slug }}&dir=desc"><i class="fa fa-arrow-down-z-a text-dark"></i></a>
+                        <div class="d-flex justify-content-between">
+                            {% if tri %}
+                            <a href="?col={{ colonne|lower|slug }}&dir=asc"><i class="fa fa-arrow-down-a-z text-dark"></i></a>
+                            {% endif %}
+
+                            {{colonne}}
+
+                            {% if tri %}
+                            <a href="?col={{ colonne|lower|slug }}&dir=desc"><i class="fa fa-arrow-down-z-a text-dark"></i></a>
+                            {% endif %}
+                        </div>
                     </th>
                 {% endfor %}
                 <th><i class="fa fa-screwdriver-wrench"></i></th>

@@ -17,15 +17,29 @@ final class LivreController extends ParentController
     #[Route(name: 'app_admin_livre_index', methods: ['GET'])]
     public function index(LivreRepository $livreRepository, Request $request): Response
     {
-        $col = $request->query->get("col", "titre");
-        $dir = $request->query->get("dir", "asc");
-        if( $col == "auteur" ) {
-            // $livres = $livreRepository->findAllOrderedByAuteur($dir);
-            $livres = $livreRepository->findAllOrderedByRelation($col, ["prenom" => $dir, "nom" => $dir]);
-        } else {
-            $livres = $livreRepository->findAll([$col => $dir]);
+        $this->setSortColumn($request);
+        // $col = $request->query->get("col", "titre");
+        // $dir = $request->query->get("dir", "asc");
+        switch ($this->col) {
+            case "auteur":
+                $livres = $livreRepository->findAllOrderedByRelation($this->col, ["prenom" => $this->dir, "nom" => $this->dir]);
+                break;
+            
+            case "biblios":
+                $livres = $livreRepository->findAll();
+                usort(
+                    $livres,
+                    $this->dir == "asc" 
+                        ? fn (Livre $a, Livre $b) => $a->getExemplaires()->count() <=> $b->getExemplaires()->count()
+                        : fn (Livre $a, Livre $b) => $b->getExemplaires()->count() <=> $a->getExemplaires()->count()
+                );                
+                break;
 
+            default:
+                $livres = $livreRepository->findAll([$this->col => $this->dir]);
+                break;
         }
+
         return $this->render('admin/livre/index.html.twig', compact("livres"));
     }
 
