@@ -30,3 +30,9 @@ class SecurityController extends ParentController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }
+
+/**
+ * NB:                                                  
+ * • php bin/console make:security:form-login
+     met en place le formulaire de connexion et configure form_login; l'authentification elle-même est alors assurée par Symfony
+ */
