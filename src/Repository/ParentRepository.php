@@ -34,8 +34,9 @@ abstract class ParentRepository extends ServiceEntityRepository
         return $requestResult ? $requestResult["nb"] : 0;
     }
 
-    /** La méthode findAll
-     *  de la classe Doctrine\ORM\EntityRepository appelle $this->findBy([])
+    /** 
+     * 💬 findAll
+     * La méthode de la classe Doctrine\ORM\EntityRepository appelle $this->findBy([])
      * et donc ne peut pas être triée. On la redéfinie (= surcharge) dans la classe dont tous 
      * les Repositories vont hériter : 
      *
@@ -43,13 +44,23 @@ abstract class ParentRepository extends ServiceEntityRepository
      * 
      * @return ParentEntity[].
      */
-    public function findAll($orderBy = null): array
+    public function findAll($orderBy = null, $includeDeleted = false): array
     {
-        return $this->findBy([], $orderBy);
-        /* VERSION ArrayCollection
-        return new ArrayCollection(parent::findBy([], $orderBy));
-        */
+        if( !$includeDeleted ) {
+            $q = $this->createQueryBuilder('e')->where('e.suppression IS NULL');
+            if( $orderBy ) {
+                foreach ($orderBy as $field => $direction) {
+                    $q->addOrderBy("e.$field", $direction);
+                }
+            }
+            return $q->getQuery()->getResult();
+        } else {
+            return $this->findBy([], $orderBy);
+        }
+
     }
+
+
 
     /**
      * @return Doctrine\Common\Collections\ArrayCollection

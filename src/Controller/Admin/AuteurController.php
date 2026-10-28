@@ -2,33 +2,51 @@
 
 namespace App\Controller\Admin;
 
-use App\Controller\Dev\ParentController;
-use App\Entity\Auteur;
-use App\Form\AuteurType;
-use App\Repository\AuteurRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+    use App\Controller\Dev\ParentController;
+    use App\Entity\Auteur;
+    use App\Form\AuteurType;
+    use App\Repository\AuteurRepository;
+    use App\Trait\CrudTrait;
+    use Doctrine\ORM\EntityManagerInterface;
+    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/auteur')]
 final class AuteurController extends ParentController
 {
+    use CrudTrait;
+
     #[Route(name: 'app_admin_auteur_index', methods: ['GET'])]
     public function index(AuteurRepository $auteurRepository, Request $request): Response
     {
-        $col = $request->query->get("col", "prenom");
-        $dir = $request->query->get("dir", "asc");
+        $this->setSortColumn($request);
+        switch ($this->col) {
+            case "id" : case 'nom':
+                $auteurs = $auteurRepository->findAll(["prenom" => $this->dir, "nom" => $this->dir ]);
+                break;
+            
+            case 'dates':
+                $auteurs = $auteurRepository->findAll([ "naissance" => $this->dir ]);
+                break;
+            
+            case "bibliographie":
+                $auteurs = $auteurRepository->findAll();
+                usort(
+                    $auteurs,
+                    $this->dir == "asc"
+                        ? fn (Auteur $a, Auteur $b) => $a->getLivres()->count() <=> $b->getLivres()->count()
+                        : fn (Auteur $a, Auteur $b) => $b->getLivres()->count() <=> $a->getLivres()->count()
+                );
+                break;
 
-        if( $col == "nom" ) {
-            $tri = ["prenom" => $dir, "nom" => $dir ];
-        } else {
-            $tri = [ $col => $dir ];
+            default:
+                $auteurs = $auteurRepository->findAll([ $this->col => $this->dir ]);
         }
 
         return $this->render('admin/auteur/index.html.twig', [
-            'auteurs' => $auteurRepository->findAll($tri),
+            'auteurs' => $auteurs,
         ]);
     }
 
@@ -86,6 +104,12 @@ final class AuteurController extends ParentController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_admin_auteur_index', [], Response::HTTP_SEE_OTHER);
+        $redirectUrl = $request->request->get('redirect_url');
+
+        return $this->redirect(
+            $redirectUrl ?? $this->generateUrl('app_admin_auteur_index'),
+            Response::HTTP_SEE_OTHER
+        );
+
     }
 }

@@ -4,6 +4,7 @@
 
     <form method="post" action="{{ path('app_admin_' ~ entite.table ~ '_delete', {'id': entite.id}) }}" onsubmit="return confirm('Confirmer la suppression ?');" style="display: inline; vertical-aling: bottom; padding: 0">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ entite.id) }}">
+        <input type="hidden" name="redirect_url" class="redirect-url">
         <button class="btn"><i class="fa fa-trash-can text-danger"></i></button>
     </form>
 </td>

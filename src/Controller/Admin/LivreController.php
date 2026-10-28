@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Trait\CrudTrait;
 use App\Controller\Dev\ParentController;
 use App\Entity\Livre;
 use App\Form\LivreType;
@@ -14,6 +15,8 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/livre')]
 final class LivreController extends ParentController
 {
+    use CrudTrait;
+
     #[Route(name: 'app_admin_livre_index', methods: ['GET'])]
     public function index(LivreRepository $livreRepository, Request $request): Response
     {
@@ -29,7 +32,7 @@ final class LivreController extends ParentController
                 $livres = $livreRepository->findAll();
                 usort(
                     $livres,
-                    $this->dir == "asc" 
+                    $this->dir == "asc"
                         ? fn (Livre $a, Livre $b) => $a->getExemplaires()->count() <=> $b->getExemplaires()->count()
                         : fn (Livre $a, Livre $b) => $b->getExemplaires()->count() <=> $a->getExemplaires()->count()
                 );                

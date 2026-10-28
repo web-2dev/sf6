@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Auteur;
 use App\Entity\Genre;
 use App\Entity\Livre;
+use App\Repository\AuteurRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -31,8 +32,10 @@ class LivreType extends AbstractType
             ])
             // ->add('url')
             ->add('auteur', EntityType::class, [
-                'class'         => Auteur::class,
-                'choice_label'  => 'identite',
+                'class'         =>  Auteur::class,
+                'choice_label'  =>  fn(Auteur $a) => $a->getId() . " - " . $a->getIdentite(),
+                "query_builder" =>  fn(AuteurRepository $repoAuteur) => $repoAuteur->createQueryBuilder("a")
+                                        ->orderBy("a.prenom", "asc")->addOrderBy("a.nom", "asc"),
                 "placeholder"   =>  "",
             ])
             ->add('genres', EntityType::class, [

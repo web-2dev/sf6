@@ -1,4 +1,5 @@
 {{ form_start(form) }}
+    <input type="hidden" name="redirect_url" class="redirect-url">
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

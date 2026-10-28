@@ -11,19 +11,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class ParentController extends AbstractController
 {
-    public AsciiSlugger $slugger;
-    public Lecteur $lecteur;
-    public string $col;
-    public string $dir;
+    protected AsciiSlugger $slugger;
+    protected Lecteur $lecteur;
 
-
+    
     public function __construct() {
         $this->slugger = new AsciiSlugger();
-    }
-
-    public function setSortColumn(Request $request){
-        $this->col = $request->query->get("col", "titre");
-        $this->dir = $request->query->get("dir", "asc");
     }
 
     /**
