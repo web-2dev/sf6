@@ -2,30 +2,67 @@
 
 namespace App\Form;
 
-use App\Entity\Biblio;
-use App\Entity\Exemplaire;
-use App\Entity\Livre;
-use App\Enum\Provenance;
-use App\Enum\StatutLecture;
-use App\Repository\LivreRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EnumType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+    use App\Entity\Exemplaire;
+    use App\Entity\Livre;
+    use App\Enum\Provenance;
+    use App\Enum\StatutLecture;
+    use App\Repository\LivreRepository;
+    use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+    use Symfony\Component\Form\AbstractType;
+    use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+    use Symfony\Component\Form\Extension\Core\Type\EnumType;
+    use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+    use Symfony\Component\Form\Extension\Core\Type\TextType;
+    use Symfony\Component\Form\FormBuilderInterface;
+    use Symfony\Component\OptionsResolver\OptionsResolver;
+    use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+    use Symfony\Component\Validator\Constraints\PositiveOrZero;
 
 class ExemplaireType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('note', IntegerType::class, [
+            ->add('livre', EntityType::class, [
+                'class' => Livre::class,
+                'choice_label' => function(Livre $l) {
+                    return $l->getAuteurTitre();
+                },
+                "query_builder" =>  function(LivreRepository $lr) { 
+                    return $lr->queryAll(); 
+                },
+                "attr"          =>  [ "disabled" => "disabled" ]
+            ])
+            ->add("tome", IntegerType::class, [
+                "required"      =>  false
+            ])
+            ->add("sousTitre", TextType::class, [
+                "required"      =>  false
+            ])
+            ->add('acquisition', EnumType::class, [
+                "class"         =>  Provenance::class,
+                "choice_label"  =>  fn(Provenance $acquis) => $acquis->value
+            ])
+
+        ->add('note', ChoiceType::class, [
+                "choices"       =>  [
+                    "0" => 0,
+                    "1" => 1,
+                    "2" => 2,
+                    "3" => 3,
+                    "4" => 4,
+                    "5" => 5,
+                    "6" => 6,
+                    "7" => 7,
+                    "8" => 8,
+                    "9" => 9,
+                    "10" => 10,
+                ],
+                "expanded"      =>  true,
+                "multiple"      =>  false,            
                 "constraints"   =>  [
-                    new \Symfony\Component\Validator\Constraints\Positive(message: "La plus basse note est 1"),
-                    new LessThanOrEqual(value: 10, message: "La note maximum est 10")
+                    new PositiveOrZero(message: "La plus basse note est 1"),
+                    new LessThanOrEqual(value: 10, message: "La note maximale est 10")
                 ]
             ])
             ->add('commentaire')
@@ -33,32 +70,13 @@ class ExemplaireType extends AbstractType
                 "class"         =>  StatutLecture::class,
                 "choice_label"  =>  fn(StatutLecture $statut) => $statut->label()
             ])
-            ->add('acquisition', EnumType::class, [
-                "class"         =>  Provenance::class,
-                "choice_label"  =>  fn(Provenance $acquis) => $acquis->value
-            ])
-
             // ->add('biblio', EntityType::class, [
-            //     'class' => Biblio::class,
-            //     'choice_label' => function(Biblio $b) {
+            //     'class'         =>  Biblio::class,
+            //     'choice_label'  =>  function(Biblio $b) {
             //         return $b->getLecteur()->getPseudo() . " <{$b->getNom()}>";
             //     },
+            //     "attr"          =>  [ "disabled" => "disabled" ]
             // ])
-            // ->add('livre', EntityType::class, [
-            //     'class' => Livre::class,
-            //     'choice_label' => function(Livre $l) {
-            //         return $l->getAuteurTitre();
-            //     },
-            //     "query_builder" =>  function(LivreRepository $lr) { 
-            //         return $lr->queryAll(); 
-            //     },
-            // ])
-            ->add("tome", IntegerType::class, [
-                "required"      =>  false
-            ])
-            ->add("sousTitre", TextType::class, [
-                "required"      =>  false
-            ])
         ;
     }
 

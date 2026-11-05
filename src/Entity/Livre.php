@@ -66,6 +66,13 @@ class Livre extends ParentEntity
     {
         return ucfirst( ucfirst( $this->getAuteur()->getIdentite() . " - " . $this->getTitre() ) );
     }
+
+    public function getLivreDAuteur() {
+        $initiale =  $this->getAuteur()->getIdentite()[0];
+        $liaison = in_array(strtolower($initiale), ["a", "e", "i", "o", "u", "y", "h" ]) ? " d'" : " de ";
+        return ucfirst( $this->getTitre() ) . $liaison . ucfirst( $this->getAuteur()->getIdentite() );
+    }
+
     /**
      * Retourne la liste des genres liés au livre sous forme de string
      */

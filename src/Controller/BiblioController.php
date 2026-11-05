@@ -68,6 +68,8 @@ class BiblioController extends ParentController
         $statut = $rq->request->get('lecture');
         $tome = $rq->request->get("tome");
         $sousTitre = $rq->request->get("sous_titre");
+        $note = $rq->request->get("note");
+        $comm = $rq->request->get("commentaire");
 
         // 💬 si le string $statut ne correspond pas à une valeur de l'enum, from génère une erreur, tryFrom retourne null  
         // $statut = StatutLecture::from( $statut );
@@ -80,6 +82,8 @@ class BiblioController extends ParentController
         $exemplaire->setAcquisition( $acquisition );
         $exemplaire->settome($tome !== null && $tome !== '' ? (int) $tome : null);
         $exemplaire->setsousTitre($sousTitre !== '' ? $sousTitre : null);
+        $exemplaire->setNote( $note );
+        $exemplaire->setCommentaire( $comm );
         
         $em->persist( $exemplaire );
         /** @var App\Entity\Abonne $lecteur */
@@ -148,10 +152,7 @@ class BiblioController extends ParentController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
     
-            $this->addFlash(
-                'success',
-                'Le livre a été modifié dans votre bibliothèque.'
-            );
+            $this->addFlash( 'success', 'Le livre a été modifié dans votre bibliothèque.' );
     
             return $this->redirectToRoute('app_espace_biblio');
         }
@@ -190,5 +191,11 @@ class BiblioController extends ParentController
         $this->addFlash('success', 'Le livre a été retiré de votre bibliothèque.');
     
         return $this->redirectToRoute('app_espace_biblio');
+    }
+
+    #[Route("/ecrire-une-critique-de-{id}", name:"app_espace_biblio_critique")]
+    public function critique(Exemplaire $exemplaire, LivreRepository $repoLivre): Response {
+        $livre = $exemplaire->getLivre();
+        return $this->render("lecteur/critique", [ "livre" => $livre ]); 
     }
 }

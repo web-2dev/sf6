@@ -120,11 +120,9 @@
                         </div>
 
 
-                        <div class="col-md-2">
-                            <div class="row">
-                                <a class="col btn btn-primary" href="{{ path('app_espace_biblio') }}">RàZ</a>
-                                <button type="submit" class="col btn btn-secondary w-100_" > Filtrer </button>
-                            </div>
+                        <div class="col-md-2 text-md-end">
+                                <a class="col btn btn-secondary" href="{{ path('app_espace_biblio') }}">RàZ</a>
+                                <button type="submit" class="col btn btn-primary w-100_" > Filtrer </button>
 
 
                         </div>
@@ -435,7 +433,7 @@
 
                                     <input type="text" class="form-control" id="sousTitre" name="sousTitre" maxlength="255" placeholder="Complément de titre propre à cet exemplaire" >
 
-                                    <div class="form-text">Facultatif. Permet de préciser un sous-titre ou un complément propre à cette édition.</div>
+                                    <div class="form-text">Facultatif. Permet de préciser un sous-titre ou un complément propre à votre exemplaire.</div>
 
                                 </div>
 
@@ -457,7 +455,7 @@
                                LECTURE / ACQUISITION
                                ================================================== #}
 
-                            <div class="row g-3">
+                            <div class="row g-3 mb-3">
 
                                 <div class="col-md-6">
 
@@ -500,6 +498,120 @@
 
                             </div>
 
+                            {# ==================================================
+                               NOTE / COMMENTAIRE
+                               ================================================== #}
+                            <style>
+                                .notation {}
+                                .notation:hover { color: red ;}
+                                .notation > input { display: none; }
+                                .notation input:checked+label { color: green; }
+                                .wNote { height: 3.5rem; }
+                            </style>
+
+                            <div class="row ">
+                                {# <div class="d-flex" > #}
+                                    {# <div class="col-md-6"> #}
+                                        <label class="form-label" >Note </label>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <h3 class="d-flex  wNote" style="border: var(--bs-border-width) solid var(--bs-border-color);border-radius: var(--bs-border-radius);padding: .375rem .75rem;">
+                                                    <div class="notation"> {# 0 #}
+                                                        <input type="radio" name="note" id="note0" value="0" class="form-check-input">
+                                                        <label for="note0" class="form-check-label">
+                                                            <i class="me-2 fa fa-toilet-paper"    title="0 = Aide au transit"></i>
+                                                        </label>
+                                                    </div>
+                                                        
+                                                    <div class="notation"> {# 1 #}
+                                                        <input type="radio" name="note" id="note1" value="1" class="form-check-input">
+                                                        <label for="note1" class="form-check-label">
+                                                            <i class="me-2 fa fa-recycle"    title="1 = Le papier, ça peut servir"></i>
+                                                        </label>
+                                                    </div>
+                                                    
+                                                    <div class="notation"> {# 2 #}
+                                                        <input type="radio" name="note" id="note2" value="2" class="form-check-input">
+                                                        <label for="note2" class="form-check-label">
+                                                            <i class="me-2 fa fa-book-bible"    title="2 = Livre mort et enterré"></i>
+                                                        </label>
+                                                    </div>
+                                                    
+                                                    <div class="notation"> {# 3 #}
+                                                        <input type="radio" name="note" id="note3" value="3" class="form-check-input">
+                                                        <label for="note3" class="form-check-label">
+                                                            <i class="me-2 fa fa-book-skull"  title="3 = Mortellement ennuyeux"></i>
+                                                        </label>
+                                                                
+                                                    </div>
+                                                    <div class="notation"> {# 4 #}
+                                                        <input type="radio" name="note" id="note4" value="4" class="form-check-input">
+                                                        <label for="note4" class="form-check-label">
+                                                            <i class="me-2 fa fa-book-medical"  title="4 = Livre malade qui rend malade"></i>
+                                                        </label>
+                                                    </div>                         
+                                                    <div class="notation"> {# 5 #}
+                                                        <input type="radio" name="note" id="note5" value="5" class="form-check-input">
+                                                        <label for="note5" class="form-check-label">
+                                                            <i class="me-2 fa fa-book"          title="5 = Se laisse lire"></i>
+                                                        </label>
+                                                    </div>                                  
+                                                    <div class="notation"> {# 6 #}
+                                                        <input type="radio" name="note" id="note6" value="6" class="form-check-input">
+                                                        <label for="note6" class="form-check-label">
+                                                            <i class="me-2 fa fa-book-open-reader"          title="6 = Bon livre"></i>
+                                                        </label>
+                                                    </div>                               
+                                                    <div class="notation"> {# 7 #}
+                                                        <input type="radio" name="note" id="note7" value="7" class="form-check-input">
+                                                        <label for="note7" class="form-check-label">
+                                                            <i class="me-2 fa fa-medal"          title="7 = Très bon livre, mérite une médaille"></i>
+                                                        </label>
+                                                    </div>                                
+                                                    <div class="notation"> {# 8 #}
+                                                        <input type="radio" name="note" id="note8" value="8" class="form-check-input">
+                                                        <label for="note8" class="form-check-label">
+                                                            <i class="me-2 fa fa-book-bookmark" title="8 = Excellent, livre à marquer d'une pierre rouge... ou d'un marque-page"></i>
+                                                        </label>
+                                                    </div>          
+                                                    <div class="notation"> {# 9 #}
+                                                        <input type="radio" name="note" id="note9" value="9" class="form-check-input">
+                                                        <label for="note9" class="form-check-label">
+                                                            <i class="me-2 fa fa-book-atlas" title="9 = Niveau best-seller mondial"></i>
+                                                        </label>
+                                                    </div>
+                                                    <div class="notation"> {# 10 #}
+                                                        <input type="radio" name="note" id="note10" value="10" class="form-check-input">
+                                                        <label for="note10" class="form-check-label">
+                                                            <i class="me-2 fa fa-book-journal-whills" title= "10 = Phénomène intergalactique !"></i> 
+                                                        </label>
+                                                    </div>
+                                                </h3>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div id="messageNote" class="form-control wNote" style=""></div>
+                                            </div>
+                                        </div>
+                                    {# </div> #}
+
+                                    <script>
+                                        document.querySelectorAll(".notation").forEach(elt => {
+                                            elt.addEventListener("mouseenter", function(e) {
+                                                let msg = e.target.querySelector("i").title;
+                                                document.querySelector('#messageNote').innerHTML = this.querySelector("label > i").title;
+
+                                            })
+                                        }) 
+                                    </script>
+
+                                {# </div> #}
+                            </div>
+
+                            <div class="row g-3">
+                                <label class= for="commentaire" >Commentaire : </label>
+                                <div class="col"><textarea name="commentaire" id="commentaire" rows="5" class="form-control"></textarea></div>
+                            
+                            </div>
 
                             <input type="hidden" name="_token" value="{{ csrf_token('bibliotheque_add_livre') }}" >
 

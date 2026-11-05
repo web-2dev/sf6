@@ -24,8 +24,8 @@ class VisiteurController extends ParentController
         return $this->render("visiteur/genre/liste.html.twig", [ "genres" => $genreRepository->findAll() ]); 
     }
 
-    #[Route("/genre-{libelle}/fiche", name:"app_visiteur_genre_fiche_libelle")]
     #[Route("/genre-{id}/fiche", name:"app_visiteur_genre_fiche", requirements: [ "id" => "\d+" ])]
+    #[Route("/genre-{libelle}/fiche", name:"app_visiteur_genre_fiche_libelle")]
     public function genreFiche(Genre $genre): Response {
         
         return $this->render("genre/fiche.html.twig", compact("genre")); 

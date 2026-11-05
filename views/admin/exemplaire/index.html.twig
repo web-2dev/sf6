@@ -2,7 +2,7 @@
 
 
 {% set titreH1 = "Exemplaires" %}
-{% set colonnes = ["Lecteur", "Livre", "Complément", "Note", "Commentaire", "Statut", "Acquisition" ] %}
+{% set colonnes = {"Lecteur": false, "Livre": false, "Complément": false, "Note": false, "Commentaire": false, "Statut": false, "Acquisition": false} %}
 {% set table = "exemplaire" %}
 
 
@@ -16,7 +16,7 @@
             <td>{{ exemplaire.note }}</td>
             <td>{{ exemplaire.commentaire|extrait(10) }}</td>
             <td>{{ exemplaire.statut.value }}</td>
-            <td>{{ exemplaire.acquisition }}</td>
+            <td>{{ exemplaire.acquisition ? exemplaire.acquisition.value : "" }}</td>
             <td>
                 <a href="{{ path('app_admin_exemplaire_show', {'id': exemplaire.id}) }}">show</a>
                 <a href="{{ path('app_admin_exemplaire_edit', {'id': exemplaire.id}) }}">edit</a>
