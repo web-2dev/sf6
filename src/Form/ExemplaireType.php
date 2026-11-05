@@ -44,40 +44,28 @@ class ExemplaireType extends AbstractType
                 "choice_label"  =>  fn(Provenance $acquis) => $acquis->value
             ])
 
-        ->add('note', ChoiceType::class, [
-                "choices"       =>  [
-                    "0" => 0,
-                    "1" => 1,
-                    "2" => 2,
-                    "3" => 3,
-                    "4" => 4,
-                    "5" => 5,
-                    "6" => 6,
-                    "7" => 7,
-                    "8" => 8,
-                    "9" => 9,
-                    "10" => 10,
-                ],
-                "expanded"      =>  true,
-                "multiple"      =>  false,            
-                "constraints"   =>  [
-                    new PositiveOrZero(message: "La plus basse note est 1"),
-                    new LessThanOrEqual(value: 10, message: "La note maximale est 10")
-                ]
-            ])
-            ->add('commentaire')
-            ->add('statut', EnumType::class, [
-                "class"         =>  StatutLecture::class,
-                "choice_label"  =>  fn(StatutLecture $statut) => $statut->label()
-            ])
-            // ->add('biblio', EntityType::class, [
-            //     'class'         =>  Biblio::class,
-            //     'choice_label'  =>  function(Biblio $b) {
-            //         return $b->getLecteur()->getPseudo() . " <{$b->getNom()}>";
-            //     },
-            //     "attr"          =>  [ "disabled" => "disabled" ]
-            // ])
-        ;
+            ->add('note', ChoiceType::class, [
+                    "choices"       =>  array_combine( range(0, 10), range(0, 10) ),
+                    "expanded"      =>  true,
+                    "multiple"      =>  false,
+                    "constraints"   =>  [
+                        new PositiveOrZero(message: "La plus basse note est 1"),
+                        new LessThanOrEqual(value: 10, message: "La note maximale est 10")
+                    ]
+                ])
+                ->add('commentaire')
+                ->add('statut', EnumType::class, [
+                    "class"         =>  StatutLecture::class,
+                    "choice_label"  =>  fn(StatutLecture $statut) => $statut->label()
+                ])
+                // ->add('biblio', EntityType::class, [
+                //     'class'         =>  Biblio::class,
+                //     'choice_label'  =>  function(Biblio $b) {
+                //         return $b->getLecteur()->getPseudo() . " <{$b->getNom()}>";
+                //     },
+                //     "attr"          =>  [ "disabled" => "disabled" ]
+                // ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

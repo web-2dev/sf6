@@ -1,8 +1,20 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme form _self %}
+
+{% block radio_widget %}
+    <input
+        type="radio"
+        {{ block('widget_attributes') }}
+        value="{{ value }}"
+        {% if checked %}checked="checked"{% endif %}
+    >
+{% endblock %}
+
 {% block title %}Modifier {{ exemplaire.livre.titre }}{% endblock %}
 
 {% block body %}
+
 
     <div class="container py-4">
 
@@ -14,9 +26,73 @@
             <div class="card-body">
 
                 {{ form_start(form) }}
+                    {{ form_row(form.livre) }}
+                    <div class="row">
+                        {{ form_row(form.tome, {
+                                                    row_attr: {class: 'col  d-flex align-items-center gap-2'},
+                                                    label_attr: {class: 'mb-0'},
+                                                    
+                                                }) }}
+                        {{ form_row(form.sousTitre, { row_attr: {class: "col d-flex align-items-center gap-2"} 
+                                                     , label_attr: { class: "mb-0" }
+                                                     , label: "Sous-titre"
+                                                    }) }}
+                    </div>
 
-                    {{ form_row(form.note) }}
-                    {{ form_widget(form) }}
+                    {# form.note #}
+                    <div class="row">
+                        {{ form_label(form.note, 'Note', { 'label_attr': {'class': 'form-label'} }) }}
+
+                        <div class="row">
+                            <div class="col-md-7">
+
+                                <h2 class="d-flex wNote notation-container">
+                                    {% set notes = {
+                                        '0':  { icon: 'fa-toilet-paper',        message: '0 = Aide au transit' },
+                                        '1':  { icon: 'fa-recycle',             message: '1 = Le papier, ça peut servir' },
+                                        '2':  { icon: 'fa-book-bible',          message: '2 = Livre mort et enterré' },
+                                        '3':  { icon: 'fa-book-skull',          message: '3 = Mortellement ennuyeux' },
+                                        '4':  { icon: 'fa-book-medical',        message: '4 = Livre malade qui rend malade' },
+                                        '5':  { icon: 'fa-book',                message: '5 = Se laisse lire' },
+                                        '6':  { icon: 'fa-book-open-reader',    message: '6 = Bon livre' },
+                                        '7':  { icon: 'fa-medal',               message: '7 = Très bon livre, mérite une médaille' },
+                                        '8':  { icon: 'fa-book-bookmark',       message: '8 = Excellent, livre à marquer d’une pierre rouge... ou d’un marque-page' },
+                                        '9':  { icon: 'fa-book-atlas',          message: '9 = Niveau best-seller mondial' },
+                                        '10': { icon: 'fa-book-journal-whills', message: '10 = Phénomène intergalactique !' }
+                                    } %}
+                                    {% for radio in form.note %}
+
+                                        {% set note = notes[radio.vars.value] %}
+
+                                        <div class="notation">
+
+                                            {{ form_widget(radio) }}
+
+                                            <label for="{{ radio.vars.id }}" class="form-check-label" >
+                                                <i class="me-2 fa {{ note.icon }}" title="{{ note.message }}" data-message="{{ note.message }}" ></i> 
+                                            </label>
+
+                                        </div>
+
+                                    {% endfor %}
+
+                                </h2>
+
+                            </div>
+
+                            <div class="col-md-5">
+                                <div id="messageNote" class="form-control wNote"></div>
+                            </div>
+                        </div>
+
+                        {{ form_errors(form.note) }}
+                    </div>
+                    {{ form_row(form.commentaire) }}
+
+                    <div class="row">
+                        {{ form_row(form.acquisition, { "row_attr": {"class": "col"}}) }}
+                        {{ form_row(form.statut, { "row_attr": {"class": "col"}}) }}
+                    </div>
 
                     <div class="d-flex justify-content-end gap-2 mt-4">
 
@@ -32,5 +108,61 @@
         </div>
 
     </div>
+
+
+<script>
+const messageNote = document.querySelector('#messageNote');
+const notations = document.querySelectorAll('.notation');
+
+function afficherNoteSelectionnee() {
+    const inputChecked = document.querySelector( '.notation input[type="radio"]:checked' );
+    console.log(inputChecked);
+    if (inputChecked) {
+        const notation = inputChecked.closest('.notation');
+        messageNote.textContent = notation.querySelector('i').dataset.message;
+    } else {
+        messageNote.textContent = '';
+    }
+}
+
+notations.forEach(notation => {
+
+    // Survol : affiche temporairement le message correspondant
+    notation.addEventListener('mouseenter', function () {
+        messageNote.textContent =
+            this.querySelector('i').dataset.message;
+    });
+
+    // Fin du survol : revient à la note sélectionnée
+    notation.addEventListener('mouseleave', function () {
+        afficherNoteSelectionnee();
+    });
+
+    // Nouvelle note sélectionnée
+    notation.querySelector('input').addEventListener('change', function () {
+        afficherNoteSelectionnee();
+    });
+});
+
+// Affichage initial
+afficherNoteSelectionnee();
+</script>
+<style>
+.notation-container {
+    height: 3.5rem;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    padding: .375rem .75rem;
+}
+
+.notation:hover { color: red; }
+
+.notation input { display: none; }
+
+.notation input:checked + label { color: green; font-size: 1.2em; }
+
+.wNote { height: 3.5rem; }
+</style>
+
 
 {% endblock %}
