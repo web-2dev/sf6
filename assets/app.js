@@ -22,7 +22,7 @@ console.log('%c assets/app.js🎉', "color: cyan; text-decoration: underline; ba
 
  
 document.addEventListener("DOMContentLoaded", function(evt) {
-    document.querySelector(".adapt").addEventListener("click", (e) => {
+    document.querySelector(".adapt")?.addEventListener("click", (e) => {
         // const img = e.target;
         const img =  document.querySelector(".adapt");
         if( img.classList.length == 1 ) {
